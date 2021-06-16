@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <SonarQubeExclude>True</SonarQubeExclude>
+    <Version>0.1.5</Version>
+    <PackageIcon>logo.png</PackageIcon>
+    <NeutralLanguage>en</NeutralLanguage>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+    <RepositoryUrl>https://github.com/coderstrong/MakeSimple.SharedKernel</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
+    <PackageProjectUrl>https://github.com/coderstrong/MakeSimple.SharedKernel</PackageProjectUrl>
+    <Authors>JohnnyTran</Authors>
+    <Company>MakeSimple</Company>
+    <Description>MakeSimple.SharedKernel contains custom base classes for you don't have redundant code</Description>
+    <Copyright>JohnnyTran</Copyright>
+    <SonarQubeTestProject>False</SonarQubeTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\assets\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

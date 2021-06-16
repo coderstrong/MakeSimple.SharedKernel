@@ -1,0 +1,12 @@
+version: 1.0.{build}
+branches:
+  only:
+  - main
+image: Visual Studio 2019
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+before_build:
+- appveyor-retry dotnet restore -v Minimal
+build:
+  verbosity: minimal
