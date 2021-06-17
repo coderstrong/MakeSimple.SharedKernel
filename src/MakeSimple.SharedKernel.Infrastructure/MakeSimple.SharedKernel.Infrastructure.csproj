@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\MakeSimple.SharedKernel\MakeSimple.SharedKernel.csproj" />
+    <ProjectReference Include="..\MakeSimple.SharedKernel\MakeSimple.SharedKernel.csproj" />
   </ItemGroup>
 
   <ItemGroup>
