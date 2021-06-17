@@ -1,6 +1,6 @@
 
 
-namespace MakeSimple.SharedKernel.Aspnet
+namespace MakeSimple.SharedKernel.DTO
 {
     using MakeSimple.SharedKernel.Contract;
     using System;

@@ -7,7 +7,7 @@ namespace MakeSimple.SharedKernel.Contract
     using System.Threading.Tasks;
     public interface IUnitOfWork : IDisposable
     {
-        Guid OperationId();
+        string Uuid { get; }
 
         Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default);
     }
