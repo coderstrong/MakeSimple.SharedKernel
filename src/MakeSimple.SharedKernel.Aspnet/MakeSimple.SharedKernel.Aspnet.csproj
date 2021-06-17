@@ -5,6 +5,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SonarQubeExclude>True</SonarQubeExclude>
     <SonarQubeTestProject>False</SonarQubeTestProject>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup Condition=" ('$(TargetFramework)' == 'netcoreapp3.1')">
