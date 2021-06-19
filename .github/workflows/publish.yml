@@ -25,7 +25,7 @@ jobs:
       #  run: dotnet test --no-restore --verbosity normal
       # Publish MakeSimple.SharedKernel
       - name: publish MakeSimple.SharedKernel on version change
-        id: publish_nuget
+        id: publish_nuget_makesimple_sharedkernel
         uses: brandedoutcast/publish-nuget@v2.5.5
         with:
           # Filepath of the project to be packaged, relative to root of repository
@@ -59,7 +59,7 @@ jobs:
           # INCLUDE_SYMBOLS: true
       # Publish MakeSimple.SharedKernel.Infrastructure
       - name: publish MakeSimple.SharedKernel.Infrastructure on version change
-        id: publish_nuget
+        id: publish_nuget_makesimple_sharedkernel_infrastructure
         uses: brandedoutcast/publish-nuget@v2.5.5
         with:
           # Filepath of the project to be packaged, relative to root of repository
