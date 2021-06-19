@@ -5,6 +5,7 @@
 		<SonarQubeExclude>True</SonarQubeExclude>
 		<SonarQubeTestProject>False</SonarQubeTestProject>
 		<Version>0.0.1</Version>
+		<ApplicationIcon>logo.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup Condition=" ('$(TargetFramework)' == 'netcoreapp3.1')">
