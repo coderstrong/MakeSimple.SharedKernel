@@ -22,7 +22,6 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
             return (await SaveChangesAsync(cancellationToken)) > 0;
         }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
@@ -30,6 +29,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
             modelBuilder.ApplyConfiguration(new StudentEntityConfiguration());
             modelBuilder.ApplyConfiguration(new ClassEntityConfiguration());
         }
+
         //entities
 
         public DbSet<User> Users { get; set; }

@@ -1,6 +1,7 @@
 namespace MakeSimple.SharedKernel.DTO
 {
     using MakeSimple.SharedKernel.Contract;
+
     public class PaginationQuery : IPaginationQuery
     {
         public int PageIndex { get; set; }

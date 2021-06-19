@@ -1,4 +1,3 @@
-
 namespace MakeSimple.SharedKernel.Contract
 {
     using System;

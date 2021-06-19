@@ -25,7 +25,6 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             _repositoryGeneric = new EfAuditUuidRepositoryGeneric<MyDBContext, User>(
                 new MyDBContext(), new Mapper(config), mockHttpContextAccessor.Object);
-
         }
 
         [Fact]

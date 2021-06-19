@@ -5,6 +5,5 @@ namespace MakeSimple.SharedKernel.Contract
         public string Code { get; set; }
         public string ErrorMessage { get; set; }
         public string TraceMessage { get; set; }
-
     }
 }

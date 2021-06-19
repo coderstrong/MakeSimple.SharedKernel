@@ -25,7 +25,6 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             _repositoryGeneric = new EfRepositoryGeneric<MyDBContext, Student>(
                 new MyDBContext(), new Mapper(config));
-
         }
 
         [Fact]

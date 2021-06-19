@@ -19,6 +19,7 @@
         private readonly TContext _context;
         private readonly IMapper _mapper;
         private readonly ClaimsPrincipal _user;
+
         public EfAuditUuidRepositoryGeneric(TContext context
             , IMapper mapper
             , IHttpContextAccessor httpContextAccessor)
@@ -50,15 +51,18 @@
         }
 
         public async Task<List<TEntity>> GetAllAsync(
-           Expression<Func<TEntity, bool>> filter = null,
-           Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, IPaginationQuery paging = null
+            IEnumerable<Expression<Func<TEntity, bool>>> filters = null
+            , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, IPaginationQuery paging = null
             , params Expression<Func<TEntity, object>>[] includes)
         {
             IQueryable<TEntity> query = _context.Set<TEntity>();
 
-            if (filter != null)
+            if (filters != null)
             {
-                query = query.Where(filter);
+                foreach (var filter in filters)
+                {
+                    query = query.Where(filter);
+                }
             }
 
             if (includes != null && includes.Length > 0)
@@ -83,16 +87,19 @@
         }
 
         public async Task<List<M>> GetAllAsync<M>(
-            Expression<Func<TEntity, bool>> filter = null
+            IEnumerable<Expression<Func<TEntity, bool>>> filters = null
             , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
             , IPaginationQuery paging = null
             , params Expression<Func<TEntity, object>>[] includes)
         {
             IQueryable<TEntity> query = _context.Set<TEntity>();
 
-            if (filter != null)
+            if (filters != null)
             {
-                query = query.Where(filter);
+                foreach (var filter in filters)
+                {
+                    query = query.Where(filter);
+                }
             }
 
             if (includes != null && includes.Length > 0)
@@ -118,7 +125,6 @@
         public async Task<TEntity> GetOneAsync(object key)
         {
             return await _context.Set<TEntity>().AsNoTracking().Where(e => e.Id.Equals(key)).FirstOrDefaultAsync();
-
         }
 
         public async Task<M> GetOneAsync<M>(object key)

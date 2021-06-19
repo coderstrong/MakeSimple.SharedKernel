@@ -7,6 +7,5 @@ namespace MakeSimple.SharedKernel.Contract
         public int PageSize { get; set; }
 
         public int Skip { get; }
-
     }
 }

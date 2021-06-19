@@ -4,6 +4,9 @@ using MakeSimple.SharedKernel.Repository;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
@@ -25,7 +28,6 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             _repositoryGeneric = new EfAuditRepositoryGeneric<MyDBContext, Address>(
                 new MyDBContext(), new Mapper(config), mockHttpContextAccessor.Object);
-
         }
 
         [Fact]
@@ -58,6 +60,34 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             Assert.True(result);
             Assert.NotNull(u.ModifiedAt);
+        }
+
+        [Fact]
+        public async Task GetAllAsync_Success()
+        {
+            List<long> saveIds = new List<long>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Address u = new Address();
+                u.Id = new Random().Next();
+                saveIds.Add(u.Id);
+                _repositoryGeneric.Insert(u);
+            }
+
+            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
+
+            var result = await _repositoryGeneric.GetAllAsync(filters);
+
+            Assert.True(result.Count == saveIds.Count);
+            var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
+            saveIds = saveIds.OrderBy(e => e).ToList();
+            for (int i = 0; i < idResults.Count; i++)
+            {
+                Assert.True(idResults[i] == saveIds[i]);
+            }
         }
     }
 }

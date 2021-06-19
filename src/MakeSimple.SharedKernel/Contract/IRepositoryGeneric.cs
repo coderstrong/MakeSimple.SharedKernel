@@ -8,7 +8,6 @@ namespace MakeSimple.SharedKernel.Contract
 
     public interface IRepositoryGeneric<TContext, TEntity> : IDisposable where TContext : IUnitOfWork
     {
-
         IUnitOfWork UnitOfWork { get; }
 
         /// <summary>
@@ -29,28 +28,28 @@ namespace MakeSimple.SharedKernel.Contract
         /// <summary>
         /// Get data from Database
         /// </summary>
-        /// <param name="filter"></param>
+        /// <param name="filters"></param>
         /// <param name="orderBy"></param>
         /// <param name="paging"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
         public Task<List<TEntity>> GetAllAsync(
-           Expression<Func<TEntity, bool>> filter = null,
-           Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, IPaginationQuery paging = null
-            , params Expression<Func<TEntity, object>>[] includes);
+           IEnumerable<Expression<Func<TEntity, bool>>> filters = null
+           , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, IPaginationQuery paging = null
+           , params Expression<Func<TEntity, object>>[] includes);
 
         /// <summary>
         /// Get data from Database and auto mapper to Model M
         /// </summary>
         /// <typeparam name="M"></typeparam>
-        /// <param name="filter"></param>
+        /// <param name="filters"></param>
         /// <param name="orderBy"></param>
         /// <param name="paging"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
         /// <exception cref="">Miss config Automapper</exception>
         public Task<List<M>> GetAllAsync<M>(
-            Expression<Func<TEntity, bool>> filter = null
+            IEnumerable<Expression<Func<TEntity, bool>>> filters = null
             , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
             , IPaginationQuery paging = null
             , params Expression<Func<TEntity, object>>[] includes);

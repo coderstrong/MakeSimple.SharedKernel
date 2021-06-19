@@ -1,5 +1,3 @@
-
-
 namespace MakeSimple.SharedKernel.DTO
 {
     using MakeSimple.SharedKernel.Contract;
@@ -87,6 +85,5 @@ namespace MakeSimple.SharedKernel.DTO
         public int StartIndex { get; private set; }
         public int EndIndex { get; private set; }
         public IEnumerable<int> Pages { get; private set; }
-
     }
 }

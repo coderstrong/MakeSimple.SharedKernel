@@ -1,5 +1,3 @@
-
-
 namespace MakeSimple.SharedKernel.Contract
 {
     using System.Collections.Generic;

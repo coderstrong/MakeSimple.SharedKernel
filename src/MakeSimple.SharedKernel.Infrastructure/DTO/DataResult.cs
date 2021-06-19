@@ -1,10 +1,9 @@
-
-
 namespace MakeSimple.SharedKernel.DTO
 {
     using MakeSimple.SharedKernel.Contract;
     using System.Net;
     using System.Text.Json.Serialization;
+
     public class DataResult<T>
     {
         [JsonIgnore]
