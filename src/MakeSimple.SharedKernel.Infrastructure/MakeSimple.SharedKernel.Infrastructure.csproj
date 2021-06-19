@@ -20,7 +20,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Cache\" />
+	  <Compile Remove="Cache\**" />
+	  <EmbeddedResource Remove="Cache\**" />
+	  <None Remove="Cache\**" />
 	</ItemGroup>
 
 	<ItemGroup>

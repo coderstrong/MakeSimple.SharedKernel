@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
 using MakeSimple.SharedKernel.Repository;
-using Microsoft.AspNetCore.Http;
-using Moq;
 using System;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -18,13 +15,8 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<User, User>());
 
-            //Mock IHttpContextAccessor
-            var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
-
-            mockHttpContextAccessor.Setup(req => req.HttpContext.User).Returns(It.IsAny<ClaimsPrincipal>());
-
             _repositoryGeneric = new EfAuditUuidRepositoryGeneric<MyDBContext, User>(
-                new MyDBContext(), new Mapper(config), mockHttpContextAccessor.Object);
+                new MyDBContext(), new Mapper(config), DummyDataForTest.CreateHttpContext());
         }
 
         [Fact]

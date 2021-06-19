@@ -39,7 +39,7 @@
                 _context.Set<TEntity>().Remove(entity);
         }
 
-        public async Task<List<TEntity>> GetAllAsync(
+        public async Task<List<TEntity>> ToList(
            IEnumerable<Expression<Func<TEntity, bool>>> filters = null
             , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
             , IPaginationQuery paging = null
@@ -72,11 +72,16 @@
                     query = query.Skip(paging.Skip).Take(paging.PageSize);
                 }
             }
+            else if (paging != null)
+            {
+                query = query.OrderByDescending(e => e.Id);
+                query = query.Skip(paging.Skip).Take(paging.PageSize);
+            }
 
             return await query.AsNoTracking().ToListAsync();
         }
 
-        public async Task<List<M>> GetAllAsync<M>(
+        public async Task<List<DTO>> ToList<DTO>(
             IEnumerable<Expression<Func<TEntity, bool>>> filters = null
             , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
             , IPaginationQuery paging = null
@@ -108,18 +113,39 @@
                     query = query.Skip(paging.Skip).Take(paging.PageSize);
                 }
             }
+            else if (paging != null)
+            {
+                query = query.OrderByDescending(e => e.Id);
+                query = query.Skip(paging.Skip).Take(paging.PageSize);
+            }
 
-            return await query.AsNoTracking().ProjectTo<M>(_mapper.ConfigurationProvider).ToListAsync();
+            return await query.AsNoTracking().ProjectTo<DTO>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<TEntity> GetOneAsync(object key)
+        public async Task<TEntity> FirstOrDefaultAsync(object key, params Expression<Func<TEntity, object>>[] includes)
         {
-            return await _context.Set<TEntity>().AsNoTracking().Where(e => e.Id.Equals(key)).FirstOrDefaultAsync();
+            var query = _context.Set<TEntity>().AsNoTracking().Where(e => e.Id.Equals(key));
+            if (includes != null && includes.Length > 0)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<M> GetOneAsync<M>(object key)
+        public async Task<DTO> FirstOrDefaultAsync<DTO>(object key, params Expression<Func<TEntity, object>>[] includes)
         {
-            return await _context.Set<TEntity>().AsNoTracking().Where(e => e.Id.Equals(key)).ProjectTo<M>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+            var query = _context.Set<TEntity>().AsNoTracking().Where(e => e.Id.Equals(key));
+            if (includes != null && includes.Length > 0)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return await query.ProjectTo<DTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
         }
 
         public TEntity Insert(TEntity entity)

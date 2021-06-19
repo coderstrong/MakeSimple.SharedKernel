@@ -14,16 +14,18 @@ namespace MakeSimple.SharedKernel.Contract
         /// Get row by primary key
         /// </summary>
         /// <param name="key"></param>
+        /// <param name="includes"></param>
         /// <returns></returns>
-        Task<TEntity> GetOneAsync(object key);
+        Task<TEntity> FirstOrDefaultAsync(object key, params Expression<Func<TEntity, object>>[] includes);
 
         /// <summary>
-        /// Get row by primary key and auto mapper to Model M
+        /// Get row by primary key and auto mapper to Model DTO
         /// </summary>
         /// <param name="key"></param>
+        /// <param name="includes"></param>
         /// <returns></returns>
         /// <exception cref="">Miss config Automapper</exception>
-        Task<M> GetOneAsync<M>(object key);
+        Task<DTO> FirstOrDefaultAsync<DTO>(object key, params Expression<Func<TEntity, object>>[] includes);
 
         /// <summary>
         /// Get data from Database
@@ -33,22 +35,23 @@ namespace MakeSimple.SharedKernel.Contract
         /// <param name="paging"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
-        public Task<List<TEntity>> GetAllAsync(
+        public Task<List<TEntity>> ToList(
            IEnumerable<Expression<Func<TEntity, bool>>> filters = null
-           , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, IPaginationQuery paging = null
+           , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
+           , IPaginationQuery paging = null
            , params Expression<Func<TEntity, object>>[] includes);
 
         /// <summary>
-        /// Get data from Database and auto mapper to Model M
+        /// Get data from Database and auto mapper to Model DTO
         /// </summary>
-        /// <typeparam name="M"></typeparam>
+        /// <typeparam name="DTO"></typeparam>
         /// <param name="filters"></param>
         /// <param name="orderBy"></param>
         /// <param name="paging"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
-        /// <exception cref="">Miss config Automapper</exception>
-        public Task<List<M>> GetAllAsync<M>(
+        /// <exception>Miss config Automapper</exception>
+        public Task<List<DTO>> ToList<DTO>(
             IEnumerable<Expression<Func<TEntity, bool>>> filters = null
             , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
             , IPaginationQuery paging = null
