@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-
+    <SonarQubeExclude>True</SonarQubeExclude>
+    <SonarQubeTestProject>True</SonarQubeTestProject>
     <IsPackable>false</IsPackable>
 
     <OutputType>Exe</OutputType>

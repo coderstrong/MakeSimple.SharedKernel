@@ -135,7 +135,7 @@
         public async Task<TEntity> FirstOrDefaultAsync(object key, params Expression<Func<TEntity, object>>[] includes)
         {
             var query = _context.Set<TEntity>().AsNoTracking().Where(e => e.Id.Equals(key));
-            if(includes!=null && includes.Length > 0)
+            if (includes != null && includes.Length > 0)
             {
                 foreach (var include in includes)
                 {
@@ -166,7 +166,7 @@
             return _context.Set<TEntity>().Add(entity).Entity;
         }
 
-        public void InsertRange(IList<TEntity> entities)
+        public async Task InsertRangeAsync(IList<TEntity> entities)
         {
             foreach (var entity in entities)
             {
@@ -174,7 +174,7 @@
                 entity.CreatedAt = DateTime.Now;
             }
 
-            _context.Set<TEntity>().AddRange(entities);
+            await _context.Set<TEntity>().AddRangeAsync(entities);
         }
 
         public void Update(TEntity entity)

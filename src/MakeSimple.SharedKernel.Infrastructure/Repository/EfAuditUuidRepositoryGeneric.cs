@@ -166,7 +166,7 @@
             return _context.Set<TEntity>().Add(entity).Entity;
         }
 
-        public void InsertRange(IList<TEntity> entities)
+        public async Task InsertRangeAsync(IList<TEntity> entities)
         {
             foreach (var entity in entities)
             {
@@ -174,7 +174,7 @@
                 entity.CreatedAt = DateTime.Now;
             }
 
-            _context.Set<TEntity>().AddRange(entities);
+            await _context.Set<TEntity>().AddRangeAsync(entities);
         }
 
         public void Update(TEntity entity)

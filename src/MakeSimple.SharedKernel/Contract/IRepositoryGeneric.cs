@@ -71,7 +71,7 @@ namespace MakeSimple.SharedKernel.Contract
         /// Insert range to database
         /// </summary>
         /// <param name="entities"></param>
-        void InsertRange(IList<TEntity> entities);
+        Task InsertRangeAsync(IList<TEntity> entities);
 
         /// <summary>
         /// Update data to database

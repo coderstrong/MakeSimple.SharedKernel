@@ -153,9 +153,9 @@
             return _context.Set<TEntity>().Add(entity).Entity;
         }
 
-        public void InsertRange(IList<TEntity> entities)
+        public async Task InsertRangeAsync(IList<TEntity> entities)
         {
-            _context.Set<TEntity>().AddRange(entities);
+            await _context.Set<TEntity>().AddRangeAsync(entities);
         }
 
         public void Update(TEntity entity)

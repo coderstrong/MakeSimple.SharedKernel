@@ -69,7 +69,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Classes.Add(u);
             }
-            _repositoryGeneric.InsertRange(Classes);
+            await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<Class, bool>>> { e => saveIds.Contains(e.Id) };
@@ -99,7 +99,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Classes.Add(u);
             }
-            _repositoryGeneric.InsertRange(Classes);
+            await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<Class, bool>>> { e => saveIds.Contains(e.Id) };
@@ -128,7 +128,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Classes.Add(u);
             }
-            _repositoryGeneric.InsertRange(Classes);
+            await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<Class, bool>>> { e => e.Id == Guid.NewGuid().ToString() };
@@ -151,7 +151,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Classes.Add(u);
             }
-            _repositoryGeneric.InsertRange(Classes);
+            await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<Class, bool>>> { e => e.Id == Guid.NewGuid().ToString() };
@@ -174,7 +174,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Classes.Add(u);
             }
-            _repositoryGeneric.InsertRange(Classes);
+            await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var result = await _repositoryGeneric.FirstOrDefaultAsync(saveIds[3]);
@@ -196,7 +196,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Classes.Add(u);
             }
-            _repositoryGeneric.InsertRange(Classes);
+            await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var result = await _repositoryGeneric.FirstOrDefaultAsync<Class>(saveIds[2]);
@@ -224,7 +224,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id, i);
                 Classes.Add(u);
             }
-            _repositoryGeneric.InsertRange(Classes);
+            await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var result = await _repositoryGeneric.FirstOrDefaultAsync(saveIds.First().Key, e => e.Students);
@@ -253,7 +253,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Classes.Add(u);
             }
-            _repositoryGeneric.InsertRange(Classes);
+            await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<Class, bool>>> { e => saveIds.Contains(e.Id) };
@@ -290,7 +290,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Classes.Add(u);
             }
-            _repositoryGeneric.InsertRange(Classes);
+            await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<Class, bool>>> { e => saveIds.Contains(e.Id) };

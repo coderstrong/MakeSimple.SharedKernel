@@ -70,7 +70,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 addresses.Add(u);
             }
-            _repositoryGeneric.InsertRange(addresses);
+            await _repositoryGeneric.InsertRangeAsync(addresses);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
@@ -104,7 +104,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 addresses.Add(u);
             }
-            _repositoryGeneric.InsertRange(addresses);
+            await _repositoryGeneric.InsertRangeAsync(addresses);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
@@ -137,7 +137,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 addresses.Add(u);
             }
-            _repositoryGeneric.InsertRange(addresses);
+            await _repositoryGeneric.InsertRangeAsync(addresses);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<Address, bool>>> { e => e.Id == new Random().Next(5000, 6000) };
@@ -160,7 +160,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 addresses.Add(u);
             }
-            _repositoryGeneric.InsertRange(addresses);
+            await _repositoryGeneric.InsertRangeAsync(addresses);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<Address, bool>>> { e => e.Id == new Random().Next(5000, 6000) };
@@ -183,7 +183,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 addresses.Add(u);
             }
-            _repositoryGeneric.InsertRange(addresses);
+            await _repositoryGeneric.InsertRangeAsync(addresses);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var result = await _repositoryGeneric.FirstOrDefaultAsync(saveIds[3]);
@@ -205,7 +205,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 addresses.Add(u);
             }
-            _repositoryGeneric.InsertRange(addresses);
+            await _repositoryGeneric.InsertRangeAsync(addresses);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var result = await _repositoryGeneric.FirstOrDefaultAsync<Address>(saveIds[2]);
@@ -229,7 +229,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id, u.User.Id);
                 addresses.Add(u);
             }
-            _repositoryGeneric.InsertRange(addresses);
+            await _repositoryGeneric.InsertRangeAsync(addresses);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var result = await _repositoryGeneric.FirstOrDefaultAsync(saveIds.First().Key, e => e.User);
@@ -254,7 +254,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 addresses.Add(u);
             }
-            _repositoryGeneric.InsertRange(addresses);
+            await _repositoryGeneric.InsertRangeAsync(addresses);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
@@ -287,7 +287,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 addresses.Add(u);
             }
-            _repositoryGeneric.InsertRange(addresses);
+            await _repositoryGeneric.InsertRangeAsync(addresses);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };

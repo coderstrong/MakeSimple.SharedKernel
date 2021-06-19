@@ -70,7 +70,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Users.Add(u);
             }
-            _repositoryGeneric.InsertRange(Users);
+            await _repositoryGeneric.InsertRangeAsync(Users);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<User, bool>>> { e => saveIds.Contains(e.Id) };
@@ -104,7 +104,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Users.Add(u);
             }
-            _repositoryGeneric.InsertRange(Users);
+            await _repositoryGeneric.InsertRangeAsync(Users);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<User, bool>>> { e => saveIds.Contains(e.Id) };
@@ -137,7 +137,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Users.Add(u);
             }
-            _repositoryGeneric.InsertRange(Users);
+            await _repositoryGeneric.InsertRangeAsync(Users);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<User, bool>>> { e => e.Id == Guid.NewGuid().ToString() };
@@ -159,7 +159,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Users.Add(u);
             }
-            _repositoryGeneric.InsertRange(Users);
+            await _repositoryGeneric.InsertRangeAsync(Users);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<User, bool>>> { e => e.Id == Guid.NewGuid().ToString() };
@@ -181,7 +181,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Users.Add(u);
             }
-            _repositoryGeneric.InsertRange(Users);
+            await _repositoryGeneric.InsertRangeAsync(Users);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var result = await _repositoryGeneric.FirstOrDefaultAsync(saveIds[3]);
@@ -203,7 +203,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Users.Add(u);
             }
-            _repositoryGeneric.InsertRange(Users);
+            await _repositoryGeneric.InsertRangeAsync(Users);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var result = await _repositoryGeneric.FirstOrDefaultAsync<User>(saveIds[2]);
@@ -231,7 +231,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id, i);
                 Users.Add(u);
             }
-            _repositoryGeneric.InsertRange(Users);
+            await _repositoryGeneric.InsertRangeAsync(Users);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var result = await _repositoryGeneric.FirstOrDefaultAsync(saveIds.First().Key, e => e.Address);
@@ -260,7 +260,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Users.Add(u);
             }
-            _repositoryGeneric.InsertRange(Users);
+            await _repositoryGeneric.InsertRangeAsync(Users);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<User, bool>>> { e => saveIds.Contains(e.Id) };
@@ -297,7 +297,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Users.Add(u);
             }
-            _repositoryGeneric.InsertRange(Users);
+            await _repositoryGeneric.InsertRangeAsync(Users);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
             var filters = new List<Expression<Func<User, bool>>> { e => saveIds.Contains(e.Id) };
