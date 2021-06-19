@@ -4,8 +4,16 @@
 		<TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
 		<SonarQubeExclude>True</SonarQubeExclude>
 		<SonarQubeTestProject>False</SonarQubeTestProject>
-		<Version>0.0.1</Version>
+		<Version>0.1.1</Version>
 		<ApplicationIcon>logo.ico</ApplicationIcon>
+		<Authors>JohnnyTran</Authors>
+		<Company>MakeSimple</Company>
+		<Description>MakeSimple.SharedKernel contains custom base classes for you don't have redundant code</Description>
+		<Copyright>JohnnyTran</Copyright>
+		<PackageProjectUrl>https://github.com/coderstrong/MakeSimple.SharedKernel</PackageProjectUrl>
+		<PackageIcon>logo.png</PackageIcon>
+		<RepositoryUrl>https://github.com/coderstrong/MakeSimple.SharedKernel</RepositoryUrl>
+		<RepositoryType>Github</RepositoryType>
 	</PropertyGroup>
 
 	<ItemGroup Condition=" ('$(TargetFramework)' == 'netcoreapp3.1')">
@@ -23,6 +31,10 @@
 	  <Compile Remove="Cache\**" />
 	  <EmbeddedResource Remove="Cache\**" />
 	  <None Remove="Cache\**" />
+	  <None Include="..\..\assets\logo.png">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
