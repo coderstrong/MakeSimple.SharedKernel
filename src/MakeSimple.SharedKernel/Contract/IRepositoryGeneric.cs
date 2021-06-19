@@ -8,13 +8,16 @@ namespace MakeSimple.SharedKernel.Contract
 
     public interface IRepositoryGeneric<TContext, TEntity> : IDisposable where TContext : IUnitOfWork
     {
+        /// <summary>
+        /// Unit Of Work Pattern
+        /// </summary>
         IUnitOfWork UnitOfWork { get; }
 
         /// <summary>
         /// Get row by primary key
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="includes"></param>
+        /// <param name="includes">Not support then include</param>
         /// <returns></returns>
         Task<TEntity> FirstOrDefaultAsync(object key, params Expression<Func<TEntity, object>>[] includes);
 
@@ -22,7 +25,7 @@ namespace MakeSimple.SharedKernel.Contract
         /// Get row by primary key and auto mapper to Model DTO
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="includes"></param>
+        /// <param name="includes">Not support then include</param>
         /// <returns></returns>
         /// <exception cref="">Miss config Automapper</exception>
         Task<DTO> FirstOrDefaultAsync<DTO>(object key, params Expression<Func<TEntity, object>>[] includes);
@@ -33,7 +36,7 @@ namespace MakeSimple.SharedKernel.Contract
         /// <param name="filters"></param>
         /// <param name="orderBy"></param>
         /// <param name="paging"></param>
-        /// <param name="includes"></param>
+        /// <param name="includes">Not support then include</param>
         /// <returns></returns>
         public Task<List<TEntity>> ToList(
            IEnumerable<Expression<Func<TEntity, bool>>> filters = null
@@ -48,7 +51,7 @@ namespace MakeSimple.SharedKernel.Contract
         /// <param name="filters"></param>
         /// <param name="orderBy"></param>
         /// <param name="paging"></param>
-        /// <param name="includes"></param>
+        /// <param name="includes">Not support then include</param>
         /// <returns></returns>
         /// <exception>Miss config Automapper</exception>
         public Task<List<DTO>> ToList<DTO>(

@@ -34,7 +34,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             _repositoryGeneric.Delete(u.Id);
 
             var result = await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
-
+            Assert.NotNull(u.CreatedBy);
             Assert.True(result);
         }
 
@@ -53,6 +53,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             var dataFromDb = await _repositoryGeneric.FirstOrDefaultAsync(u.Id);
             Assert.True(result);
             Assert.NotNull(u.ModifiedAt);
+            Assert.NotNull(u.ModifiedBy);
             Assert.Equal(dataFromDb.Line1, u.Line1);
         }
 
@@ -79,6 +80,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             Assert.True(result.Count == saveIds.Count);
             var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
             saveIds = saveIds.OrderBy(e => e).ToList();
+            foreach (var item in result)
+            {
+                Assert.NotNull(item.CreatedBy);
+            }
             for (int i = 0; i < idResults.Count; i++)
             {
                 Assert.True(idResults[i] == saveIds[i]);
@@ -109,6 +114,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             Assert.True(result.Count == saveIds.Count);
             var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
             saveIds = saveIds.OrderBy(e => e).ToList();
+            foreach (var item in addresses)
+            {
+                Assert.NotNull(item.CreatedBy);
+            }
             for (int i = 0; i < idResults.Count; i++)
             {
                 Assert.True(idResults[i] == saveIds[i]);
