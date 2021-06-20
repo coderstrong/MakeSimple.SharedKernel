@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SonarQubeExclude>True</SonarQubeExclude>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <PackageIcon>logo.png</PackageIcon>
     <NeutralLanguage>en</NeutralLanguage>
     <ApplicationIcon>logo.ico</ApplicationIcon>

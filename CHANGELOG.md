@@ -1,2 +1,5 @@
+[Unreleased]: Downgrade version automapper to v9.0.0
+[0.1.2]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v0.1.2
+
 [Unreleased]: 
-[0.0.1]: https://github.com/olivierlacan/keep-a-changelog/releases/tag/v0.0.1
+[0.1.1]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v0.1.1
