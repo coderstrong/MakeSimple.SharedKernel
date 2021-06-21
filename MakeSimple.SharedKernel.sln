@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakeSimple.SharedKernel", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakeSimple.SharedKernel.Infrastructure", "src\MakeSimple.SharedKernel.Infrastructure\MakeSimple.SharedKernel.Infrastructure.csproj", "{523D631F-F677-47D9-BAFE-0C9BD727CDB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeSimple.SharedKernel.Infrastructure.Test", "src\MakeSimple.SharedKernel.Infrastructure.Test\MakeSimple.SharedKernel.Infrastructure.Test.csproj", "{B8A03E0C-FA3C-488E-860E-C0239601725D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakeSimple.SharedKernel.Infrastructure.Test", "src\MakeSimple.SharedKernel.Infrastructure.Test\MakeSimple.SharedKernel.Infrastructure.Test.csproj", "{B8A03E0C-FA3C-488E-860E-C0239601725D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

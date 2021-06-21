@@ -12,9 +12,9 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    public class EfAuditRepositoryGeneric<TContext, TEntity> : Disposable, IRepositoryGeneric<TContext, TEntity>
+    public class EfAuditRepositoryGeneric<TContext, TEntity> : Disposable, IRepository<TEntity>
         where TContext : DbContext, IUnitOfWork
-        where TEntity : AuditEntity
+        where TEntity : AuditEntity<long>
     {
         private readonly TContext _context;
         private readonly IMapper _mapper;

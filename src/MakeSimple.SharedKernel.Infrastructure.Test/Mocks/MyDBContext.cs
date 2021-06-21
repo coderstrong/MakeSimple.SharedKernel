@@ -41,7 +41,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
         public DbSet<Class> Classes { get; set; }
     }
 
-    public class User : AuditUuidEntity
+    public class User : AuditEntity<Guid>
     {
         public string UserName { get; set; }
 
@@ -50,24 +50,24 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
         public virtual ICollection<Address> Address { get; set; }
     }
 
-    public class Address : AuditEntity
+    public class Address : AuditEntity<long>
     {
         public string Line1 { get; set; }
 
         public string Line2 { get; set; }
 
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         public virtual User User { get; set; }
     }
 
-    public class Student : Entity
+    public class Student : Entity<long>
     {
         public string Name { get; set; }
-        public string ClassId { get; set; }
+        public Guid ClassId { get; set; }
         public virtual Class Class { get; set; }
     }
 
-    public class Class : UuidEntity
+    public class Class : Entity<Guid>
     {
         public string Name { get; set; }
         public virtual ICollection<Student> Students { get; set; }

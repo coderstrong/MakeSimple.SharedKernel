@@ -10,9 +10,9 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
 
-    public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepositoryGeneric<TContext, TEntity>
+    public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepository<TEntity>
         where TContext : DbContext, IUnitOfWork
-        where TEntity : Entity
+        where TEntity : Entity<long>
     {
         private readonly TContext _context;
         private readonly IMapper _mapper;

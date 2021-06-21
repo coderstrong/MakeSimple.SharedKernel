@@ -218,13 +218,13 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         public async Task GetFirstOrDefaultAsync_Full_Parram_Success()
         {
             int start = 46, end = 50;
-            Dictionary<long, string> saveIds = new Dictionary<long, string>();
+            Dictionary<long, Guid> saveIds = new Dictionary<long, Guid>();
             List<Address> addresses = new List<Address>();
             for (int i = start; i < end; i++)
             {
                 Address u = new Address();
                 u.User = new User();
-                u.User.Id = Guid.NewGuid().ToString();
+                u.User.Id = Guid.NewGuid();
                 u.Id = i;
                 saveIds.Add(u.Id, u.User.Id);
                 addresses.Add(u);
@@ -249,7 +249,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             {
                 Address u = new Address();
                 u.User = new User();
-                u.User.Id = Guid.NewGuid().ToString();
+                u.User.Id = Guid.NewGuid();
                 u.Id = i;
                 saveIds.Add(u.Id);
                 addresses.Add(u);
@@ -282,7 +282,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             {
                 Address u = new Address();
                 u.User = new User();
-                u.User.Id = Guid.NewGuid().ToString();
+                u.User.Id = Guid.NewGuid();
                 u.Id = i;
                 saveIds.Add(u.Id);
                 addresses.Add(u);
