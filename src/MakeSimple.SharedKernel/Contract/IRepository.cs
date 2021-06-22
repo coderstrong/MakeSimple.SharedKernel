@@ -38,7 +38,7 @@ namespace MakeSimple.SharedKernel.Contract
         /// <param name="paging"></param>
         /// <param name="includes">Not support then include</param>
         /// <returns></returns>
-        public Task<List<TEntity>> ToList(
+        Task<List<TEntity>> ToList(
            IEnumerable<Expression<Func<TEntity, bool>>> filters = null
            , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
            , IPaginationQuery paging = null
@@ -54,7 +54,7 @@ namespace MakeSimple.SharedKernel.Contract
         /// <param name="includes">Not support then include</param>
         /// <returns></returns>
         /// <exception>Miss config Automapper</exception>
-        public Task<List<DTO>> ToList<DTO>(
+        Task<List<DTO>> ToList<DTO>(
             IEnumerable<Expression<Func<TEntity, bool>>> filters = null
             , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
             , IPaginationQuery paging = null
