@@ -14,20 +14,20 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 {
     public class EfUuidRepositoryGenericTest
     {
-        private readonly IRepositoryGeneric<MyDBContext, Class> _repositoryGeneric;
+        private readonly IRepositoryGeneric<MyDBContext, Course> _repositoryGeneric;
 
         public EfUuidRepositoryGenericTest()
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Class, Class>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Course, ClassDto>().ReverseMap());
 
-            _repositoryGeneric = new EfUuidRepositoryGeneric<MyDBContext, Class>(
+            _repositoryGeneric = new EfUuidRepositoryGeneric<MyDBContext, Course>(
                 new MyDBContext(), new Mapper(config));
         }
 
         [Fact]
         public async Task Delete_SuccessAsync()
         {
-            Class u = new Class();
+            Course u = new Course();
             u.Id = Guid.NewGuid();
 
             _repositoryGeneric.Insert(u);
@@ -42,7 +42,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         [Fact]
         public async Task Update_SuccessAsync()
         {
-            Class u = new Class();
+            Course u = new Course();
             u.Id = Guid.NewGuid();
 
             _repositoryGeneric.Insert(u);
@@ -62,10 +62,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         {
             int start = 10, end = 15;
             List<Guid> saveIds = new List<Guid>();
-            List<Class> Classes = new List<Class>();
+            List<Course> Classes = new List<Course>();
             for (int i = start; i < end; i++)
             {
-                Class u = new Class();
+                Course u = new Course();
                 u.Id = Guid.NewGuid();
                 saveIds.Add(u.Id);
                 Classes.Add(u);
@@ -73,7 +73,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var filters = new List<Expression<Func<Class, bool>>> { e => saveIds.Contains(e.Id) };
+            var filters = new List<Expression<Func<Course, bool>>> { e => saveIds.Contains(e.Id) };
 
             var result = await _repositoryGeneric.ToList(filters);
 
@@ -91,10 +91,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         {
             int start = 16, end = 20;
             List<Guid> saveIds = new List<Guid>();
-            List<Class> Classes = new List<Class>();
+            List<Course> Classes = new List<Course>();
             for (int i = start; i < end; i++)
             {
-                Class u = new Class();
+                Course u = new Course();
                 u.Id = Guid.NewGuid();
                 saveIds.Add(u.Id);
                 Classes.Add(u);
@@ -102,9 +102,9 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var filters = new List<Expression<Func<Class, bool>>> { e => saveIds.Contains(e.Id) };
+            var filters = new List<Expression<Func<Course, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToList<Class>(filters);
+            var result = await _repositoryGeneric.ToList<ClassDto>(filters);
 
             Assert.True(result.Count == saveIds.Count);
             var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
@@ -120,10 +120,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         {
             int start = 21, end = 25;
             List<Guid> saveIds = new List<Guid>();
-            List<Class> Classes = new List<Class>();
+            List<Course> Classes = new List<Course>();
             for (int i = start; i < end; i++)
             {
-                Class u = new Class();
+                Course u = new Course();
                 u.Id = Guid.NewGuid();
                 saveIds.Add(u.Id);
                 Classes.Add(u);
@@ -131,7 +131,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var filters = new List<Expression<Func<Class, bool>>> { e => e.Id == Guid.NewGuid() };
+            var filters = new List<Expression<Func<Course, bool>>> { e => e.Id == Guid.NewGuid() };
 
             var result = await _repositoryGeneric.ToList(filters);
 
@@ -143,10 +143,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         {
             int start = 26, end = 30;
             List<Guid> saveIds = new List<Guid>();
-            List<Class> Classes = new List<Class>();
+            List<Course> Classes = new List<Course>();
             for (int i = start; i < end; i++)
             {
-                Class u = new Class();
+                Course u = new Course();
                 u.Id = Guid.NewGuid();
                 saveIds.Add(u.Id);
                 Classes.Add(u);
@@ -154,9 +154,9 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var filters = new List<Expression<Func<Class, bool>>> { e => e.Id == Guid.NewGuid() };
+            var filters = new List<Expression<Func<Course, bool>>> { e => e.Id == Guid.NewGuid() };
 
-            var result = await _repositoryGeneric.ToList<Class>(filters);
+            var result = await _repositoryGeneric.ToList<ClassDto>(filters);
 
             Assert.True(result.Count == 0);
         }
@@ -166,10 +166,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         {
             int start = 31, end = 35;
             List<Guid> saveIds = new List<Guid>();
-            List<Class> Classes = new List<Class>();
+            List<Course> Classes = new List<Course>();
             for (int i = start; i < end; i++)
             {
-                Class u = new Class();
+                Course u = new Course();
                 u.Id = Guid.NewGuid();
                 saveIds.Add(u.Id);
                 Classes.Add(u);
@@ -188,10 +188,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         {
             int start = 36, end = 40;
             List<Guid> saveIds = new List<Guid>();
-            List<Class> Classes = new List<Class>();
+            List<Course> Classes = new List<Course>();
             for (int i = start; i < end; i++)
             {
-                Class u = new Class();
+                Course u = new Course();
                 u.Id = Guid.NewGuid();
                 saveIds.Add(u.Id);
                 Classes.Add(u);
@@ -199,7 +199,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync<Class>(saveIds[2]);
+            var result = await _repositoryGeneric.FirstOrDefaultAsync<ClassDto>(saveIds[2]);
 
             Assert.NotNull(result);
             Assert.Equal(result.Id, saveIds[2]);
@@ -210,10 +210,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         {
             int start = 146, end = 150;
             Dictionary<Guid, long> saveIds = new Dictionary<Guid, long>();
-            List<Class> Classes = new List<Class>();
+            List<Course> Classes = new List<Course>();
             for (int i = start; i < end; i++)
             {
-                Class u = new Class();
+                Course u = new Course();
                 var ad = new Student();
                 ad.Id = i;
                 u.Students = new List<Student>()
@@ -239,10 +239,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         {
             int start = 151, end = 155;
             List<Guid> saveIds = new List<Guid>();
-            List<Class> Classes = new List<Class>();
+            List<Course> Classes = new List<Course>();
             for (int i = start; i < end; i++)
             {
-                Class u = new Class();
+                Course u = new Course();
                 var ad = new Student();
                 ad.Id = i;
                 u.Students = new List<Student>()
@@ -256,7 +256,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var filters = new List<Expression<Func<Class, bool>>> { e => saveIds.Contains(e.Id) };
+            var filters = new List<Expression<Func<Course, bool>>> { e => saveIds.Contains(e.Id) };
 
             var result = await _repositoryGeneric.ToList(filters
                 , e => e.OrderBy(x => x.Id).ThenBy(c => c.Name)
@@ -276,10 +276,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         {
             int start = 156, end = 160;
             List<Guid> saveIds = new List<Guid>();
-            List<Class> Classes = new List<Class>();
+            List<Course> Classes = new List<Course>();
             for (int i = start; i < end; i++)
             {
-                Class u = new Class();
+                Course u = new Course();
                 var ad = new Student();
                 ad.Id = i;
                 u.Students = new List<Student>()
@@ -293,7 +293,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(Classes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var filters = new List<Expression<Func<Class, bool>>> { e => saveIds.Contains(e.Id) };
+            var filters = new List<Expression<Func<Course, bool>>> { e => saveIds.Contains(e.Id) };
 
             var result = await _repositoryGeneric.ToList(filters
                 , null

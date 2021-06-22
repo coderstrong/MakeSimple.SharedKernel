@@ -18,7 +18,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
         public EfRepositoryGenericTest()
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Student, Student>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Student, StudentDto>().ReverseMap());
 
             _repositoryGeneric = new EfRepositoryGeneric<MyDBContext, Student>(
                 new MyDBContext(), new Mapper(config));
@@ -104,7 +104,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Student, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToList<Student>(filters);
+            var result = await _repositoryGeneric.ToList<StudentDto>(filters);
 
             Assert.True(result.Count == saveIds.Count);
             var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
@@ -156,7 +156,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Student, bool>>> { e => e.Id == new Random().Next(5000, 6000) };
 
-            var result = await _repositoryGeneric.ToList<Student>(filters);
+            var result = await _repositoryGeneric.ToList<StudentDto>(filters);
 
             Assert.True(result.Count == 0);
         }
@@ -199,7 +199,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(Studentes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync<Student>(saveIds[2]);
+            var result = await _repositoryGeneric.FirstOrDefaultAsync<StudentDto>(saveIds[2]);
 
             Assert.NotNull(result);
             Assert.Equal(result.Id, saveIds[2]);
@@ -214,7 +214,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             for (int i = start; i < end; i++)
             {
                 Student u = new Student();
-                u.Class = new Class();
+                u.Class = new Course();
                 u.Class.Id = Guid.NewGuid();
                 u.Id = i;
                 saveIds.Add(u.Id, u.Class.Id);
@@ -239,7 +239,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             for (int i = start; i < end; i++)
             {
                 Student u = new Student();
-                u.Class = new Class();
+                u.Class = new Course();
                 u.Class.Id = Guid.NewGuid();
                 u.Id = i;
                 saveIds.Add(u.Id);
@@ -272,7 +272,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             for (int i = start; i < end; i++)
             {
                 Student u = new Student();
-                u.Class = new Class();
+                u.Class = new Course();
                 u.Class.Id = Guid.NewGuid();
                 u.Id = i;
                 saveIds.Add(u.Id);

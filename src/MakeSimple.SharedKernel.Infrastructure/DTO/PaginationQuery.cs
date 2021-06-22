@@ -1,6 +1,8 @@
 namespace MakeSimple.SharedKernel.DTO
 {
     using MakeSimple.SharedKernel.Contract;
+    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
 
     public class PaginationQuery : IPaginationQuery
     {
@@ -8,6 +10,8 @@ namespace MakeSimple.SharedKernel.DTO
 
         public int PageSize { get; set; }
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public int Skip
         {
             get

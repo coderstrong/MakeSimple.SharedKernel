@@ -18,7 +18,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
         public EfAuditUuidRepositoryGenericTest()
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<User, User>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDto>().ReverseMap());
 
             _repositoryGeneric = new EfAuditUuidRepositoryGeneric<MyDBContext, User>(
                 new MyDBContext(), new Mapper(config), DummyDataForTest.CreateHttpContext());
@@ -109,7 +109,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<User, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToList<User>(filters);
+            var result = await _repositoryGeneric.ToList<UserDto>(filters);
 
             Assert.True(result.Count == saveIds.Count);
             var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
@@ -164,7 +164,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<User, bool>>> { e => e.Id == Guid.NewGuid() };
 
-            var result = await _repositoryGeneric.ToList<User>(filters);
+            var result = await _repositoryGeneric.ToList<UserDto>(filters);
             Assert.True(result.Count == 0);
         }
 
@@ -206,7 +206,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(Users);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync<User>(saveIds[2]);
+            var result = await _repositoryGeneric.FirstOrDefaultAsync<UserDto>(saveIds[2]);
 
             Assert.NotNull(result);
             Assert.Equal(result.Id, saveIds[2]);

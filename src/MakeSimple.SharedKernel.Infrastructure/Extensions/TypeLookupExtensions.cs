@@ -37,7 +37,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 
         public static IEnumerable<Assembly> LoadFullAssemblies(this string searchPattern)
         {
-            var coreAssemblies = "NetCoreKit.*".LoadAssemblyWithPattern();
+            var coreAssemblies = "MakeSimple.*".LoadAssemblyWithPattern();
             var extendAssemblies = searchPattern.LoadAssemblyWithPattern();
             return new HashSet<Assembly>(
                     extendAssemblies.SelectMany(x => coreAssemblies.Append(x)))
