@@ -5,7 +5,7 @@ using System.Dynamic;
 namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 {
     /// <summary>
-    /// Source: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Extensions/DynamicExtensions.cs
+    /// Reference: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Extensions/DynamicExtensions.cs
     /// </summary>
     public static class DynamicExtensions
     {

@@ -5,7 +5,7 @@ using System.Text;
 namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 {
     /// <summary>
-    /// Sources: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Extensions/HashExtensions.cs
+    /// Reference: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Extensions/HashExtensions.cs
     /// </summary>
     public static class HashExtensions
     {

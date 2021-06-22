@@ -5,7 +5,7 @@
     using System.Linq;
 
     /// <summary>
-    /// References: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Helpers/EnumHelper.cs
+    /// Reference: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Helpers/EnumHelper.cs
     /// </summary>
     public static class EnumHelper
     {

@@ -4,7 +4,7 @@ using System.Text;
 namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 {
     /// <summary>
-    /// References: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Extensions/ByteArrayExtensions.cs#L18
+    /// Reference: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Extensions/ByteArrayExtensions.cs#L18
     /// </summary>
     public static class ByteArrayExtensions
     {

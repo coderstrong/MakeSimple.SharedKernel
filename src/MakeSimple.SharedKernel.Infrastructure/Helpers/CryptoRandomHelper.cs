@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 namespace MakeSimple.SharedKernel.Infrastructure.Helpers
 {
     /// <summary>
-    /// References: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Helpers/CryptoRandomHelper.cs
+    /// Reference: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Helpers/CryptoRandomHelper.cs
     /// </summary>
     public static class CryptoRandomHelper
     {
