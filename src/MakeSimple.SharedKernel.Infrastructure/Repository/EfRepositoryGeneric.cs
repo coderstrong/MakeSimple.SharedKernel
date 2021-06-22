@@ -10,7 +10,7 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
 
-    public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepository<TEntity>
+    public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepositoryGeneric<TContext, TEntity>
         where TContext : DbContext, IUnitOfWork
         where TEntity : Entity<long>
     {

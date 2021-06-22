@@ -12,7 +12,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    public class EfAuditRepositoryGeneric<TContext, TEntity> : Disposable, IRepository<TEntity>
+    public class EfAuditRepositoryGeneric<TContext, TEntity> : Disposable, IAuditRepositoryGeneric<TContext, TEntity>
         where TContext : DbContext, IUnitOfWork
         where TEntity : AuditEntity<long>
     {
@@ -128,7 +128,6 @@
                 query = query.OrderByDescending(e => e.Id);
                 query = query.Skip(paging.Skip).Take(paging.PageSize);
             }
-
             return await query.AsNoTracking().ProjectTo<DTO>(_mapper.ConfigurationProvider).ToListAsync();
         }
 

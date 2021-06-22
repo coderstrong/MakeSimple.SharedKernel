@@ -4,6 +4,7 @@
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
+
     public class MemoryWatchAttribute : ActionFilterAttribute
     {
         public long Before { get; private set; }
@@ -23,6 +24,7 @@
         }
 
         #region Private methods
+
         private void CalculateMemory()
         {
             this.Change = this.After - this.Before;
@@ -61,8 +63,8 @@
                 this.After = Process.GetCurrentProcess().PrivateMemorySize64;
             }
         }
-        #endregion
 
+        #endregion Private methods
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {

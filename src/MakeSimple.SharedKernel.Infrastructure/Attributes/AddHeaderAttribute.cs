@@ -1,6 +1,7 @@
 ﻿namespace MakeSimple.SharedKernel.Infrastructure.Attributes
 {
     using Microsoft.AspNetCore.Mvc.Filters;
+
     public class AddHeaderAttribute : ResultFilterAttribute
     {
         private readonly string _name;

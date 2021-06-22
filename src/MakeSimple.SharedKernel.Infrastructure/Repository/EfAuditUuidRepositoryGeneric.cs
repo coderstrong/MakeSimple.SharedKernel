@@ -12,7 +12,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    public class EfAuditUuidRepositoryGeneric<TContext, TEntity> : Disposable, IRepository<TEntity>
+    public class EfAuditUuidRepositoryGeneric<TContext, TEntity> : Disposable, IAuditRepositoryGeneric<TContext, TEntity>
         where TContext : DbContext, IUnitOfWork
         where TEntity : AuditEntity<Guid>
     {

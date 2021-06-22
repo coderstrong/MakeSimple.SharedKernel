@@ -1,10 +1,7 @@
-﻿namespace MakeSimple.SharedKernel.Repository
+﻿namespace MakeSimple.SharedKernel.Contract
 {
-    using MakeSimple.SharedKernel.Contract;
-
     public interface IRepositoryGeneric<TContext, TEntity> : IRepository<TEntity>
         where TContext : IUnitOfWork
     {
-        
     }
 }

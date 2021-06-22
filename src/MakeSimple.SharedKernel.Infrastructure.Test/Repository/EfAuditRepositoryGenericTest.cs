@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MakeSimple.SharedKernel.Contract;
 using MakeSimple.SharedKernel.DTO;
 using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
 using MakeSimple.SharedKernel.Repository;
@@ -13,12 +14,11 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 {
     public class EfAuditRepositoryGenericTest
     {
-        private readonly EfAuditRepositoryGeneric<MyDBContext, Address> _repositoryGeneric;
+        private readonly IAuditRepositoryGeneric<MyDBContext, Address> _repositoryGeneric;
 
         public EfAuditRepositoryGenericTest()
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Address, Address>());
-
             _repositoryGeneric = new EfAuditRepositoryGeneric<MyDBContext, Address>(
                 new MyDBContext(), new Mapper(config), DummyDataForTest.CreateHttpContext());
         }
@@ -89,7 +89,6 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 Assert.True(idResults[i] == saveIds[i]);
             }
         }
-
 
         [Fact]
         public async Task GetAllAsync_Withmapper_Success()
