@@ -1,4 +1,4 @@
-namespace MakeSimple.SharedKernel.DTO
+namespace MakeSimple.SharedKernel.Infrastructure.DTO
 {
     using MakeSimple.SharedKernel.Contract;
     using System;
@@ -90,7 +90,7 @@ namespace MakeSimple.SharedKernel.DTO
         public int EndIndex { get; private set; }
         public IEnumerable<int> Pages { get; private set; }
         public IReadOnlyList<TResponse> Items { get; }
-        public IErrorCode Error { get; set; }
+        public IError Error { get; set; }
 
         public void CopyFrom(IDataResult source)
         {

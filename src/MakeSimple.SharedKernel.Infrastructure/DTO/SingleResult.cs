@@ -1,16 +1,16 @@
-namespace MakeSimple.SharedKernel.DTO
+namespace MakeSimple.SharedKernel.Infrastructure.DTO
 {
     using MakeSimple.SharedKernel.Contract;
     using System.Collections.Generic;
     using System.Net;
     using System.Text.Json.Serialization;
 
-    public class DetailResult<TResponse> : ValueObject, IDataResult
+    public class SingleResult<TResponse> : ValueObject, IDataResult
     {
         [JsonIgnore]
         public HttpStatusCode StatusCode { get; set; }
 
-        public IErrorCode Error { get; set; }
+        public IError Error { get; set; }
 
 #if NET5_0
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

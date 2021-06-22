@@ -1,9 +1,9 @@
 namespace MakeSimple.SharedKernel.Contract
 {
-    public interface IErrorCode
+    public interface IError
     {
         public string Code { get; set; }
         public string ErrorMessage { get; set; }
-        public string TraceId { get; set; }
+        public string TraceId { get; }
     }
 }

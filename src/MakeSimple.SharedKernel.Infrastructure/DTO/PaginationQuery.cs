@@ -1,4 +1,4 @@
-namespace MakeSimple.SharedKernel.DTO
+namespace MakeSimple.SharedKernel.Infrastructure.DTO
 {
     using MakeSimple.SharedKernel.Contract;
     using System.Runtime.Serialization;

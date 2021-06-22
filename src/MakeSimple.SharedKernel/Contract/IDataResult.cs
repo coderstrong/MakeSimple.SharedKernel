@@ -4,8 +4,8 @@ namespace MakeSimple.SharedKernel.Contract
 {
     public interface IDataResult
     {
-        public HttpStatusCode StatusCode { get; set; }
-        public IErrorCode Error { get; set; }
-        public void CopyFrom(IDataResult source);
+        HttpStatusCode StatusCode { get; set; }
+        IError Error { get; set; }
+        void CopyFrom(IDataResult source);
     }
 }
