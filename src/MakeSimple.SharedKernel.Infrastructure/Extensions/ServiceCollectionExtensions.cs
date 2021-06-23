@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using MakeSimple.SharedKernel.Infrastructure.DTO;
+﻿using MakeSimple.SharedKernel.Infrastructure.DTO;
 using MakeSimple.SharedKernel.Infrastructure.Exceptions;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +20,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddAutoMapperCore(this IServiceCollection services,
-            IEnumerable<Assembly> registeredAssemblies)
+        public static IServiceCollection AddAutoMapperCore(this IServiceCollection services)
         {
             // To do
             return services;
@@ -75,8 +71,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             return services;
         }
 
-        public static IServiceCollection AddAuthNCore(this IServiceCollection services, IConfiguration config,
-            IHostingEnvironment env)
+        public static IServiceCollection AddAuthNCore(this IServiceCollection services)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             // To do
@@ -100,13 +95,12 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             return services;
         }
 
-        public static IServiceCollection AddHeaderForwardCore(this IServiceCollection services, IHostingEnvironment env)
+        public static IServiceCollection AddHeaderForwardCore(this IServiceCollection services)
         {
-            if (!env.IsDevelopment())
-                services.Configure<ForwardedHeadersOptions>(options =>
-                {
-                    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-                });
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
 
             return services;
         }
@@ -132,12 +126,12 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
                 .Where(x => x != string.Empty && x != "." && x != "-")
                 .ToArray();
 
-            if (results == null || results.Count() < 2) throw new MissingOrWrongConfigException(new SingleResult<bool>()
+            if (results == null || results.Length < 2) throw new MissingOrWrongConfigException(new SingleResult<bool>()
             {
                 Error = new ErrorBase() { ErrorMessage = "[CS] Could not parse ServiceVersion.", Code = "CouldNotParse" }
             });
 
-            if (results.Count() > 2)
+            if (results.Length > 2)
                 return new ApiVersion(
                     Convert.ToInt32(results[0]),
                     Convert.ToInt32(results[1]),

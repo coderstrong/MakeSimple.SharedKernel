@@ -13,23 +13,14 @@ namespace MakeSimple.SharedKernel.Infrastructure.AspNet
                 return new NotFoundObjectResult(result);
             }
 
-            switch (result.StatusCode)
+            return result.StatusCode switch
             {
-                case HttpStatusCode.OK:
-                    return Ok(result);
-
-                case HttpStatusCode.NoContent:
-                    return NoContent();
-
-                case HttpStatusCode.BadRequest:
-                    return BadRequest(result);
-
-                case HttpStatusCode.NotFound:
-                    return NotFound(result);
-
-                default:
-                    return new CustomObjectResult((int)result.StatusCode, result);
-            }
+                HttpStatusCode.OK => Ok(result),
+                HttpStatusCode.NoContent => NoContent(),
+                HttpStatusCode.BadRequest => BadRequest(result),
+                HttpStatusCode.NotFound => NotFound(result),
+                _ => new CustomObjectResult((int)result.StatusCode, result),
+            };
         }
 
         protected class CustomObjectResult : ObjectResult
