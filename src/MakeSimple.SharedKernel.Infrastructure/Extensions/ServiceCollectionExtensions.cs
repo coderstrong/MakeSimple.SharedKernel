@@ -2,6 +2,7 @@
 using MakeSimple.SharedKernel.Infrastructure.DTO;
 using MakeSimple.SharedKernel.Infrastructure.Exceptions;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -25,7 +26,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
         public static IServiceCollection AddAutoMapperCore(this IServiceCollection services,
             IEnumerable<Assembly> registeredAssemblies)
         {
-            Mapper.Initialize(cfg => cfg.AddProfiles(registeredAssemblies));
+            // To do
             return services;
         }
 
@@ -74,42 +75,11 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             return services;
         }
 
-        public static IMvcBuilder AddMvcCore(this IServiceCollection services, IConfiguration config)
-        {
-            var mvcBuilder = services.AddMvc();
-
-            if (config.LoadFullAssemblies() != null && config.LoadFullAssemblies().Any())
-                foreach (var assembly in config.LoadFullAssemblies())
-                    mvcBuilder = mvcBuilder.AddApplicationPart(assembly);
-
-            mvcBuilder.SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-
-            return mvcBuilder;
-        }
-
         public static IServiceCollection AddAuthNCore(this IServiceCollection services, IConfiguration config,
             IHostingEnvironment env)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-            services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = config.GetAuthUri(env);
-                    options.RequireHttpsMetadata = false;
-                    options.Audience = config.GetAudience();
-                });
-
-            services.AddAuthorization(c =>
-            {
-                foreach (var claimToScope in config.GetClaims())
-                    c.AddPolicy(claimToScope.Key, p => p.RequireClaim("scope", claimToScope.Value));
-            });
+            // To do
 
             return services;
         }
@@ -154,7 +124,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
         {
             if (string.IsNullOrEmpty(serviceVersion)) throw new MissingOrWrongConfigException(new SingleResult<bool>()
             {
-                Error = new ErrorBase() { ErrorMessage = "[CS] ServiceVersion is null or empty.", Code = "Null" }
+                Error = new ErrorBase() { ErrorMessage = "[CS] ServiceVersion is null or empty.", Code = "ConfigNull" }
             });
 
             const string pattern = @"(.)|(-)";
