@@ -3,13 +3,13 @@ using System;
 
 namespace MakeSimple.SharedKernel.Infrastructure.Exceptions
 {
-    public class ValidateException : BaseException
+    public class TryGetKeyNotFoundException : BaseException
     {
-        public ValidateException(IDataResult errorResult)
+        public TryGetKeyNotFoundException(IDataResult errorResult)
             : base(errorResult)
         { }
 
-        public ValidateException(IDataResult errorResult, Exception innerException)
+        public TryGetKeyNotFoundException(IDataResult errorResult, Exception innerException)
             : base(errorResult, innerException)
         { }
     }

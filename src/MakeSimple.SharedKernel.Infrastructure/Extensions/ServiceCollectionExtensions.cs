@@ -16,6 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+
 namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
@@ -116,20 +117,22 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 
         private static ApiVersion ParseApiVersion(string serviceVersion)
         {
-            if (string.IsNullOrEmpty(serviceVersion)) throw new MissingOrWrongConfigException(new SingleResult<bool>()
-            {
-                Error = new ErrorBase() { ErrorMessage = "[CS] ServiceVersion is null or empty.", Code = "ConfigNull" }
-            });
+            if (string.IsNullOrEmpty(serviceVersion)) throw new TryGetKeyNotFoundException(new Response<bool>
+            (
+                System.Net.HttpStatusCode.InternalServerError,
+                new ErrorBase() { ErrorMessage = "[CS] ServiceVersion is null or empty.", Code = "ConfigNull" }
+            ));
 
             const string pattern = @"(.)|(-)";
             var results = Regex.Split(serviceVersion, pattern)
                 .Where(x => x != string.Empty && x != "." && x != "-")
                 .ToArray();
 
-            if (results == null || results.Length < 2) throw new MissingOrWrongConfigException(new SingleResult<bool>()
-            {
-                Error = new ErrorBase() { ErrorMessage = "[CS] Could not parse ServiceVersion.", Code = "CouldNotParse" }
-            });
+            if (results == null || results.Length < 2) throw new TryGetKeyNotFoundException(new Response<bool>
+            (
+                System.Net.HttpStatusCode.InternalServerError,
+                new ErrorBase() { ErrorMessage = "[CS] Could not parse ServiceVersion.", Code = "CouldNotParse" }
+            ));
 
             if (results.Length > 2)
                 return new ApiVersion(

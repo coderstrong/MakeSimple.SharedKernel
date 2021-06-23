@@ -1,18 +1,28 @@
 namespace MakeSimple.SharedKernel.Infrastructure.DTO
 {
     using MakeSimple.SharedKernel.Contract;
+    using MakeSimple.SharedKernel.Wrappers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Text.Json.Serialization;
 
-    public class PaginatedResult<TResponse> : ValueObject, IDataResult
+    public class PaginatedList<TResponse> : ValueObject, IPaginatedList<TResponse>
     {
-        protected PaginatedResult(int totalItems,
-            int currentPage = 1,
-            int pageSize = 10,
-            int maxPages = 10)
+        public PaginatedList(HttpStatusCode statusCode
+            , IError error)
+        {
+            StatusCode = statusCode;
+            Error = error;
+            Items = default;
+        }
+
+        protected PaginatedList(IEnumerable<TResponse> items
+            , int totalItems
+            , int currentPage = 1
+            , int pageSize = 10
+            , int maxPages = 10)
         {
             // calculate total pages
             var totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
@@ -76,6 +86,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
             StartIndex = startIndex;
             EndIndex = endIndex;
             Pages = pages;
+            Items = items;
         }
 
         [JsonIgnore]
@@ -89,7 +100,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
         public int StartIndex { get; private set; }
         public int EndIndex { get; private set; }
         public IEnumerable<int> Pages { get; private set; }
-        public IReadOnlyList<TResponse> Items { get; }
+        public IEnumerable<TResponse> Items { get; }
         public IError Error { get; set; }
 
         public void CopyFrom(IDataResult source)

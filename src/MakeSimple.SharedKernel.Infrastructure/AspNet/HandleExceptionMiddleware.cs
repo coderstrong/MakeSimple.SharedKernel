@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace MakeSimple.SharedKernel.Infrastructure.AspNet
 {
-
     public class HandleExceptionMiddleware
     {
         private readonly RequestDelegate _next;
@@ -51,16 +50,15 @@ namespace MakeSimple.SharedKernel.Infrastructure.AspNet
             }
             else
             {
-                result = new SingleResult<bool>
-                {
-                    Error = new ErrorBase()
+                result = new Response<bool>
+                (
+                    HttpStatusCode.InternalServerError,
+                    new ErrorBase()
                     {
                         Code = "Unhandled",
                         ErrorMessage = exception.Message
-                    },
-                    StatusCode = HttpStatusCode.InternalServerError,
-                    Item = false
-                };
+                    }
+                );
             }
 
             _logger.LogError(exception, "{@result}", result);

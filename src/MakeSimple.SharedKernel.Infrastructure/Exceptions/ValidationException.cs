@@ -3,13 +3,13 @@ using System;
 
 namespace MakeSimple.SharedKernel.Infrastructure.Exceptions
 {
-    public class MissingOrWrongConfigException : BaseException
+    public class ValidationException : BaseException
     {
-        public MissingOrWrongConfigException(IDataResult errorResult)
+        public ValidationException(IDataResult errorResult)
             : base(errorResult)
         { }
 
-        public MissingOrWrongConfigException(IDataResult errorResult, Exception innerException)
+        public ValidationException(IDataResult errorResult, Exception innerException)
             : base(errorResult, innerException)
         { }
     }

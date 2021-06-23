@@ -16,6 +16,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.AspNet
             return result.StatusCode switch
             {
                 HttpStatusCode.OK => Ok(result),
+                HttpStatusCode.Conflict => Conflict(result),
                 HttpStatusCode.NoContent => NoContent(),
                 HttpStatusCode.BadRequest => BadRequest(result),
                 HttpStatusCode.NotFound => NotFound(result),

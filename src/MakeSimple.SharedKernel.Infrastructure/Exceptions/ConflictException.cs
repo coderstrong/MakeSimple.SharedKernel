@@ -3,13 +3,13 @@ using System;
 
 namespace MakeSimple.SharedKernel.Infrastructure.Exceptions
 {
-    public class UnhandledException : BaseException
+    public class ConflictException : BaseException
     {
-        public UnhandledException(IDataResult errorResult)
+        public ConflictException(IDataResult errorResult)
             : base(errorResult)
         { }
 
-        public UnhandledException(IDataResult errorResult, Exception innerException)
+        public ConflictException(IDataResult errorResult, Exception innerException)
             : base(errorResult, innerException)
         { }
     }

@@ -1,11 +1,12 @@
 namespace MakeSimple.SharedKernel.Infrastructure.DTO
 {
     using MakeSimple.SharedKernel.Contract;
+    using MakeSimple.SharedKernel.Wrappers;
     using System.Collections.Generic;
     using System.Net;
     using System.Text.Json.Serialization;
 
-    public class SingleResult<TResponse> : ValueObject, IDataResult
+    public class Response<TResponse> : ValueObject, IResponse<TResponse>
     {
         [JsonIgnore]
         public HttpStatusCode StatusCode { get; set; }
@@ -15,7 +16,21 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
 #if NET5_0
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
 #endif
-        public TResponse Item { get; set; }
+        public TResponse Item { get; private set; }
+
+        public Response(TResponse item)
+        {
+            StatusCode = HttpStatusCode.OK;
+            Error = null;
+            Item = item;
+        }
+
+        public Response(HttpStatusCode statusCode, IError error)
+        {
+            StatusCode = statusCode;
+            Error = error;
+            Item = default;
+        }
 
         public void CopyFrom(IDataResult source)
         {
