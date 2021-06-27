@@ -161,7 +161,7 @@
         public TEntity Insert(TEntity entity)
         {
             entity.CreatedBy = _user.Identity.Name;
-            entity.CreatedAt = DateTime.Now;
+            entity.CreatedAt = DateTime.UtcNow;
 
             return _context.Set<TEntity>().Add(entity).Entity;
         }
@@ -171,7 +171,7 @@
             foreach (var entity in entities)
             {
                 entity.CreatedBy = _user.Identity.Name;
-                entity.CreatedAt = DateTime.Now;
+                entity.CreatedAt = DateTime.UtcNow;
             }
 
             await _context.Set<TEntity>().AddRangeAsync(entities);
@@ -180,7 +180,7 @@
         public void Update(TEntity entity)
         {
             entity.ModifiedBy = _user.Identity.Name;
-            entity.ModifiedAt = DateTime.Now;
+            entity.ModifiedAt = DateTime.UtcNow;
 
             _context.Set<TEntity>().Update(entity);
         }

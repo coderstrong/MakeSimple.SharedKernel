@@ -150,17 +150,24 @@
 
         public TEntity Insert(TEntity entity)
         {
+            entity.CreatedAt = DateTime.UtcNow;
+
             return _context.Set<TEntity>().Add(entity).Entity;
         }
 
         public async Task InsertRangeAsync(IList<TEntity> entities)
         {
+            foreach (var item in entities)
+            {
+                item.CreatedAt = DateTime.UtcNow;
+            }
+
             await _context.Set<TEntity>().AddRangeAsync(entities);
         }
 
         public void Update(TEntity entity)
         {
-            entity.ModifiedAt = DateTime.Now;
+            entity.ModifiedAt = DateTime.UtcNow;
 
             _context.Set<TEntity>().Update(entity);
         }
