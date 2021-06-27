@@ -184,7 +184,9 @@ namespace MakeSimple.SharedKernel.Infrastructure.Utils
             /// <exception cref="System.ArgumentNullException">
             ///     Thrown if <paramref cref="value" /> is null
             /// </exception>
+#pragma warning disable S3218 // Inner class members should not shadow outer class "static" or type members
             public static void NotNull(object value, string paramName = "")
+#pragma warning restore S3218 // Inner class members should not shadow outer class "static" or type members
             {
                 That<ArgumentNullException>(value != null, paramName);
             }
@@ -197,7 +199,9 @@ namespace MakeSimple.SharedKernel.Infrastructure.Utils
             /// <exception cref="System.ArgumentException">
             ///     Thrown if <paramref cref="value"/> is null or empty string
             /// </exception>
+#pragma warning disable S3218 // Inner class members should not shadow outer class "static" or type members
             public static void NotNullOrEmpty(string value, string paramName = "")
+#pragma warning restore S3218 // Inner class members should not shadow outer class "static" or type members
             {
                 if (value == null)
                 {

@@ -48,28 +48,28 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             return Hash(input, SHA512.Create(), encoding);
         }
 
-        public static byte[] Sha256(this string input, string encoding = "gb2312")
+        public static byte[] Sha256(this string input)
         {
             if (string.IsNullOrEmpty(input)) return _empty;
 
             return Hash(input, SHA256.Create());
         }
 
-        public static byte[] Sha1(this string input, string encoding = "gb2312")
-        {
-            if (string.IsNullOrEmpty(input)) return _empty;
-
-            return Hash(input, SHA1.Create());
-        }
-
         public static byte[] Sha256(this byte[] input)
         {
-            if (input == null) return null;
+            if (input == null) return _empty;
 
             using (var sha = SHA256.Create())
             {
                 return sha.ComputeHash(input);
             }
+        }
+
+        public static byte[] Sha1(this string input)
+        {
+            if (string.IsNullOrEmpty(input)) return _empty;
+
+            return Hash(input, SHA1.Create());
         }
     }
 }
