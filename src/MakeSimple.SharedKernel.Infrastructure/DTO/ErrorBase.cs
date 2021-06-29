@@ -1,5 +1,5 @@
 ﻿using MakeSimple.SharedKernel.Contract;
-using MakeSimple.SharedKernel.Infrastructure.Helpers;
+using MakeSimple.SharedKernel.Helpers;
 
 namespace MakeSimple.SharedKernel.Infrastructure.DTO
 {
