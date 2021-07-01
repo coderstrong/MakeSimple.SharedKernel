@@ -18,10 +18,16 @@
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
 		<ProjectReference Include="..\MakeSimple.SharedKernel\MakeSimple.SharedKernel.csproj" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.16" />
 	</ItemGroup>
 	
 	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
 		<ProjectReference Include="..\MakeSimple.SharedKernel\MakeSimple.SharedKernel.csproj" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.7" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -34,8 +40,6 @@
 	  </None>
 	</ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
@@ -53,7 +57,6 @@
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Sieve" Version="2.4.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.1" />
-	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.16" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
