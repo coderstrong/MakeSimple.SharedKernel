@@ -222,7 +222,6 @@
             return new Response<DTO>(await query.ProjectTo<DTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync().ConfigureAwait(false));
         }
 
-
         public TEntity Insert(TEntity entity)
         {
             entity.CreatedAt = DateTime.UtcNow;

@@ -25,6 +25,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
     {
         [Sieve(CanFilter = true, CanSort = true)]
         public string Name { get; set; }
+
         public virtual ICollection<Student> Students { get; set; }
     }
 
@@ -65,6 +66,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
     {
         public virtual Course Class { get; set; }
         public Guid? ClassId { get; set; }
+
         [Sieve(CanFilter = true, CanSort = true)]
         public string Name { get; set; }
     }
@@ -73,6 +75,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
     {
         public virtual ICollection<Address> Address { get; set; }
         public string Password { get; set; }
+
         [Sieve(CanFilter = true, CanSort = true)]
         public string UserName { get; set; }
     }

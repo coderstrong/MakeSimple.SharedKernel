@@ -3,8 +3,6 @@ using MakeSimple.SharedKernel.Contract;
 using MakeSimple.SharedKernel.Infrastructure.DTO;
 using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
 using MakeSimple.SharedKernel.Repository;
-using Microsoft.Extensions.Options;
-using Sieve.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -6,7 +6,6 @@
     using MakeSimple.SharedKernel.Infrastructure.DTO;
     using MakeSimple.SharedKernel.Utils;
     using MakeSimple.SharedKernel.Wrappers;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using Sieve.Models;
     using Sieve.Services;
@@ -15,7 +14,6 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Net;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepositoryGeneric<TContext, TEntity>
@@ -223,7 +221,6 @@
             }
             return new Response<DTO>(await query.ProjectTo<DTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync().ConfigureAwait(false));
         }
-
 
         public TEntity Insert(TEntity entity)
         {
