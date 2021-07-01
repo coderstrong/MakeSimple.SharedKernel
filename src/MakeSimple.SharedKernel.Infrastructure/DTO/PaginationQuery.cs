@@ -1,27 +1,46 @@
-namespace MakeSimple.SharedKernel.DTO
+namespace MakeSimple.SharedKernel.Infrastructure.DTO
 {
     using MakeSimple.SharedKernel.Contract;
+    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
 
+    /// <summary>
+    /// Max page size support is 100 items, default 10 items per page
+    /// </summary>
     public class PaginationQuery : IPaginationQuery
     {
-        public int PageIndex { get; set; }
+        [JsonIgnore]
+        [IgnoreDataMember]
+        internal virtual int MaxPageSize { get; } = 100;
 
-        public int PageSize { get; set; }
+        [JsonIgnore]
+        [IgnoreDataMember]
+        internal virtual int DefaultPageSize { get; set; } = 10;
 
+        public int PageNumber { get; set; }
+
+        public int PageSize
+        {
+            get
+            {
+                return DefaultPageSize;
+            }
+            set
+            {
+                DefaultPageSize = value > MaxPageSize ? MaxPageSize : value;
+            }
+        }
+
+        [JsonIgnore]
+        [IgnoreDataMember]
         public int Skip
         {
             get
             {
-                if (PageIndex == 0)
+                if (PageNumber == 0)
                     return 0;
-                return (PageIndex - 1) * PageSize;
+                return (PageNumber - 1) * PageSize;
             }
-        }
-
-        public PaginationQuery(int pageIndex = 1, int pageSize = 10)
-        {
-            PageIndex = pageIndex;
-            PageSize = pageSize;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using MakeSimple.SharedKernel.DTO;
+using MakeSimple.SharedKernel.Contract;
+using MakeSimple.SharedKernel.Infrastructure.DTO;
 using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
 using MakeSimple.SharedKernel.Repository;
 using System;
@@ -13,14 +14,13 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 {
     public class EfAuditRepositoryGenericTest
     {
-        private readonly EfAuditRepositoryGeneric<MyDBContext, Address> _repositoryGeneric;
+        private readonly IAuditRepositoryGeneric<MyDBContext, Address> _repositoryGeneric;
 
         public EfAuditRepositoryGenericTest()
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Address, Address>());
-
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Address, AddressDto>().ReverseMap());
             _repositoryGeneric = new EfAuditRepositoryGeneric<MyDBContext, Address>(
-                new MyDBContext(), new Mapper(config), DummyDataForTest.CreateHttpContext());
+                new MyDBContext(), SieveMock.Create(), new Mapper(config), DummyDataForTest.CreateHttpContext());
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToList(filters);
+            var result = await _repositoryGeneric.ToListAsync(filters);
 
             Assert.True(result.Count == saveIds.Count);
             var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
@@ -90,9 +90,8 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             }
         }
 
-
         [Fact]
-        public async Task GetAllAsync_Withmapper_Success()
+        public async Task GetAllAsync_Paginated_Success()
         {
             int start = 16, end = 20;
             List<long> saveIds = new List<long>();
@@ -101,6 +100,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             {
                 Address u = new Address();
                 u.Id = i;
+                u.Line1 = $"line{i}";
                 saveIds.Add(u.Id);
                 addresses.Add(u);
             }
@@ -109,10 +109,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToList<Address>(filters);
+            var result = await _repositoryGeneric.ToListAsync<AddressDto>(new PaginationQuery(), filters: filters, expandFilters: "Line1@=line", expandSorts: "-Line1", includes: e => e.User);
 
-            Assert.True(result.Count == saveIds.Count);
-            var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
+            Assert.True(result.TotalItems == saveIds.Count);
+            var idResults = result.Items.Select(e => e.Id).OrderBy(e => e).ToList();
             saveIds = saveIds.OrderBy(e => e).ToList();
             foreach (var item in addresses)
             {
@@ -142,7 +142,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => e.Id == new Random().Next(5000, 6000) };
 
-            var result = await _repositoryGeneric.ToList(filters);
+            var result = await _repositoryGeneric.ToListAsync(filters);
 
             Assert.True(result.Count == 0);
         }
@@ -165,9 +165,9 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => e.Id == new Random().Next(5000, 6000) };
 
-            var result = await _repositoryGeneric.ToList<Address>(filters);
+            var result = await _repositoryGeneric.ToListAsync<AddressDto>(new PaginationQuery(), filters: filters);
 
-            Assert.True(result.Count == 0);
+            Assert.True(result.TotalItems == 0);
         }
 
         [Fact]
@@ -208,10 +208,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(addresses);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync<Address>(saveIds[2]);
+            var result = await _repositoryGeneric.FirstOrDefaultAsync<AddressDto>(saveIds[2]);
 
             Assert.NotNull(result);
-            Assert.Equal(result.Id, saveIds[2]);
+            Assert.Equal(result.Item.Id, saveIds[2]);
         }
 
         [Fact]
@@ -259,7 +259,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToList(filters
+            var result = await _repositoryGeneric.ToListAsync(filters
                 , e => e.OrderBy(x => x.Id).ThenBy(c => c.Line1)
                 , new PaginationQuery(), e => e.User);
 
@@ -292,7 +292,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToList(filters
+            var result = await _repositoryGeneric.ToListAsync(filters
                 , null
                 , new PaginationQuery(), e => e.User);
 

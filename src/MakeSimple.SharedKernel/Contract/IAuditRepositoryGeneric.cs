@@ -3,6 +3,5 @@
     public interface IAuditRepositoryGeneric<TContext, TEntity> : IRepository<TEntity>
         where TContext : IUnitOfWork
     {
-       
     }
 }

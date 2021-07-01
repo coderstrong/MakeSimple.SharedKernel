@@ -4,7 +4,7 @@
 		<TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
 		<SonarQubeExclude>True</SonarQubeExclude>
 		<SonarQubeTestProject>False</SonarQubeTestProject>
-		<Version>0.1.2</Version>
+		<Version>1.0.0</Version>
 		<ApplicationIcon>logo.ico</ApplicationIcon>
 		<Authors>JohnnyTran</Authors>
 		<Company>MakeSimple</Company>
@@ -16,11 +16,11 @@
 		<RepositoryType>Github</RepositoryType>
 	</PropertyGroup>
 
-	<ItemGroup Condition=" ('$(TargetFramework)' == 'netcoreapp3.1')">
+	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
 		<ProjectReference Include="..\MakeSimple.SharedKernel\MakeSimple.SharedKernel.csproj" />
 	</ItemGroup>
 	
-	<ItemGroup Condition=" ('$(TargetFramework)' == 'net5.0')">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
 		<ProjectReference Include="..\MakeSimple.SharedKernel\MakeSimple.SharedKernel.csproj" />
 	</ItemGroup>
 
@@ -33,16 +33,16 @@
 	    <PackagePath></PackagePath>
 	  </None>
 	</ItemGroup>
-
-  <ItemGroup Condition=" ('$(TargetFramework)' == 'netcoreapp3.1')">
-	</ItemGroup>
-  <ItemGroup Condition=" ('$(TargetFramework)' == 'net5.0')">
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
+    <PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.2.22" />
     <PackageReference Include="Poly" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="3.1.16" />
@@ -51,6 +51,9 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Sieve" Version="2.4.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.1" />
+	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.16" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">

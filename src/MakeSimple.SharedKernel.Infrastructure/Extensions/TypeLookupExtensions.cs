@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 {
     /// <summary>
-    /// Sources: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Extensions/TypeLookupExtensions.cs
+    /// Reference: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Extensions/TypeLookupExtensions.cs
     /// </summary>
     public static class TypeLookupExtensions
     {
@@ -37,7 +37,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 
         public static IEnumerable<Assembly> LoadFullAssemblies(this string searchPattern)
         {
-            var coreAssemblies = "NetCoreKit.*".LoadAssemblyWithPattern();
+            var coreAssemblies = "MakeSimple.*".LoadAssemblyWithPattern();
             var extendAssemblies = searchPattern.LoadAssemblyWithPattern();
             return new HashSet<Assembly>(
                     extendAssemblies.SelectMany(x => coreAssemblies.Append(x)))
