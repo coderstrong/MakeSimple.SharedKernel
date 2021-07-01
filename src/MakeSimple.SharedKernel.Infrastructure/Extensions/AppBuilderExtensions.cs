@@ -82,5 +82,4 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             return app;
         }
     }
-
 }

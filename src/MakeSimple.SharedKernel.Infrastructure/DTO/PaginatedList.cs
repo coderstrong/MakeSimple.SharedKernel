@@ -18,7 +18,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
             Items = default;
         }
 
-        protected PaginatedList(IEnumerable<TResponse> items
+        protected PaginatedList(ICollection<TResponse> items
             , int totalItems
             , int currentPage = 1
             , int pageSize = 10
@@ -91,6 +91,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
 
         [JsonIgnore]
         public HttpStatusCode StatusCode { get; set; }
+
         public int TotalItems { get; private set; }
         public int CurrentPage { get; private set; }
         public int PageSize { get; private set; }
@@ -100,7 +101,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
         public int StartIndex { get; private set; }
         public int EndIndex { get; private set; }
         public IEnumerable<int> Pages { get; private set; }
-        public IEnumerable<TResponse> Items { get; }
+        public ICollection<TResponse> Items { get; }
         public IError Error { get; set; }
 
         public void CopyFrom(IDataResult source)

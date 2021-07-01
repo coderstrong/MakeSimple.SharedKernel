@@ -3,6 +3,7 @@
     using MakeSimple.SharedKernel.Extensions;
     using System;
     using System.Security.Cryptography;
+
     /// <summary>
     /// Reference: https://github.com/cloudnative-netcore/netcorekit/blob/d07dc233cc82f78a44c03b346eaddf460a33da2c/src/NetCoreKit.Utils/Helpers/CryptoRandomHelper.cs
     /// </summary>

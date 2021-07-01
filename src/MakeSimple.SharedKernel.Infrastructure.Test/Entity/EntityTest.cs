@@ -29,7 +29,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Entity
 
             var addressFromDb = await _repositoryGeneric.FirstOrDefaultAsync(u.Id);
 
-            var aa =  addressFromDb.Equals(u);
+            var aa = addressFromDb.Equals(u);
             Assert.True(aa);
         }
     }

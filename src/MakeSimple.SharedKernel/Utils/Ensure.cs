@@ -184,6 +184,7 @@
             ///     Thrown if <paramref cref="value" /> is null
             /// </exception>
 #pragma warning disable S3218 // Inner class members should not shadow outer class "static" or type members
+
             public static void NotNull(object value, string paramName = "")
 #pragma warning restore S3218 // Inner class members should not shadow outer class "static" or type members
             {
@@ -199,6 +200,7 @@
             ///     Thrown if <paramref cref="value"/> is null or empty string
             /// </exception>
 #pragma warning disable S3218 // Inner class members should not shadow outer class "static" or type members
+
             public static void NotNullOrEmpty(string value, string paramName = "")
 #pragma warning restore S3218 // Inner class members should not shadow outer class "static" or type members
             {

@@ -12,6 +12,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
         [JsonIgnore]
         [IgnoreDataMember]
         internal virtual int MaxPageSize { get; } = 100;
+
         [JsonIgnore]
         [IgnoreDataMember]
         internal virtual int DefaultPageSize { get; set; } = 10;

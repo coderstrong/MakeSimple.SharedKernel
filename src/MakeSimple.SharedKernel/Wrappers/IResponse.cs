@@ -5,6 +5,5 @@ namespace MakeSimple.SharedKernel.Wrappers
     public interface IResponse<out TResponse> : IDataResult
     {
         public TResponse Item { get; }
-
     }
 }
