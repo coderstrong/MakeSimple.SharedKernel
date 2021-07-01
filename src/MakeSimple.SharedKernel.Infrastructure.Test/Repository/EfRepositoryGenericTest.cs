@@ -87,7 +87,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         }
 
         [Fact]
-        public async Task GetAllAsync_Withmapper_Success()
+        public async Task GetAllAsync_Paginated_Success()
         {
             int start = 16, end = 20;
             List<long> saveIds = new List<long>();
@@ -96,6 +96,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             {
                 Student u = new Student();
                 u.Id = i;
+                u.Name = $"Name{i}";
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
@@ -104,7 +105,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Student, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToListAsync<StudentDto>(new PaginationQuery(), filters: filters);
+            var result = await _repositoryGeneric.ToListAsync<StudentDto>(new PaginationQuery(), filters: filters, expandFilters: "Name@=Name", expandSorts: "-Name");
 
             Assert.True(result.TotalItems == saveIds.Count);
             var idResults = result.Items.Select(e => e.Id).OrderBy(e => e).ToList();

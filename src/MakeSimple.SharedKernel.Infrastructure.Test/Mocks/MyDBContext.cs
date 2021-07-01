@@ -1,6 +1,7 @@
 ﻿using MakeSimple.SharedKernel.Contract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Sieve.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -10,8 +11,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
 {
     public class Address : AuditEntity<long>
     {
+        [Sieve(CanFilter = true, CanSort = true)]
         public string Line1 { get; set; }
 
+        [Sieve(CanFilter = true, CanSort = true)]
         public string Line2 { get; set; }
 
         public virtual User User { get; set; }
@@ -20,6 +23,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
 
     public class Course : Entity<Guid>
     {
+        [Sieve(CanFilter = true, CanSort = true)]
         public string Name { get; set; }
         public virtual ICollection<Student> Students { get; set; }
     }
@@ -61,6 +65,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
     {
         public virtual Course Class { get; set; }
         public Guid? ClassId { get; set; }
+        [Sieve(CanFilter = true, CanSort = true)]
         public string Name { get; set; }
     }
 
@@ -68,6 +73,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
     {
         public virtual ICollection<Address> Address { get; set; }
         public string Password { get; set; }
+        [Sieve(CanFilter = true, CanSort = true)]
         public string UserName { get; set; }
     }
 
