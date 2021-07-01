@@ -15,7 +15,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Entity
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Address, AddressDto>().ReverseMap());
             _repositoryGeneric = new EfAuditRepositoryGeneric<MyDBContext, Address>(
-                new MyDBContext(), new Mapper(config), DummyDataForTest.CreateHttpContext());
+                new MyDBContext(), SieveMock.Create(), new Mapper(config), DummyDataForTest.CreateHttpContext());
         }
 
         //[Fact]

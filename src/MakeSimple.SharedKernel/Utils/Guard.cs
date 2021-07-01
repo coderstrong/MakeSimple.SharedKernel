@@ -5,12 +5,14 @@
     using System.Diagnostics;
     using System.Linq;
 
+    public sealed class ValidatedNotNullAttribute : Attribute { }
+
     /// <summary>
     ///     Helper class that will throw exceptions when conditions are not satisfied.
     ///     Source at https://github.com/saaskit/saaskit/blob/b761ef9295331f9758c5347d8b50b9def7b3589b/src/SaasKit.Multitenancy/Ensure.cs
     /// </summary>
     [DebuggerStepThrough]
-    public static class Ensure
+    public static class Guard
     {
         /// <summary>
         /// Ensures that the given expression is true
@@ -70,7 +72,7 @@
         /// <param name="value">Value of the object to test for null reference</param>
         /// <param name="message">Message for the Null Reference Exception</param>
         /// <exception cref="System.NullReferenceException">Thrown when <paramref name="value"/> is null</exception>
-        public static void NotNull(object value, string message = "")
+        public static void NotNull([ValidatedNotNull] object value, string message = "")
         {
             That<NullReferenceException>(value != null, message);
         }

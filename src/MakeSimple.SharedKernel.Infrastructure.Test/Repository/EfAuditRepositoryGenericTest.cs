@@ -3,6 +3,8 @@ using MakeSimple.SharedKernel.Contract;
 using MakeSimple.SharedKernel.Infrastructure.DTO;
 using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
 using MakeSimple.SharedKernel.Repository;
+using Microsoft.Extensions.Options;
+using Sieve.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Address, AddressDto>().ReverseMap());
             _repositoryGeneric = new EfAuditRepositoryGeneric<MyDBContext, Address>(
-                new MyDBContext(), new Mapper(config), DummyDataForTest.CreateHttpContext());
+                new MyDBContext(), SieveMock.Create(), new Mapper(config), DummyDataForTest.CreateHttpContext());
         }
 
         [Fact]
@@ -75,7 +77,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToList(filters);
+            var result = await _repositoryGeneric.ToListAsync(filters);
 
             Assert.True(result.Count == saveIds.Count);
             var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
@@ -108,10 +110,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToList<AddressDto>(filters: filters, includes: e => e.User);
+            var result = await _repositoryGeneric.ToListAsync<AddressDto>(new PaginationQuery(), filters: filters, includes: e => e.User);
 
-            Assert.True(result.Count == saveIds.Count);
-            var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
+            Assert.True(result.TotalItems == saveIds.Count);
+            var idResults = result.Items.Select(e => e.Id).OrderBy(e => e).ToList();
             saveIds = saveIds.OrderBy(e => e).ToList();
             foreach (var item in addresses)
             {
@@ -141,7 +143,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => e.Id == new Random().Next(5000, 6000) };
 
-            var result = await _repositoryGeneric.ToList(filters);
+            var result = await _repositoryGeneric.ToListAsync(filters);
 
             Assert.True(result.Count == 0);
         }
@@ -164,9 +166,9 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => e.Id == new Random().Next(5000, 6000) };
 
-            var result = await _repositoryGeneric.ToList<AddressDto>(filters);
+            var result = await _repositoryGeneric.ToListAsync<AddressDto>(new PaginationQuery(), filters: filters);
 
-            Assert.True(result.Count == 0);
+            Assert.True(result.TotalItems == 0);
         }
 
         [Fact]
@@ -210,7 +212,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             var result = await _repositoryGeneric.FirstOrDefaultAsync<AddressDto>(saveIds[2]);
 
             Assert.NotNull(result);
-            Assert.Equal(result.Id, saveIds[2]);
+            Assert.Equal(result.Item.Id, saveIds[2]);
         }
 
         [Fact]
@@ -258,7 +260,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToList(filters
+            var result = await _repositoryGeneric.ToListAsync(filters
                 , e => e.OrderBy(x => x.Id).ThenBy(c => c.Line1)
                 , new PaginationQuery(), e => e.User);
 
@@ -291,7 +293,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToList(filters
+            var result = await _repositoryGeneric.ToListAsync(filters
                 , null
                 , new PaginationQuery(), e => e.User);
 

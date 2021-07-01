@@ -11,14 +11,14 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
     public class PaginatedList<TResponse> : ValueObject, IPaginatedList<TResponse>
     {
         public PaginatedList(HttpStatusCode statusCode
-            , IError error)
+            , IError error = null)
         {
             StatusCode = statusCode;
             Error = error;
             Items = default;
         }
 
-        protected PaginatedList(ICollection<TResponse> items
+        public PaginatedList(ICollection<TResponse> items
             , int totalItems
             , int currentPage = 1
             , int pageSize = 10
