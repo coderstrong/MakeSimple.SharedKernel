@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MakeSimple.SharedKernel.Contract;
 using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
-using MakeSimple.SharedKernel.Repository;
+using MakeSimple.SharedKernel.Infrastructure.Repository;
 using System.Threading.Tasks;
 using Xunit;
 
