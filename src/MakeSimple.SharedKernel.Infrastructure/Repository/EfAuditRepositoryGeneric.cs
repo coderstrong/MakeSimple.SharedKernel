@@ -1,4 +1,4 @@
-﻿namespace MakeSimple.SharedKernel.Repository
+﻿namespace MakeSimple.SharedKernel.Infrastructure.Repository
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
