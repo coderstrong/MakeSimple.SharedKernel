@@ -1,7 +1,4 @@
-﻿using MakeSimple.SharedKernel.Contract;
-using MakeSimple.SharedKernel.Infrastructure.DTO;
-using MakeSimple.SharedKernel.Infrastructure.Exceptions;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Serilog;
@@ -11,6 +8,10 @@ using System.Text.Json;
 
 namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 {
+    using MakeSimple.SharedKernel.Contract;
+    using MakeSimple.SharedKernel.Infrastructure.DTO;
+    using MakeSimple.SharedKernel.Infrastructure.Exceptions;
+
     public static class AppBuilderExtensions
     {
         public static IApplicationBuilder UseExceptionHandlerCore(this IApplicationBuilder app)
