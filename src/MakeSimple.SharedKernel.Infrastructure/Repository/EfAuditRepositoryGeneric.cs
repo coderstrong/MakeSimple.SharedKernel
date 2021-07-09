@@ -20,7 +20,7 @@
 
     public class EfAuditRepositoryGeneric<TContext, TEntity> : Disposable, IAuditRepositoryGeneric<TContext, TEntity>
         where TContext : DbContext, IUnitOfWork
-        where TEntity : AuditEntity<long>
+        where TEntity : AuditEntityShared
     {
         private readonly TContext _context;
         private readonly SieveProcessor _sieveProcessor;
@@ -52,9 +52,9 @@
             }
         }
 
-        public virtual void Delete(object key)
+        public virtual async Task DeleteAsync(object key)
         {
-            var entity = _context.Set<TEntity>().Find(key);
+            var entity = await _context.Set<TEntity>().FindAsync(key).ConfigureAwait(false);
             if (entity != null)
                 _context.Set<TEntity>().Remove(entity);
         }
@@ -93,7 +93,7 @@
             }
             else if (paging != null)
             {
-                query = query.OrderByDescending(e => e.Id);
+                query = query.OrderByDescending(e => e.CreatedAt);
                 query = query.Skip(paging.Skip).Take(paging.PageSize);
             }
 
@@ -144,7 +144,7 @@
             }
             else if (string.IsNullOrEmpty(expandSorts))
             {
-                query = query.OrderByDescending(e => e.Id);
+                query = query.OrderByDescending(e => e.CreatedAt);
             }
 
             if (!string.IsNullOrEmpty(expandSorts))
@@ -173,19 +173,11 @@
             }
         }
 
-        public async Task<TEntity> FirstOrDefaultAsync(object key, params Expression<Func<TEntity, object>>[] includes)
+        public async Task<TEntity> FirstOrDefaultAsync(object key)
         {
             Guard.NotNull(key, nameof(key));
 
-            var query = _context.Set<TEntity>().AsNoTracking().Where(e => e.Id.Equals(key));
-            if (includes != null && includes.Length > 0)
-            {
-                foreach (var include in includes)
-                {
-                    query = query.Include(include);
-                }
-            }
-            return await query.FirstOrDefaultAsync().ConfigureAwait(false);
+            return await _context.Set<TEntity>().FindAsync(key).ConfigureAwait(false);
         }
 
         public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes)
@@ -203,19 +195,11 @@
             return await query.FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public async Task<IResponse<DTO>> FirstOrDefaultAsync<DTO>(object key, params Expression<Func<TEntity, object>>[] includes)
+        public async Task<IResponse<DTO>> FirstOrDefaultAsync<DTO>(object key)
         {
             Guard.NotNull(key, nameof(key));
 
-            var query = _context.Set<TEntity>().AsNoTracking().Where(e => e.Id.Equals(key));
-            if (includes != null && includes.Length > 0)
-            {
-                foreach (var include in includes)
-                {
-                    query = query.Include(include);
-                }
-            }
-            return new Response<DTO>(await query.ProjectTo<DTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync().ConfigureAwait(false));
+            return new Response<DTO>(_mapper.Map<DTO>(await _context.Set<TEntity>().FindAsync(key).ConfigureAwait(false)));
         }
 
         public async Task<IResponse<DTO>> FirstOrDefaultAsync<DTO>(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes)

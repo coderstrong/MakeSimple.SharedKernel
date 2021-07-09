@@ -18,10 +18,9 @@ namespace MakeSimple.SharedKernel.Contract
         /// Get row by primary key
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="includes"></param>
         /// <returns></returns>
         /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
-        Task<TEntity> FirstOrDefaultAsync(object key, params Expression<Func<TEntity, object>>[] includes);
+        Task<TEntity> FirstOrDefaultAsync(object key);
 
         /// <summary>
         /// Get row by filter
@@ -36,11 +35,10 @@ namespace MakeSimple.SharedKernel.Contract
         /// Get row by primary key and auto mapper to Model DTO
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="includes"></param>
         /// <returns></returns>
         /// <exception cref="AutoMapperMappingException">Miss config Automapper</exception>
         /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
-        Task<IResponse<DTO>> FirstOrDefaultAsync<DTO>(object key, params Expression<Func<TEntity, object>>[] includes);
+        Task<IResponse<DTO>> FirstOrDefaultAsync<DTO>(object key);
 
         /// <summary>
         /// Get row by filter and auto mapper to Model DTO
@@ -128,6 +126,6 @@ namespace MakeSimple.SharedKernel.Contract
         /// Delete data to database
         /// </summary>
         /// <param name="key"></param>
-        void Delete(object key);
+        Task DeleteAsync(object key);
     }
 }

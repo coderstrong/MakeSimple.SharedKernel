@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 {
     using MakeSimple.SharedKernel.Extensions;
-    using MakeSimple.SharedKernel.Infrastructure.Exceptions;
     using MakeSimple.SharedKernel.Infrastructure.DTO;
+    using MakeSimple.SharedKernel.Infrastructure.Exceptions;
     using System.Net;
 
     public static class MediaRExtensions
