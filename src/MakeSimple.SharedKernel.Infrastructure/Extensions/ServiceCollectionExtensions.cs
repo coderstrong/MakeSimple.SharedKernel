@@ -1,13 +1,10 @@
-﻿using MakeSimple.SharedKernel.Infrastructure.DTO;
-using MakeSimple.SharedKernel.Infrastructure.Exceptions;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -19,6 +16,8 @@ using System.Text.RegularExpressions;
 
 namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 {
+    using MakeSimple.SharedKernel.Infrastructure.DTO;
+    using MakeSimple.SharedKernel.Infrastructure.Exceptions;
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddAutoMapperCore(this IServiceCollection services)
@@ -53,7 +52,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             return services;
         }
 
-        public static IServiceCollection AddApiVersionCore(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddApiVersionCore(this IServiceCollection services, string ApiVersion = "1.0")
         {
             services.AddRouting(o => o.LowercaseUrls = true);
 
@@ -66,7 +65,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
                 {
                     o.ReportApiVersions = true;
                     o.AssumeDefaultVersionWhenUnspecified = true;
-                    o.DefaultApiVersion = ParseApiVersion(config.GetValue<string>("API_VERSION"));
+                    o.DefaultApiVersion = ParseApiVersion(ApiVersion);
                 });
 
             return services;

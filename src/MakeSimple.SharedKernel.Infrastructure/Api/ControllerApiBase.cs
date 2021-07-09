@@ -1,12 +1,16 @@
 ﻿using MakeSimple.SharedKernel.Contract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace MakeSimple.SharedKernel.Infrastructure.Api
 {
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiController]
+    [Authorize]
     public class ControllerApiBase : ControllerBase
     {
-        public virtual IActionResult ResultDTO(IDataResult result)
+        protected virtual IActionResult ResultDTO(IDataResult result)
         {
             if (result == null)
             {
