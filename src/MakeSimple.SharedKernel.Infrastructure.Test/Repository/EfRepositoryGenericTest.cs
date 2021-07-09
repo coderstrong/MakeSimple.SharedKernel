@@ -32,7 +32,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             _repositoryGeneric.Insert(u);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
-            _repositoryGeneric.Delete(u.Id);
+            _repositoryGeneric.DeleteAsync(u.Id);
 
             var result = await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
@@ -163,7 +163,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         }
 
         [Fact]
-        public async Task GetFirstOrDefaultAsync_NotFound_Success()
+        public async Task GetFirstOrDefaultAsync_Found_Success()
         {
             int start = 31, end = 35;
             List<long> saveIds = new List<long>();
@@ -185,7 +185,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         }
 
         [Fact]
-        public async Task GetFirstOrDefaultAsync_WithMapper_NotFound_Success()
+        public async Task GetFirstOrDefaultAsync_WithMapper_Found_Success()
         {
             int start = 36, end = 40;
             List<long> saveIds = new List<long>();
@@ -224,10 +224,9 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(Studentes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync(saveIds.First().Key, e => e.Class);
+            var result = await _repositoryGeneric.FirstOrDefaultAsync(saveIds.First().Key);
 
             Assert.NotNull(result);
-            Assert.NotNull(result.Class);
             Assert.Equal(result.Id, saveIds.First().Key);
         }
 
@@ -295,6 +294,108 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 Assert.True(result[i].Id == saveIds[i]);
                 Assert.NotNull(result[i].Class);
             }
+        }
+
+        [Fact]
+        public async Task GetFirstOrDefaultAsync_Linq_Found_Success()
+        {
+            int start = 61, end = 65;
+            List<long> saveIds = new List<long>();
+            List<Student> Studentes = new List<Student>();
+            for (int i = start; i < end; i++)
+            {
+                Student u = new Student();
+                u.Id = i;
+                u.Class = new Course()
+                {
+                    Id = Guid.NewGuid()
+                };
+                saveIds.Add(u.Id);
+                Studentes.Add(u);
+            }
+            await _repositoryGeneric.InsertRangeAsync(Studentes);
+            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            var result = await _repositoryGeneric.FirstOrDefaultAsync(e => e.Id == saveIds[3], i => i.Class);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Class);
+            Assert.Equal(result.Id, saveIds[3]);
+        }
+
+        [Fact]
+        public async Task GetFirstOrDefaultAsync_WithMapper_Linq_Found_Success()
+        {
+            int start = 66, end = 70;
+            List<long> saveIds = new List<long>();
+            List<Student> Studentes = new List<Student>();
+            for (int i = start; i < end; i++)
+            {
+                Student u = new Student();
+                u.Id = i;
+                u.Class = new Course()
+                {
+                    Id = Guid.NewGuid()
+                };
+                saveIds.Add(u.Id);
+                Studentes.Add(u);
+            }
+            await _repositoryGeneric.InsertRangeAsync(Studentes);
+            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            var result = await _repositoryGeneric.FirstOrDefaultAsync<StudentDto>(e => e.Id == saveIds[2], i => i.Class);
+
+            Assert.NotNull(result.Item);
+            Assert.NotNull(result.Item.Class);
+            Assert.Equal(result.Item.Id, saveIds[2]);
+        }
+
+        [Fact]
+        public async Task GetFirstOrDefaultAsync_linq_Full_Parram_Success()
+        {
+            int start = 71, end = 75;
+            Dictionary<long, Guid> saveIds = new Dictionary<long, Guid>();
+            List<Student> Studentes = new List<Student>();
+            for (int i = start; i < end; i++)
+            {
+                Student u = new Student();
+                u.Class = new Course();
+                u.Class.Id = Guid.NewGuid();
+                u.Id = i;
+                saveIds.Add(u.Id, u.Class.Id);
+                Studentes.Add(u);
+            }
+            await _repositoryGeneric.InsertRangeAsync(Studentes);
+            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            var result = await _repositoryGeneric.FirstOrDefaultAsync(e => e.Id == saveIds.First().Key, i => i.Class);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Class);
+            Assert.Equal(result.Id, saveIds.First().Key);
+        }
+
+        [Fact]
+        public async Task GetFirstOrDefaultAsync_linq_Full_Parram_NotFound_Success()
+        {
+            int start = 76, end = 80;
+            Dictionary<long, Guid> saveIds = new Dictionary<long, Guid>();
+            List<Student> Studentes = new List<Student>();
+            for (int i = start; i < end; i++)
+            {
+                Student u = new Student();
+                u.Class = new Course();
+                u.Class.Id = Guid.NewGuid();
+                u.Id = i;
+                saveIds.Add(u.Id, u.Class.Id);
+                Studentes.Add(u);
+            }
+            await _repositoryGeneric.InsertRangeAsync(Studentes);
+            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            var result = await _repositoryGeneric.FirstOrDefaultAsync(e => e.Id == 10000, i => i.Class);
+
+            Assert.Null(result);
         }
     }
 }

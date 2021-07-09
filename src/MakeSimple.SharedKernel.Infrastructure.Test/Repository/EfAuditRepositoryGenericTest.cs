@@ -31,7 +31,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             _repositoryGeneric.Insert(u);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
-            _repositoryGeneric.Delete(u.Id);
+            await _repositoryGeneric.DeleteAsync(u.Id);
 
             var result = await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
             Assert.NotNull(u.CreatedBy);
@@ -171,7 +171,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         }
 
         [Fact]
-        public async Task GetFirstOrDefaultAsync_NotFound_Success()
+        public async Task GetFirstOrDefaultAsync_Found_Success()
         {
             int start = 31, end = 35;
             List<long> saveIds = new List<long>();
@@ -193,9 +193,36 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         }
 
         [Fact]
-        public async Task GetFirstOrDefaultAsync_WithMapper_NotFound_Success()
+        public async Task GetFirstOrDefaultAsync_Linq_Found_Success()
         {
             int start = 36, end = 40;
+            List<long> saveIds = new List<long>();
+            List<Address> addresses = new List<Address>();
+            for (int i = start; i < end; i++)
+            {
+                Address u = new Address();
+                u.Id = i;
+                u.User = new User()
+                {
+                    Id = Guid.NewGuid()
+                };
+                saveIds.Add(u.Id);
+                addresses.Add(u);
+            }
+            await _repositoryGeneric.InsertRangeAsync(addresses);
+            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            var result = await _repositoryGeneric.FirstOrDefaultAsync(e => e.Id == saveIds[3], i => i.User);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.User);
+            Assert.Equal(result.Id, saveIds[3]);
+        }
+
+        [Fact]
+        public async Task GetFirstOrDefaultAsync_WithMapper_Found_Success()
+        {
+            int start = 41, end = 45;
             List<long> saveIds = new List<long>();
             List<Address> addresses = new List<Address>();
             for (int i = start; i < end; i++)
@@ -210,14 +237,41 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var result = await _repositoryGeneric.FirstOrDefaultAsync<AddressDto>(saveIds[2]);
 
-            Assert.NotNull(result);
+            Assert.NotNull(result.Item);
             Assert.Equal(result.Item.Id, saveIds[2]);
         }
 
         [Fact]
-        public async Task GetFirstOrDefaultAsync_Full_Parram_Success()
+        public async Task GetFirstOrDefaultAsync_WithMapper_Linq_Found_Success()
         {
             int start = 46, end = 50;
+            List<long> saveIds = new List<long>();
+            List<Address> addresses = new List<Address>();
+            for (int i = start; i < end; i++)
+            {
+                Address u = new Address();
+                u.Id = i;
+                u.User = new User()
+                {
+                    Id = Guid.NewGuid()
+                };
+                saveIds.Add(u.Id);
+                addresses.Add(u);
+            }
+            await _repositoryGeneric.InsertRangeAsync(addresses);
+            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            var result = await _repositoryGeneric.FirstOrDefaultAsync<AddressDto>(e => e.Id == saveIds[2], o => o.User);
+
+            Assert.NotNull(result.Item);
+            Assert.NotNull(result.Item.User);
+            Assert.Equal(result.Item.Id, saveIds[2]);
+        }
+
+        [Fact]
+        public async Task GetFirstOrDefaultAsync_Parram_Success()
+        {
+            int start = 51, end = 55;
             Dictionary<long, Guid> saveIds = new Dictionary<long, Guid>();
             List<Address> addresses = new List<Address>();
             for (int i = start; i < end; i++)
@@ -232,7 +286,31 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(addresses);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync(saveIds.First().Key, e => e.User);
+            var result = await _repositoryGeneric.FirstOrDefaultAsync(saveIds.First().Key);
+
+            Assert.NotNull(result);
+            Assert.Equal(result.Id, saveIds.First().Key);
+        }
+
+        [Fact]
+        public async Task GetFirstOrDefaultAsync_Linq_Full_Parram_Success()
+        {
+            int start = 56, end = 60;
+            Dictionary<long, Guid> saveIds = new Dictionary<long, Guid>();
+            List<Address> addresses = new List<Address>();
+            for (int i = start; i < end; i++)
+            {
+                Address u = new Address();
+                u.User = new User();
+                u.User.Id = Guid.NewGuid();
+                u.Id = i;
+                saveIds.Add(u.Id, u.User.Id);
+                addresses.Add(u);
+            }
+            await _repositoryGeneric.InsertRangeAsync(addresses);
+            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            var result = await _repositoryGeneric.FirstOrDefaultAsync(e => e.Id == saveIds.First().Key, e => e.User);
 
             Assert.NotNull(result);
             Assert.NotNull(result.User);
@@ -242,7 +320,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         [Fact]
         public async Task GetAllAsync_Full_Parrams_Success()
         {
-            int start = 51, end = 55;
+            int start = 61, end = 65;
             List<long> saveIds = new List<long>();
             List<Address> addresses = new List<Address>();
             for (int i = start; i < end; i++)
@@ -275,7 +353,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         [Fact]
         public async Task GetAllAsync_Paging_without_Orderby_Success()
         {
-            int start = 56, end = 60;
+            int start = 66, end = 70;
             List<long> saveIds = new List<long>();
             List<Address> addresses = new List<Address>();
             for (int i = start; i < end; i++)
@@ -303,6 +381,29 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 Assert.True(result[i].Id == saveIds[i]);
                 Assert.NotNull(result[i].User);
             }
+        }
+
+        [Fact]
+        public async Task GetFirstOrDefaultAsync_linq_Full_Parram_NotFound_Success()
+        {
+            int start = 76, end = 80;
+            Dictionary<long, Guid> saveIds = new Dictionary<long, Guid>();
+            List<Address> addresses = new List<Address>();
+            for (int i = start; i < end; i++)
+            {
+                Address u = new Address();
+                u.User = new User();
+                u.User.Id = Guid.NewGuid();
+                u.Id = i;
+                saveIds.Add(u.Id, u.User.Id);
+                addresses.Add(u);
+            }
+            await _repositoryGeneric.InsertRangeAsync(addresses);
+            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            var result = await _repositoryGeneric.FirstOrDefaultAsync(e => e.Id == 10000, i => i.User);
+
+            Assert.Null(result);
         }
     }
 }
