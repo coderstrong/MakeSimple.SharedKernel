@@ -14,10 +14,11 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
     using MakeSimple.SharedKernel.Infrastructure.DTO;
     using MakeSimple.SharedKernel.Infrastructure.Exceptions;
     using System.Net;
+    using System.Reflection;
 
     public static class MediaRExtensions
     {
-        public static IServiceCollection AddMediaRModule(this IServiceCollection services, MediaROptions options)
+        public static IServiceCollection AddMediaRModule(this IServiceCollection services, MediaROptions options = null)
         {
             if (services == null)
             {
@@ -26,12 +27,12 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 
             if (options == null)
             {
-                throw new ArgumentNullException(nameof(options));
+                options = new MediaROptions();
             }
 
-            foreach (var pattern in options.PatternModules)
+            foreach (var pattern in options.EndWithPattern)
             {
-                var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => assembly.GetName().Name.Contains(pattern)).ToList();
+                var assemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies().Where(e => e.Name.EndsWith(pattern)).Select(e => Assembly.Load(e)).ToList();
 
                 foreach (var assembly in assemblies)
                 {
@@ -54,9 +55,16 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 
     public class MediaROptions
     {
-        public bool OnValidatorPipeline { get; set; } = true;
-        public bool OnLoggingPipeline { get; set; } = false;
-        public ICollection<string> PatternModules { get; set; } = new List<string> { ".Application" };
+        public bool OnValidatorPipeline { get; set; }
+        public bool OnLoggingPipeline { get; set; }
+        public ICollection<string> EndWithPattern { get; set; }
+
+        public MediaROptions()
+        {
+            OnValidatorPipeline = true;
+            OnLoggingPipeline = false;
+            EndWithPattern = new List<string> { ".Application" };
+        }
     }
 
     public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
