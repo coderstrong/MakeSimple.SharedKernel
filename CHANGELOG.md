@@ -1,3 +1,7 @@
+[Released]: v1.0.4
+Fix bug audit repository
+[1.0.0]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.4
+
 [Released]: v1.0.3
 [1.0.0]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.3
 
