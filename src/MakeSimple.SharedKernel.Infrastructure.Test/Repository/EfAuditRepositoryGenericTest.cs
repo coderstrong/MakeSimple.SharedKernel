@@ -24,13 +24,16 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
         }
 
         [Fact]
-        public async Task Delete_SuccessAsync()
+        public async Task Insert_and_Delete_SuccessAsync()
         {
             Address u = new Address();
             u.Id = 1;
 
             _repositoryGeneric.Insert(u);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            Assert.NotNull(u.CreatedBy);
+
             await _repositoryGeneric.DeleteAsync(u.Id);
 
             var result = await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();

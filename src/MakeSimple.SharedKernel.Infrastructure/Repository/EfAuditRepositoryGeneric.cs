@@ -26,6 +26,7 @@
         private readonly SieveProcessor _sieveProcessor;
         private readonly IMapper _mapper;
         private readonly ClaimsPrincipal _user;
+        private const string Anonymous = "Anonymous";
 
         public EfAuditRepositoryGeneric(TContext context
             , SieveProcessor sieveProcessor
@@ -39,7 +40,7 @@
                 new List<ClaimsIdentity>()
                 {
                     new ClaimsIdentity(new List<Claim>(){
-                        new Claim(ClaimTypes.Name, "Anonymous")
+                        new Claim(ClaimTypes.Name, Anonymous)
                     })
                 }) : httpContextAccessor.HttpContext.User;
         }
@@ -219,7 +220,7 @@
 
         public TEntity Insert(TEntity entity)
         {
-            entity.CreatedBy = _user.Identity.Name;
+            entity.CreatedBy = _user.Identity.Name ?? Anonymous;
             entity.CreatedAt = DateTime.UtcNow;
 
             return _context.Set<TEntity>().Add(entity).Entity;
@@ -229,7 +230,7 @@
         {
             foreach (var entity in entities)
             {
-                entity.CreatedBy = _user.Identity.Name;
+                entity.CreatedBy = _user.Identity.Name ?? Anonymous;
                 entity.CreatedAt = DateTime.UtcNow;
             }
 
@@ -238,7 +239,7 @@
 
         public void Update(TEntity entity)
         {
-            entity.ModifiedBy = _user.Identity.Name;
+            entity.ModifiedBy = _user.Identity.Name ?? Anonymous;
             entity.ModifiedAt = DateTime.UtcNow;
 
             _context.Set<TEntity>().Update(entity);
