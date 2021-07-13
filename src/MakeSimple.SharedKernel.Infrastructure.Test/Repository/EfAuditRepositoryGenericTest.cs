@@ -378,6 +378,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 , new PaginationQuery(), e => e.User);
 
             Assert.True(result.Count == saveIds.Count);
+            result = result.OrderByDescending(e => e.Id).ToList();
             saveIds = saveIds.OrderByDescending(e => e).ToList();
             for (int i = 0; i < result.Count; i++)
             {

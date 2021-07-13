@@ -6,7 +6,7 @@ namespace MakeSimple.SharedKernel.Helpers
     {
         public static string GenerateId(string guid = null)
         {
-            return string.IsNullOrEmpty(guid) ? guid : Guid.NewGuid().ToString();
+            return guid ?? Guid.NewGuid().ToString();
         }
     }
 }

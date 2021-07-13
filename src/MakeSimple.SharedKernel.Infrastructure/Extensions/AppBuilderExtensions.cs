@@ -41,11 +41,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
                             result = new Response<bool>
                             (
                                 HttpStatusCode.InternalServerError,
-                                new ErrorBase()
-                                {
-                                    Code = "InternalServerError",
-                                    ErrorMessage = "Internal Server Error"
-                                }
+                                new ErrorBase("InternalServerError", "Internal Server Error")
                             );
                         }
                     }
@@ -56,24 +52,24 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
                         result = new Response<bool>
                         (
                             HttpStatusCode.InternalServerError,
-                            new ErrorBase()
-                            {
-                                Code = "Unhandled",
-                                ErrorMessage = "Unhandled"
-                            }
+                            new ErrorBase("Unhandled", "Unhandled")
                         );
                     }
 
                     string jsonResult = JsonSerializer.Serialize(result);
-                    string requestInfo = $"HTTP Request:\n" +
-                    $"\tClaims: {context.User?.CovertToString()}\n" +
-                    $"\tHeaders: {context.Request.Headers?.CovertToString()}\n" +
-                    $"\tBody: {await context.Request.Body?.ReadToEndBufferingAsync()}\n" +
-                    $"\tQueryString: {context.Request.QueryString}\n" +
-                    $"\tResponse: {jsonResult}\n";
 
-                    Log.Error(exception.GetBaseException(), requestInfo);
+                    if (!(exception is ValidationException))
+                    {
+                        string requestInfo = $"HTTP Request:\n" +
+                        $"\tClaims: {context.User?.CovertToString()}\n" +
+                        $"\tHeaders: {context.Request.Headers?.CovertToString()}\n" +
+                        $"\tBody: {await context.Request.Body?.ReadToEndBufferingAsync()}\n" +
+                        $"\tQueryString: {context.Request.QueryString}\n" +
+                        $"\tResponse: {jsonResult}\n";
 
+                        Log.Error(exception.GetBaseException(), requestInfo);
+                    }
+                    
                     context.Response.StatusCode = (int)result.StatusCode;
                     context.Response.ContentType = "application/json";
                     await context.Response.WriteAsync(jsonResult);

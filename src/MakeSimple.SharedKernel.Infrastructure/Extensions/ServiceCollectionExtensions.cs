@@ -157,7 +157,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             if (string.IsNullOrEmpty(serviceVersion)) throw new TryGetKeyNotFoundException(new Response<bool>
             (
                 System.Net.HttpStatusCode.InternalServerError,
-                new ErrorBase() { ErrorMessage = "[CS] ServiceVersion is null or empty.", Code = "ConfigNull" }
+                new ErrorBase("ConfigNull", "[CS] ServiceVersion is null or empty.")
             ));
 
             const string pattern = @"(.)|(-)";
@@ -168,7 +168,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             if (results == null || results.Length < 2) throw new TryGetKeyNotFoundException(new Response<bool>
             (
                 System.Net.HttpStatusCode.InternalServerError,
-                new ErrorBase() { ErrorMessage = "[CS] Could not parse ServiceVersion.", Code = "CouldNotParse" }
+                new ErrorBase("CouldNotParse", "[CS] Could not parse ServiceVersion.")
             ));
 
             if (results.Length > 2)

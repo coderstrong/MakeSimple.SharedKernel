@@ -32,7 +32,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             _repositoryGeneric.Insert(u);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
-            _repositoryGeneric.DeleteAsync(u.Id);
+            await _repositoryGeneric.DeleteAsync(u.Id);
 
             var result = await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
@@ -288,6 +288,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 , new PaginationQuery(), e => e.Class);
 
             Assert.True(result.Count == saveIds.Count);
+            result = result.OrderByDescending(e => e.Id).ToList();
             saveIds = saveIds.OrderByDescending(e => e).ToList();
             for (int i = 0; i < result.Count; i++)
             {

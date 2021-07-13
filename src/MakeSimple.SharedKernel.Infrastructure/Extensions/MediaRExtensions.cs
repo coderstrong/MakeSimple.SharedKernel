@@ -112,11 +112,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
                 throw new ValidationException(new Response<bool>
                             (
                                 HttpStatusCode.BadRequest,
-                                new ErrorBase()
-                                {
-                                    Code = "ValidationError",
-                                    ErrorMessage = string.Join(", ", failures.Select(err => $"{err.PropertyName}: {err.ErrorMessage}").ToArray())
-                                }
+                                new ErrorBase("ValidationError", string.Join(", ", failures.Select(err => $"{err.PropertyName}: {err.ErrorMessage}").ToArray()))
                             ));
             }
 

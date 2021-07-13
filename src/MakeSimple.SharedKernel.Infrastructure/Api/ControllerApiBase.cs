@@ -6,6 +6,7 @@ using System.Net;
 namespace MakeSimple.SharedKernel.Infrastructure.Api
 {
     [Route("api/v{version:apiVersion}/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     [Authorize]
     public class ControllerApiBase : ControllerBase
