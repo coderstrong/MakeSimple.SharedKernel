@@ -1,3 +1,7 @@
+[Released]: v1.0.6
+Move PaginationQuery to MakeSimple.SharedKernel.Contract
+[1.0.0]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.6
+
 [Released]: v1.0.5
 Fix bug error TraceId
 [1.0.0]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.5

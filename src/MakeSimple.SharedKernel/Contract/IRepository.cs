@@ -61,7 +61,7 @@ namespace MakeSimple.SharedKernel.Contract
         Task<List<TEntity>> ToListAsync(
            IEnumerable<Expression<Func<TEntity, bool>>> filters = null
            , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
-           , IPaginationQuery paging = null
+           , PaginationQuery paging = null
            , params Expression<Func<TEntity, object>>[] includes);
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace MakeSimple.SharedKernel.Contract
         /// <exception cref="AutoMapperMappingException">Miss config Automapper</exception>
         /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
         Task<IPaginatedList<DTO>> ToListAsync<DTO>(
-            IPaginationQuery paging
+            PaginationQuery paging
             , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
             , string expandSorts = null
             , IEnumerable<Expression<Func<TEntity, bool>>> filters = null

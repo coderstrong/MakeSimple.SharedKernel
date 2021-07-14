@@ -112,7 +112,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToListAsync<AddressDto>(new PaginationQuery(), filters: filters, expandFilters: "Line1@=line", expandSorts: "-Line1", includes: e => e.User);
+            var result = await _repositoryGeneric.ToListAsync<AddressDto>(new PaginationQueryImp(), filters: filters, expandFilters: "Line1@=line", expandSorts: "-Line1", includes: e => e.User);
 
             Assert.True(result.TotalItems == saveIds.Count);
             var idResults = result.Items.Select(e => e.Id).OrderBy(e => e).ToList();
@@ -168,7 +168,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Address, bool>>> { e => e.Id == new Random().Next(5000, 6000) };
 
-            var result = await _repositoryGeneric.ToListAsync<AddressDto>(new PaginationQuery(), filters: filters);
+            var result = await _repositoryGeneric.ToListAsync<AddressDto>(new PaginationQueryImp(), filters: filters);
 
             Assert.True(result.TotalItems == 0);
         }
@@ -342,7 +342,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var result = await _repositoryGeneric.ToListAsync(filters
                 , e => e.OrderBy(x => x.Id).ThenBy(c => c.Line1)
-                , new PaginationQuery(), e => e.User);
+                , new PaginationQueryImp(), e => e.User);
 
             Assert.True(result.Count == saveIds.Count);
             saveIds = saveIds.OrderBy(e => e).ToList();
@@ -375,7 +375,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var result = await _repositoryGeneric.ToListAsync(filters
                 , null
-                , new PaginationQuery(), e => e.User);
+                , new PaginationQueryImp(), e => e.User);
 
             Assert.True(result.Count == saveIds.Count);
             result = result.OrderByDescending(e => e.Id).ToList();

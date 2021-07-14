@@ -105,7 +105,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Student, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToListAsync<StudentDto>(new PaginationQuery(), filters: filters, expandFilters: "Name@=Name", expandSorts: "-Name");
+            var result = await _repositoryGeneric.ToListAsync<StudentDto>(new PaginationQueryImp(), filters: filters, expandFilters: "Name@=Name", expandSorts: "-Name");
 
             Assert.True(result.TotalItems == saveIds.Count);
             var idResults = result.Items.Select(e => e.Id).OrderBy(e => e).ToList();
@@ -157,7 +157,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var filters = new List<Expression<Func<Student, bool>>> { e => e.Id == new Random().Next(5000, 6000) };
 
-            var result = await _repositoryGeneric.ToListAsync<StudentDto>(new PaginationQuery(), filters: filters);
+            var result = await _repositoryGeneric.ToListAsync<StudentDto>(new PaginationQueryImp(), filters: filters);
 
             Assert.True(result.TotalItems == 0);
         }
@@ -252,7 +252,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var result = await _repositoryGeneric.ToListAsync(filters
                 , e => e.OrderBy(x => x.Id).ThenBy(c => c.Name)
-                , new PaginationQuery(), e => e.Class);
+                , new PaginationQueryImp(), e => e.Class);
 
             Assert.True(result.Count == saveIds.Count);
             saveIds = saveIds.OrderBy(e => e).ToList();
@@ -285,7 +285,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var result = await _repositoryGeneric.ToListAsync(filters
                 , null
-                , new PaginationQuery(), e => e.Class);
+                , new PaginationQueryImp(), e => e.Class);
 
             Assert.True(result.Count == saveIds.Count);
             result = result.OrderByDescending(e => e.Id).ToList();
