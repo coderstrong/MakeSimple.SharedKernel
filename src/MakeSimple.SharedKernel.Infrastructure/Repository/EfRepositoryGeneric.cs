@@ -50,7 +50,7 @@
 
         public async Task<List<TEntity>> ToListAsync(
            IEnumerable<Expression<Func<TEntity, bool>>> filters = null
-           , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, IPaginationQuery paging = null
+           , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, PaginationQuery paging = null
            , params Expression<Func<TEntity, object>>[] includes)
         {
             IQueryable<TEntity> query = _context.Set<TEntity>();
@@ -90,7 +90,7 @@
         }
 
         public async Task<IPaginatedList<DTO>> ToListAsync<DTO>(
-            IPaginationQuery paging
+            PaginationQuery paging
             , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
             , string expandSorts = null
             , IEnumerable<Expression<Func<TEntity, bool>>> filters = null
