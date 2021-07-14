@@ -1,16 +1,13 @@
 ﻿namespace MakeSimple.SharedKernel.Contract
 {
-    using System.Runtime.Serialization;
     /// <summary>
     /// Max page size support is 100 items, default 10 items per page, you can override and change it
     /// </summary>
     public abstract class PaginationQuery
     {
-        [IgnoreDataMember]
-        public virtual int MaxPageSize { get; protected set; } = 100;
+        protected virtual int MaxPageSize { get; } = 100;
 
-        [IgnoreDataMember]
-        public virtual int DefaultPageSize { get; protected set; } = 10;
+        protected virtual int DefaultPageSize { get; set; } = 10;
 
         public int PageNumber { get; set; }
 
@@ -26,15 +23,11 @@
             }
         }
 
-        [IgnoreDataMember]
-        public int Skip
+        public int Skip()
         {
-            get
-            {
-                if (PageNumber == 0)
-                    return 0;
-                return (PageNumber - 1) * PageSize;
-            }
+            if (PageNumber == 0)
+                return 0;
+            return (PageNumber - 1) * PageSize;
         }
     }
 

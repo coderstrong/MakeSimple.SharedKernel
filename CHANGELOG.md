@@ -1,3 +1,8 @@
+[Released]: v1.0.7
+Add new extention support get create datetime Assembly
+Update PaginationQuery access modifier
+[1.0.0]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.7
+
 [Released]: v1.0.6
 Move PaginationQuery to MakeSimple.SharedKernel.Contract
 [1.0.0]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.6
