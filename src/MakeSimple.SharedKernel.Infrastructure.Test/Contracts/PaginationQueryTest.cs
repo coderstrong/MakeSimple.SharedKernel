@@ -9,8 +9,8 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Contracts
         public const int DefaultPageSizeSetting = 10000; 
         public class Implement : PaginationQuery
         {
-            public override int MaxPageSize { get; protected set; } = MaxPageSetting;
-            public override int DefaultPageSize { get; protected set; } = DefaultPageSizeSetting;
+            protected override int MaxPageSize { get; } = MaxPageSetting;
+            protected override int DefaultPageSize { get; set; } = DefaultPageSizeSetting;
         }
 
         [Fact]
@@ -18,12 +18,12 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Contracts
         {
             // Arrange
             Implement u = new Implement();
-
+            u.PageNumber = 1;
+            u.PageSize = DefaultPageSizeSetting;
             // Act
 
             // Assert
-            Assert.True(u.MaxPageSize == MaxPageSetting);
-            Assert.True(u.DefaultPageSize == DefaultPageSizeSetting);
+            Assert.True(u.PageSize == MaxPageSetting);
         }
     }
 }
