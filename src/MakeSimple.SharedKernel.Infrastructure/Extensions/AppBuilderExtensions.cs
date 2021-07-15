@@ -69,7 +69,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 
                         Log.Error(exception.GetBaseException(), requestInfo);
                     }
-                    
+
                     context.Response.StatusCode = (int)result.StatusCode;
                     context.Response.ContentType = "application/json";
                     await context.Response.WriteAsync(jsonResult);

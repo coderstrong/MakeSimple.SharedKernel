@@ -30,5 +30,4 @@
             return (PageNumber - 1) * PageSize;
         }
     }
-
 }
