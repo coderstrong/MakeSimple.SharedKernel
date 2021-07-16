@@ -72,8 +72,8 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             where TContext : DbContext
         {
             services.AddDbContext<TContext>(optionsAction, contextLifetime, optionsLifetime);
-            services.AddScoped(typeof(IAuditRepositoryGeneric<,>), typeof(EfAuditRepositoryGeneric<,>));
-            services.AddScoped(typeof(IRepositoryGeneric<,>), typeof(EfRepositoryGeneric<,>));
+            services.AddScoped(typeof(IAuditRepository<,>), typeof(EfAuditRepositoryGeneric<,>));
+            services.AddScoped(typeof(IRepository<,>), typeof(EfRepositoryGeneric<,>));
             services.AddScoped<SieveProcessor>();
 
             return services;
@@ -83,8 +83,8 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             where TContext : DbContext
         {
             services.AddDbContextPool<TContext>(optionsAction, poolSize);
-            services.AddScoped(typeof(IAuditRepositoryGeneric<,>), typeof(EfAuditRepositoryGeneric<,>));
-            services.AddScoped(typeof(IRepositoryGeneric<,>), typeof(EfRepositoryGeneric<,>));
+            services.AddScoped(typeof(IAuditRepository<,>), typeof(EfAuditRepositoryGeneric<,>));
+            services.AddScoped(typeof(IRepository<,>), typeof(EfRepositoryGeneric<,>));
             services.AddScoped<SieveProcessor>();
 
             return services;

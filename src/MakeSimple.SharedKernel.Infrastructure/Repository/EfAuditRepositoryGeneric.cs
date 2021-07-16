@@ -18,9 +18,9 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    public class EfAuditRepositoryGeneric<TContext, TEntity> : Disposable, IAuditRepositoryGeneric<TContext, TEntity>
+    public class EfAuditRepositoryGeneric<TContext, TEntity> : Disposable, IAuditRepository<TContext, TEntity>
         where TContext : DbContext, IUnitOfWork
-        where TEntity : AuditEntityShared
+        where TEntity : AuditModelShared
     {
         private readonly TContext _context;
         private readonly SieveProcessor _sieveProcessor;

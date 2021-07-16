@@ -13,7 +13,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 {
     public class EfRepositoryGenericTest
     {
-        private readonly IRepositoryGeneric<MyDBContext, Student> _repositoryGeneric;
+        private readonly IRepository<MyDBContext, Student> _repositoryGeneric;
 
         public EfRepositoryGenericTest()
         {

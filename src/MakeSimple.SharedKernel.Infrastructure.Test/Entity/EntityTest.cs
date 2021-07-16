@@ -9,7 +9,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Entity
 {
     public class EntityTest
     {
-        private readonly IAuditRepositoryGeneric<MyDBContext, Address> _repositoryGeneric;
+        private readonly IAuditRepository<MyDBContext, Address> _repositoryGeneric;
 
         public EntityTest()
         {

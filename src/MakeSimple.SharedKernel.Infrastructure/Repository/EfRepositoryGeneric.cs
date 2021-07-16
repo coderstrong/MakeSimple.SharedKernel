@@ -16,9 +16,9 @@
     using System.Net;
     using System.Threading.Tasks;
 
-    public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepositoryGeneric<TContext, TEntity>
+    public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepository<TContext, TEntity>
         where TContext : DbContext, IUnitOfWork
-        where TEntity : EntityShared
+        where TEntity : ModelShared
     {
         private readonly TContext _context;
         private readonly SieveProcessor _sieveProcessor;
