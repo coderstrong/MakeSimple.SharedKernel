@@ -1,0 +1,131 @@
+namespace MakeSimple.SharedKernel.Contract
+{
+    using MakeSimple.SharedKernel.Wrappers;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+
+    public interface IRepositoryCore<TEntity> : IDisposable
+    {
+        /// <summary>
+        /// Unit Of Work Pattern
+        /// </summary>
+        IUnitOfWork UnitOfWork { get; }
+
+        /// <summary>
+        /// Get row by primary key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
+        Task<TEntity> FirstOrDefaultAsync(object key);
+
+        /// <summary>
+        /// Get row by filter
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="includes"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
+        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes);
+
+        /// <summary>
+        /// Get row by primary key and auto mapper to Model DTO
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        /// <exception cref="AutoMapperMappingException">Miss config Automapper</exception>
+        /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
+        Task<IResponse<DTO>> FirstOrDefaultAsync<DTO>(object key);
+
+        /// <summary>
+        /// Get row by filter and auto mapper to Model DTO
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="includes"></param>
+        /// <returns></returns>
+        /// <exception cref="AutoMapperMappingException">Miss config Automapper</exception>
+        /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
+        Task<IResponse<DTO>> FirstOrDefaultAsync<DTO>(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes);
+
+        /// <summary>
+        /// Get data from Database
+        /// </summary>
+        /// <param name="filters"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="paging"></param>
+        /// <param name="includes"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> ToListAsync(
+           IEnumerable<Expression<Func<TEntity, bool>>> filters = null
+           , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
+           , PaginationQuery paging = null
+           , params Expression<Func<TEntity, object>>[] includes);
+
+        /// <summary>
+        /// Get paginated data from Database and auto mapper to Model DTO
+        /// </summary>
+        /// <typeparam name="DTO"></typeparam>
+        /// <param name="paging"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="expandSorts">
+        /// A comma delimited ordered list of property names to sort by. Adding a `-` before the name switches to sorting descendingly.
+        /// Priority low
+        /// </param>
+        /// <param name="filters"></param>
+        /// <param name="expandFilters">
+        /// - A comma delimited list of fields to filter by formatted as `{Name}{Operator}{Value}` where
+        ///     - {Name} is the name of a filterable property. You can also have multiple names (for OR logic) by enclosing them in brackets and using a pipe delimiter, eg. `(LikeCount|CommentCount)>10` asks if LikeCount or CommentCount is >10
+        ///     - {Operator} is one of the Operators below
+        ///     - {Value} is the value to use for filtering. You can also have multiple values (for OR logic) by using a pipe delimiter, eg.`Title@= new|hot` will return posts with titles that contain the text "new" or "hot"
+        ///
+        ///    | Operator | Meaning                       | Operator  | Meaning                                      |
+        ///    | -------- | ----------------------------- | --------- | -------------------------------------------- |
+        ///    | `==`     | Equals                        |  `!@=`    | Does not Contains                            |
+        ///    | `!=`     | Not equals                    |  `!_=`    | Does not Starts with                         |
+        ///    | `>`      | Greater than                  |  `@=*`    | Case-insensitive string Contains             |
+        ///    | `&lt;`   | Less than                     |  `_=*`    | Case-insensitive string Starts with          |
+        ///    | `>=`     | Greater than or equal to      |  `==*`    | Case-insensitive string Equals               |
+        ///    | `&lt;=`  | Less than or equal to         |  `!=*`    | Case-insensitive string Not equals           |
+        ///    | `@=`     | Contains                      |  `!@=*`   | Case-insensitive string does not Contains    |
+        ///    | `_=`     | Starts with                   |  `!_=*`   | Case-insensitive string does not Starts with |
+        /// - Priority low</param>
+        /// <param name="includes"></param>
+        /// <exception cref="AutoMapperMappingException">Miss config Automapper</exception>
+        /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
+        Task<IPaginatedList<DTO>> ToListAsync<DTO>(
+            PaginationQuery paging
+            , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
+            , string expandSorts = null
+            , IEnumerable<Expression<Func<TEntity, bool>>> filters = null
+            , string expandFilters = null
+            , params Expression<Func<TEntity, object>>[] includes);
+
+        /// <summary>
+        /// Insert data to database
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        TEntity Insert(TEntity entity);
+
+        /// <summary>
+        /// Insert range to database
+        /// </summary>
+        /// <param name="entities"></param>
+        Task InsertRangeAsync(IList<TEntity> entities);
+
+        /// <summary>
+        /// Update data to database
+        /// </summary>
+        /// <param name="entity"></param>
+        void Update(TEntity entity);
+
+        /// <summary>
+        /// Delete data to database
+        /// </summary>
+        /// <param name="key"></param>
+        Task DeleteAsync(object key);
+    }
+}

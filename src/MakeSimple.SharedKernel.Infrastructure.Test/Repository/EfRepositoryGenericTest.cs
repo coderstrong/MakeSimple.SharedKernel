@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MakeSimple.SharedKernel.Contract;
-using MakeSimple.SharedKernel.Infrastructure.DTO;
 using MakeSimple.SharedKernel.Infrastructure.Repository;
 using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
 using System;
@@ -14,7 +13,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 {
     public class EfRepositoryGenericTest
     {
-        private readonly IRepositoryGeneric<MyDBContext, Student> _repositoryGeneric;
+        private readonly IRepository<MyDBContext, Student> _repositoryGeneric;
 
         public EfRepositoryGenericTest()
         {

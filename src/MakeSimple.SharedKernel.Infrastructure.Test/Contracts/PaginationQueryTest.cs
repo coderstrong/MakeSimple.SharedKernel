@@ -1,12 +1,13 @@
-﻿
-namespace MakeSimple.SharedKernel.Infrastructure.Test.Contracts
+﻿namespace MakeSimple.SharedKernel.Infrastructure.Test.Contracts
 {
     using MakeSimple.SharedKernel.Contract;
     using Xunit;
+
     public class PaginationQueryTest
     {
         public const int MaxPageSetting = 1000;
-        public const int DefaultPageSizeSetting = 10000; 
+        public const int DefaultPageSizeSetting = 10000;
+
         public class Implement : PaginationQuery
         {
             protected override int MaxPageSize { get; } = MaxPageSetting;

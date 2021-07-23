@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 {
+    using FluentValidation.Results;
     using MakeSimple.SharedKernel.Extensions;
     using MakeSimple.SharedKernel.Infrastructure.DTO;
     using MakeSimple.SharedKernel.Infrastructure.Exceptions;
@@ -100,7 +101,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 
             _logger.LogDebug("Validating command {CommandType}", typeName);
 
-            var failures = _validators
+            IEnumerable<ValidationFailure> failures = _validators
                .Select(v => v.Validate(request))
                .SelectMany(result => result.Errors)
                .Where(error => error != null);
@@ -112,7 +113,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
                 throw new ValidationException(new Response<bool>
                             (
                                 HttpStatusCode.BadRequest,
-                                new ErrorBase("ValidationError", string.Join(", ", failures.Select(err => $"{err.PropertyName}: {err.ErrorMessage}").ToArray()))
+                                new ErrorBase("ValidationError", string.Join(", ", failures.Select(err => err.ErrorMessage).ToArray()))
                             ));
             }
 

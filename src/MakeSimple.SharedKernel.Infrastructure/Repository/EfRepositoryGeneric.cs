@@ -16,9 +16,9 @@
     using System.Net;
     using System.Threading.Tasks;
 
-    public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepositoryGeneric<TContext, TEntity>
+    public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepository<TContext, TEntity>
         where TContext : DbContext, IUnitOfWork
-        where TEntity : EntityShared
+        where TEntity : ModelShared
     {
         private readonly TContext _context;
         private readonly SieveProcessor _sieveProcessor;
@@ -188,7 +188,16 @@
         {
             Guard.NotNull(key, nameof(key));
 
-            return new Response<DTO>(_mapper.Map<DTO>(await _context.Set<TEntity>().FindAsync(key).ConfigureAwait(false)));
+            var item = await _context.Set<TEntity>().FindAsync(key).ConfigureAwait(false);
+
+            if(item!=null)
+            {
+                return new Response<DTO>(_mapper.Map<DTO>(item));
+            }
+            else
+            {
+                return new Response<DTO>(HttpStatusCode.NotFound, new DataNotFoundError("key"));
+            }
         }
 
         public async Task<IResponse<DTO>> FirstOrDefaultAsync<DTO>(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes)
@@ -203,7 +212,16 @@
                     query = query.Include(include);
                 }
             }
-            return new Response<DTO>(await query.ProjectTo<DTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync().ConfigureAwait(false));
+
+            var item = await query.ProjectTo<DTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync().ConfigureAwait(false);
+            if (item != null)
+            {
+                return new Response<DTO>(item);
+            }
+            else
+            {
+                return new Response<DTO>(HttpStatusCode.NotFound);
+            }
         }
 
         public TEntity Insert(TEntity entity)
