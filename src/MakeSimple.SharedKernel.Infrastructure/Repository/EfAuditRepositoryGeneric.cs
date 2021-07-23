@@ -200,7 +200,15 @@
         {
             Guard.NotNull(key, nameof(key));
 
-            return new Response<DTO>(_mapper.Map<DTO>(await _context.Set<TEntity>().FindAsync(key).ConfigureAwait(false)));
+            var item = await _context.Set<TEntity>().FindAsync(key).ConfigureAwait(false);
+            if (item != null)
+            {
+                return new Response<DTO>(_mapper.Map<DTO>(item));
+            }
+            else
+            {
+                return new Response<DTO>(HttpStatusCode.NotFound, new DataNotFoundError("key"));
+            }
         }
 
         public async Task<IResponse<DTO>> FirstOrDefaultAsync<DTO>(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes)
@@ -215,7 +223,16 @@
                     query = query.Include(include);
                 }
             }
-            return new Response<DTO>(await query.ProjectTo<DTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync().ConfigureAwait(false));
+
+            var item = await query.ProjectTo<DTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync().ConfigureAwait(false);
+            if (item != null)
+            {
+                return new Response<DTO>(item);
+            }
+            else
+            {
+                return new Response<DTO>(HttpStatusCode.NotFound);
+            }
         }
 
         public TEntity Insert(TEntity entity)

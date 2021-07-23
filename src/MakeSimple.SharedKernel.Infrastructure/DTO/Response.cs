@@ -25,7 +25,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
             Item = item;
         }
 
-        public Response(HttpStatusCode statusCode, IError error)
+        public Response(HttpStatusCode statusCode, IError error = null)
         {
             StatusCode = statusCode;
             Error = error;
