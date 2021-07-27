@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <SonarQubeExclude>True</SonarQubeExclude>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <PackageIcon>logo.png</PackageIcon>
     <NeutralLanguage>en</NeutralLanguage>
     <ApplicationIcon>logo.ico</ApplicationIcon>
@@ -15,6 +15,8 @@
     <Description>MakeSimple.SharedKernel contains custom base classes for you don't have redundant code</Description>
     <Copyright>JohnnyTran</Copyright>
     <SonarQubeTestProject>False</SonarQubeTestProject>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1701;1702;1591;</NoWarn>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 

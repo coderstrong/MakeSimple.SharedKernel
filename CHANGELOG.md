@@ -1,3 +1,7 @@
+[Released]: v1.0.9
+Remove some setting should be implemented in the project
+[1.0.9]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.9
+
 [Released]: v1.0.8
 Update return error code with api update
 [1.0.8]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.8

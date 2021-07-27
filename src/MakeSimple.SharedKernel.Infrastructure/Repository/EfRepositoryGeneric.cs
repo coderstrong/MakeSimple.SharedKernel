@@ -190,7 +190,7 @@
 
             var item = await _context.Set<TEntity>().FindAsync(key).ConfigureAwait(false);
 
-            if(item!=null)
+            if (item != null)
             {
                 return new Response<DTO>(_mapper.Map<DTO>(item));
             }

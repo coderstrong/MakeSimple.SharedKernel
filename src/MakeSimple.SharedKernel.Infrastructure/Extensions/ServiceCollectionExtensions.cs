@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -7,10 +6,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Reflection;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -28,13 +24,6 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
         public static IServiceCollection AddAutoMapperCore(this IServiceCollection services)
         {
             // To do
-            return services;
-        }
-
-        public static IServiceCollection AddMediatRCore(this IServiceCollection services,
-            IEnumerable<Assembly> registeredAssemblies)
-        {
-            services.AddMediatR(registeredAssemblies.ToArray());
             return services;
         }
 
@@ -105,30 +94,6 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
                     o.AssumeDefaultVersionWhenUnspecified = true;
                     o.DefaultApiVersion = ParseApiVersion(ApiVersion);
                 });
-
-            return services;
-        }
-
-        public static IServiceCollection AddAuthNCore(this IServiceCollection services)
-        {
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            // To do
-
-            return services;
-        }
-
-        public static IServiceCollection AddCorsCore(this IServiceCollection services)
-        {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllRequestPolicy",
-                    policy => policy
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials()
-                        .SetIsOriginAllowedToAllowWildcardSubdomains());
-            });
 
             return services;
         }
