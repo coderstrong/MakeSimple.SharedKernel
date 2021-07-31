@@ -20,9 +20,9 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
 
         public Response(TResponse item)
         {
-            StatusCode = HttpStatusCode.OK;
             Error = null;
             Item = item;
+            StatusCode = HttpStatusCode.OK;
         }
 
         public Response(HttpStatusCode statusCode, IError error = null)

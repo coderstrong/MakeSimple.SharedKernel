@@ -87,6 +87,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
             EndIndex = endIndex;
             Pages = pages;
             Items = items;
+            StatusCode = HttpStatusCode.OK;
         }
 
         [JsonIgnore]

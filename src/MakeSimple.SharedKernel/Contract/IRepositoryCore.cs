@@ -43,7 +43,7 @@ namespace MakeSimple.SharedKernel.Contract
         /// <summary>
         /// Get row by filter and auto mapper to Model DTO
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="filter"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
         /// <exception cref="AutoMapperMappingException">Miss config Automapper</exception>

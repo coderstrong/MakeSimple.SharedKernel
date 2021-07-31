@@ -1,6 +1,10 @@
+[Released]: v1.0.11
+Fixbug missing HttpStatusCode in response PaginatedList
+[1.0.11]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.11
+
 [Released]: v1.0.10
 Use Sieve in MakeSimple.SharedKernel
-[1.0.9]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.9
+[1.0.10]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.10
 
 [Released]: v1.0.9
 Remove some setting should be implemented in the project
