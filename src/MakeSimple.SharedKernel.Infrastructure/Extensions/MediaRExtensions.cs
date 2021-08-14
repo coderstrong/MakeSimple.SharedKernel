@@ -19,7 +19,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 
     public static class MediaRExtensions
     {
-        public static IServiceCollection AddMediaRModule(this IServiceCollection services, MediaROptions options = null)
+        public static void AddMediaRModule(this IServiceCollection services, MediaROptions options = null)
         {
             if (services == null)
             {
@@ -50,7 +50,6 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
                 services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             if (options.OnValidatorPipeline)
                 services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
-            return services;
         }
     }
 
