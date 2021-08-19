@@ -5,15 +5,15 @@ namespace MakeSimple.SharedKernel.Wrappers
 
     public interface IPaginatedList<TResponse> : IDataResult
     {
-        public int TotalItems { get; }
-        public int CurrentPage { get; }
-        public int PageSize { get; }
-        public int TotalPages { get; }
-        public int StartPage { get; }
-        public int EndPage { get; }
-        public int StartIndex { get; }
-        public int EndIndex { get; }
-        public IEnumerable<int> Pages { get; }
-        public ICollection<TResponse> Items { get; }
+        int TotalItems { get; }
+        int CurrentPage { get; }
+        int PageSize { get; }
+        int TotalPages { get; }
+        int StartPage { get; }
+        int EndPage { get; }
+        int StartIndex { get; }
+        int EndIndex { get; }
+        IEnumerable<int> Pages { get; }
+        ICollection<TResponse> Items { get; }
     }
 }
