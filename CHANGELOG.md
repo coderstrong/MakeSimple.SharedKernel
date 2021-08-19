@@ -1,3 +1,7 @@
+[Released]: v1.0.12
+Add more detail error
+[1.0.12]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.12
+
 [Released]: v1.0.11
 Fixbug missing HttpStatusCode in response PaginatedList
 [1.0.11]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.11

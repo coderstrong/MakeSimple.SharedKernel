@@ -9,5 +9,7 @@ namespace MakeSimple.SharedKernel.Contract
         string Uuid { get; }
 
         Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default);
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

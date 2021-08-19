@@ -11,13 +11,13 @@ namespace MakeSimple.SharedKernel.Infrastructure.Exceptions
         public IDataResult DataResult { get; private set; }
 
         protected BaseException(IDataResult errorResult)
-            : base(errorResult.Error.ErrorMessage)
+            : base(errorResult.Error.Message)
         {
             DataResult = errorResult;
         }
 
         protected BaseException(IDataResult errorResult, Exception innerException)
-            : base(errorResult.Error.ErrorMessage, innerException)
+            : base(errorResult.Error.Message, innerException)
         {
             DataResult = errorResult;
         }
