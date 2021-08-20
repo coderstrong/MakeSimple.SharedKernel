@@ -185,7 +185,7 @@
         {
             Guard.NotNull(filter, nameof(filter));
 
-            var query = _context.Set<TEntity>().AsNoTracking().Where(filter);
+            var query = _context.Set<TEntity>().Where(filter);
             if (includes != null && includes.Length > 0)
             {
                 foreach (var include in includes)
