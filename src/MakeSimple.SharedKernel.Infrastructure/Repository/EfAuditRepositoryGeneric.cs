@@ -20,7 +20,7 @@
 
     public class EfAuditRepositoryGeneric<TContext, TEntity> : Disposable, IAuditRepository<TContext, TEntity>
         where TContext : DbContext, IUnitOfWork
-        where TEntity : AuditModelShared
+        where TEntity : AuditEntity
     {
         private readonly TContext _context;
         private readonly SieveProcessor _sieveProcessor;
@@ -185,7 +185,7 @@
         {
             Guard.NotNull(filter, nameof(filter));
 
-            var query = _context.Set<TEntity>().AsNoTracking().Where(filter);
+            var query = _context.Set<TEntity>().Where(filter);
             if (includes != null && includes.Length > 0)
             {
                 foreach (var include in includes)

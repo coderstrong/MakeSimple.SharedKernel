@@ -4,13 +4,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Sieve.Attributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
 {
-    public class Address : AuditEntity<long>
+    public class Address : AuditEntity
     {
+        [Sieve(CanFilter = true, CanSort = true)]
+        [Key]
+        public long Id { get; set; }
         [Sieve(CanFilter = true, CanSort = true)]
         public string Line1 { get; set; }
 
@@ -21,8 +25,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
         public Guid? UserId { get; set; }
     }
 
-    public class Course : Entity<Guid>
+    public class Course : Entity
     {
+        [Key]
+        public Guid Id { get; set; }
         [Sieve(CanFilter = true, CanSort = true)]
         public string Name { get; set; }
 
@@ -62,8 +68,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
         //entities
     }
 
-    public class Student : Entity<long>
+    public class Student : Entity
     {
+        [Key]
+        public long Id { get; set; }
         public virtual Course Class { get; set; }
         public Guid? ClassId { get; set; }
 
@@ -71,8 +79,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
         public string Name { get; set; }
     }
 
-    public class User : AuditEntity<Guid>
+    public class User : AuditEntity
     {
+        [Key]
+        public Guid Id { get; set; }
         public virtual ICollection<Address> Address { get; set; }
         public string Password { get; set; }
 
@@ -93,8 +103,9 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
         public Guid? UserId { get; set; }
     }
 
-    public class ClassDto : Entity<Guid>
+    public class ClassDto : Entity
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public ICollection<Student> Students { get; set; }
     }
@@ -107,8 +118,9 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
         public string Name { get; set; }
     }
 
-    public class UserDto : AuditEntity<Guid>
+    public class UserDto : AuditEntity
     {
+        public Guid Id { get; set; }
         public ICollection<Address> Address { get; set; }
         public string UserName { get; set; }
     }

@@ -1,10 +1,6 @@
-using Sieve.Attributes;
-
 namespace MakeSimple.SharedKernel.Contract
 {
-    public abstract class Entity<T> : ModelShared
+    public abstract class Entity : ModelShared
     {
-        [Sieve(CanFilter = true, CanSort = true)]
-        public T Id { get; set; }
     }
 }

@@ -1,3 +1,7 @@
+[Released]: v1.0.13
+20-08-2021: Remove AsNoTracking() Concurrency Conflicts SaveChanges entity have child update
+[1.0.13]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.12
+
 [Released]: v1.0.12
 Add more detail error
 [1.0.12]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.12
