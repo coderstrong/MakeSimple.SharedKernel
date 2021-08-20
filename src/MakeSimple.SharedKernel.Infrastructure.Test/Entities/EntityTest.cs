@@ -5,7 +5,7 @@ using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MakeSimple.SharedKernel.Infrastructure.Test.Entity
+namespace MakeSimple.SharedKernel.Infrastructure.Test.Entities
 {
     public class EntityTest
     {

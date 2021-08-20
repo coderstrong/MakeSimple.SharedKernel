@@ -2,7 +2,7 @@
 {
     public interface IAuditRepository<TContext, TEntity> : IRepositoryCore<TEntity>
         where TContext : IUnitOfWork
-        where TEntity : AuditModelShared
+        where TEntity : AuditEntity
     {
     }
 }

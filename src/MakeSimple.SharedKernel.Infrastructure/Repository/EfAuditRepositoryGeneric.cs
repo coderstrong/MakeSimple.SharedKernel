@@ -20,7 +20,7 @@
 
     public class EfAuditRepositoryGeneric<TContext, TEntity> : Disposable, IAuditRepository<TContext, TEntity>
         where TContext : DbContext, IUnitOfWork
-        where TEntity : AuditModelShared
+        where TEntity : AuditEntity
     {
         private readonly TContext _context;
         private readonly SieveProcessor _sieveProcessor;
