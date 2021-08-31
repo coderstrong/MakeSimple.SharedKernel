@@ -1,5 +1,6 @@
 ﻿using MakeSimple.SharedKernel.Contract;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Sieve.Attributes;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
 {
-    public class Address : AuditEntity
+    public class Address : AuditableEntity
     {
         [Sieve(CanFilter = true, CanSort = true)]
         [Key]
@@ -49,6 +50,28 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
+            foreach (EntityEntry<Entity> entry in ChangeTracker.Entries<Entity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        if (entry.Entity is AuditableEntity addAuditable)
+                        {
+                            addAuditable.CreatedBy = "test";
+                        }
+                        entry.Entity.CreatedAt = DateTime.Now;
+                        break;
+
+                    case EntityState.Modified:
+                        if (entry.Entity is AuditableEntity modifiAuditable)
+                        {
+                            modifiAuditable.LastModifiedBy = "test";
+                        }
+                        entry.Entity.LastModifiedAt = DateTime.Now;
+                        break;
+                }
+            }
+
             return (await SaveChangesAsync(cancellationToken)) > 0;
         }
 
@@ -79,7 +102,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
         public string Name { get; set; }
     }
 
-    public class User : AuditEntity
+    public class User : AuditableEntity
     {
         [Key]
         public Guid Id { get; set; }
@@ -118,7 +141,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
         public string Name { get; set; }
     }
 
-    public class UserDto : AuditEntity
+    public class UserDto : AuditableEntity
     {
         public Guid Id { get; set; }
         public ICollection<Address> Address { get; set; }

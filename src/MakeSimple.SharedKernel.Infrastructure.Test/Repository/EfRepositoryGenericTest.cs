@@ -14,13 +14,16 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
     public class EfRepositoryGenericTest
     {
         private readonly IRepository<MyDBContext, Student> _repositoryGeneric;
+        private readonly IRepository<MyDBContext, User> _repositoryAuditGeneric;
 
         public EfRepositoryGenericTest()
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Student, StudentDto>().ReverseMap());
-
+            var config2 = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDto>().ReverseMap());
             _repositoryGeneric = new EfRepositoryGeneric<MyDBContext, Student>(
                 new MyDBContext(), SieveMock.Create(), new Mapper(config));
+            _repositoryAuditGeneric = new EfRepositoryGeneric<MyDBContext, User>(
+                new MyDBContext(), SieveMock.Create(), new Mapper(config2));
         }
 
         [Fact]
@@ -52,7 +55,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             var result = await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
             var dataFromDb = await _repositoryGeneric.FirstOrDefaultAsync(u.Id);
             Assert.True(result);
-            Assert.NotNull(u.ModifiedAt);
+            Assert.NotNull(u.LastModifiedAt);
             Assert.Equal(dataFromDb.Name, u.Name);
         }
 
@@ -396,6 +399,101 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             var result = await _repositoryGeneric.FirstOrDefaultAsync(e => e.Id == 10000, i => i.Class);
 
             Assert.Null(result);
+        }
+
+        // Audit
+        [Fact]
+        public async Task Delete_Audit_SuccessAsync()
+        {
+            User u = new User();
+            u.Id = Guid.NewGuid();
+
+            _repositoryAuditGeneric.Insert(u);
+            await _repositoryAuditGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _repositoryAuditGeneric.DeleteAsync(u.Id);
+
+            var result = await _repositoryAuditGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task Update_Audit_SuccessAsync()
+        {
+            User u = new User();
+            u.Id = Guid.NewGuid();
+
+            _repositoryAuditGeneric.Insert(u);
+            await _repositoryAuditGeneric.UnitOfWork.SaveEntitiesAsync();
+            u.UserName = "Test";
+            _repositoryAuditGeneric.Update(u);
+
+            var result = await _repositoryAuditGeneric.UnitOfWork.SaveEntitiesAsync();
+            var dataFromDb = await _repositoryAuditGeneric.FirstOrDefaultAsync(u.Id);
+            Assert.True(result);
+            Assert.NotNull(u.LastModifiedAt);
+            Assert.NotNull(u.LastModifiedBy);
+            Assert.Equal(dataFromDb.UserName, u.UserName);
+        }
+
+        [Fact]
+        public async Task GetAllAsync_Audit_Success()
+        {
+            int start = 10, end = 15;
+            List<Guid> saveIds = new List<Guid>();
+            List<User> Studentes = new List<User>();
+            for (int i = start; i < end; i++)
+            {
+                User u = new User();
+                u.Id = Guid.NewGuid();
+                saveIds.Add(u.Id);
+                Studentes.Add(u);
+            }
+            await _repositoryAuditGeneric.InsertRangeAsync(Studentes);
+            await _repositoryAuditGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            var filters = new List<Expression<Func<User, bool>>> { e => saveIds.Contains(e.Id) };
+
+            var result = await _repositoryAuditGeneric.ToListAsync(filters);
+
+            Assert.True(result.Count == saveIds.Count);
+            var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
+            saveIds = saveIds.OrderBy(e => e).ToList();
+            Assert.False(result.Any(e => string.IsNullOrEmpty(e.CreatedBy)));
+            for (int i = 0; i < idResults.Count; i++)
+            {
+                Assert.True(idResults[i] == saveIds[i]);
+            }
+        }
+
+        [Fact]
+        public async Task GetAllAsync_Audit_Paginated_Success()
+        {
+            int start = 10, end = 15;
+            List<Guid> saveIds = new List<Guid>();
+            List<User> Studentes = new List<User>();
+            for (int i = start; i < end; i++)
+            {
+                User u = new User();
+                u.Id = Guid.NewGuid();
+                u.UserName = "UserName";
+                saveIds.Add(u.Id);
+                Studentes.Add(u);
+            }
+            await _repositoryAuditGeneric.InsertRangeAsync(Studentes);
+            await _repositoryAuditGeneric.UnitOfWork.SaveEntitiesAsync();
+
+            var filters = new List<Expression<Func<User, bool>>> { e => saveIds.Contains(e.Id) };
+
+            var result = await _repositoryAuditGeneric.ToListAsync<UserDto>(new PaginationQueryImp(), filters: filters, expandFilters: "UserName@=UserName", expandSorts: "-UserName");
+
+            Assert.True(result.TotalItems == saveIds.Count);
+            var idResults = result.Items.Select(e => e.Id).OrderBy(e => e).ToList();
+            saveIds = saveIds.OrderBy(e => e).ToList();
+            for (int i = 0; i < idResults.Count; i++)
+            {
+                Assert.True(idResults[i] == saveIds[i]);
+            }
         }
     }
 }

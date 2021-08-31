@@ -9,13 +9,13 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Entities
 {
     public class EntityTest
     {
-        private readonly IAuditRepository<MyDBContext, Address> _repositoryGeneric;
+        private readonly IRepository<MyDBContext, Address> _repositoryGeneric;
 
         public EntityTest()
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Address, AddressDto>().ReverseMap());
-            _repositoryGeneric = new EfAuditRepositoryGeneric<MyDBContext, Address>(
-                new MyDBContext(), SieveMock.Create(), new Mapper(config), DummyDataForTest.CreateHttpContext());
+            _repositoryGeneric = new EfRepositoryGeneric<MyDBContext, Address>(
+                new MyDBContext(), SieveMock.Create(), new Mapper(config));
         }
 
         //[Fact]

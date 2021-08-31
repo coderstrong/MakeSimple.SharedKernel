@@ -13,8 +13,8 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Register db context
-        /// Library Sieve
+        /// Register db context,
+        /// Library Sieve,
         /// RepositoryGeneric
         /// </summary>
         /// <typeparam name="TContext"></typeparam>
@@ -27,16 +27,23 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             where TContext : DbContext
         {
             services.AddDbContext<TContext>(optionsAction, contextLifetime, optionsLifetime);
-            services.AddScoped(typeof(IAuditRepository<,>), typeof(EfAuditRepositoryGeneric<,>));
             services.AddScoped(typeof(IRepository<,>), typeof(EfRepositoryGeneric<,>));
             services.AddScoped<SieveProcessor>();
         }
 
+        /// <summary>
+        /// Register db context,
+        /// Library Sieve,
+        /// RepositoryGeneric
+        /// </summary>
+        /// <typeparam name="TContext"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="optionsAction"></param>
+        /// <param name="poolSize"></param>
         public static void AddEfDbContextPool<TContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionsAction = null, int poolSize = 128)
             where TContext : DbContext
         {
             services.AddDbContextPool<TContext>(optionsAction, poolSize);
-            services.AddScoped(typeof(IAuditRepository<,>), typeof(EfAuditRepositoryGeneric<,>));
             services.AddScoped(typeof(IRepository<,>), typeof(EfRepositoryGeneric<,>));
             services.AddScoped<SieveProcessor>();
         }

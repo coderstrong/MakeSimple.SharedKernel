@@ -18,7 +18,7 @@
 
     public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepository<TContext, TEntity>
         where TContext : DbContext, IUnitOfWork
-        where TEntity : ModelShared
+        where TEntity : Entity
     {
         private readonly TContext _context;
         private readonly SieveProcessor _sieveProcessor;
@@ -226,25 +226,16 @@
 
         public TEntity Insert(TEntity entity)
         {
-            entity.CreatedAt = DateTime.UtcNow;
-
             return _context.Set<TEntity>().Add(entity).Entity;
         }
 
         public async Task InsertRangeAsync(IList<TEntity> entities)
         {
-            foreach (var entity in entities)
-            {
-                entity.CreatedAt = DateTime.UtcNow;
-            }
-
             await _context.Set<TEntity>().AddRangeAsync(entities).ConfigureAwait(false);
         }
 
         public void Update(TEntity entity)
         {
-            entity.ModifiedAt = DateTime.UtcNow;
-
             _context.Set<TEntity>().Update(entity);
         }
 
