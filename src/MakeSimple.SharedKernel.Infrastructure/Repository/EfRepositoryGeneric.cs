@@ -247,5 +247,10 @@
 
             _context.Set<TEntity>().Update(entity);
         }
+
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter)
+        {
+            return await _context.Set<TEntity>().AnyAsync(filter).ConfigureAwait(false);
+        }
     }
 }

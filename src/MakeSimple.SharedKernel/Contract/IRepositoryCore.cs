@@ -127,5 +127,12 @@ namespace MakeSimple.SharedKernel.Contract
         /// </summary>
         /// <param name="key"></param>
         Task DeleteAsync(object key);
+
+        /// <summary>
+        /// Check exist record on database by filter
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter);
     }
 }
