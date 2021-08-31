@@ -1,6 +1,14 @@
-namespace MakeSimple.SharedKernel.Contract
+﻿namespace MakeSimple.SharedKernel.Contract
 {
-    public abstract class Entity : ModelShared
+    using Sieve.Attributes;
+    using System;
+
+    public abstract class Entity
     {
+        [Sieve(CanFilter = true, CanSort = true)]
+        public DateTime CreatedAt { get; set; }
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public DateTime? LastModifiedAt { get; set; }
     }
 }
