@@ -5,7 +5,7 @@ namespace MakeSimple.SharedKernel.Wrappers
     using System.Collections.Generic;
     using System.Linq;
 
-    public class PaginatedList<TResponse> : ValueObject
+    public class PaginatedList<TResponse> : ValueObject, IDataResult
     {
         public PaginatedList()
         {

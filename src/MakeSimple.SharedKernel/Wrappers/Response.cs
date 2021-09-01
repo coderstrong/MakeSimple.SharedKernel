@@ -3,7 +3,7 @@ namespace MakeSimple.SharedKernel.Wrappers
     using MakeSimple.SharedKernel.Contract;
     using System.Collections.Generic;
 
-    public class Response<TResponse> : ValueObject
+    public class Response<TResponse> : ValueObject, IDataResult
     {
         public TResponse Item { get; private set; }
 
