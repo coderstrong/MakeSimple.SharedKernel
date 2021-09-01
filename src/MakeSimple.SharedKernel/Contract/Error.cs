@@ -3,7 +3,7 @@ using System.Net;
 
 namespace MakeSimple.SharedKernel.Contract
 {
-    public class Error
+    public class Error : IDataResult
     {
         public string Code { get; }
         public string Message { get; }
