@@ -3,7 +3,6 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using MakeSimple.SharedKernel.Contract;
-    using MakeSimple.SharedKernel.Infrastructure.DTO;
     using MakeSimple.SharedKernel.Utils;
     using MakeSimple.SharedKernel.Wrappers;
     using Microsoft.EntityFrameworkCore;
@@ -13,7 +12,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Net;
     using System.Threading.Tasks;
 
     public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepository<TContext, TEntity>
@@ -89,7 +87,7 @@
             return await query.AsNoTracking().ToListAsync();
         }
 
-        public async Task<IPaginatedList<DTO>> ToListAsync<DTO>(
+        public async Task<PaginatedList<DTO>> ToListAsync<DTO>(
             PaginationQuery paging
             , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
             , string expandSorts = null
@@ -156,10 +154,13 @@
                     , paging.PageSize
                     );
             }
-            else
-            {
-                return new PaginatedList<DTO>(HttpStatusCode.NotFound);
-            }
+
+            return new PaginatedList<DTO>(
+                    new List<DTO>()
+                    , totalItems
+                    , paging.PageNumber
+                    , paging.PageSize
+                    );
         }
 
         public async Task<TEntity> FirstOrDefaultAsync(object key)
@@ -181,10 +182,11 @@
                     query = query.Include(include);
                 }
             }
+
             return await query.FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public async Task<IResponse<DTO>> FirstOrDefaultAsync<DTO>(object key)
+        public async Task<Response<DTO>> FindAsync<DTO>(object key)
         {
             Guard.NotNull(key, nameof(key));
 
@@ -196,11 +198,11 @@
             }
             else
             {
-                return new Response<DTO>(HttpStatusCode.NotFound, new DataNotFoundError("key"));
+                throw new KeyNotFoundException();
             }
         }
 
-        public async Task<IResponse<DTO>> FirstOrDefaultAsync<DTO>(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes)
+        public async Task<Response<DTO>> FindAsync<DTO>(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes)
         {
             Guard.NotNull(filter, nameof(filter));
 
@@ -220,7 +222,7 @@
             }
             else
             {
-                return new Response<DTO>(HttpStatusCode.NotFound);
+                throw new KeyNotFoundException();
             }
         }
 

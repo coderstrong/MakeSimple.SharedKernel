@@ -202,7 +202,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(Studentes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync<StudentDto>(saveIds[2]);
+            var result = await _repositoryGeneric.FindAsync<StudentDto>(saveIds[2]);
 
             Assert.NotNull(result);
             Assert.Equal(result.Item.Id, saveIds[2]);
@@ -346,7 +346,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             await _repositoryGeneric.InsertRangeAsync(Studentes);
             await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync<StudentDto>(e => e.Id == saveIds[2], i => i.Class);
+            var result = await _repositoryGeneric.FindAsync<StudentDto>(e => e.Id == saveIds[2], i => i.Class);
 
             Assert.NotNull(result.Item);
             Assert.NotNull(result.Item.Class);

@@ -1,4 +1,4 @@
-﻿using MakeSimple.SharedKernel.Infrastructure.DTO;
+﻿using MakeSimple.SharedKernel.Contract;
 using System.Net;
 using Xunit;
 
@@ -9,14 +9,11 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Exceptions
         [Fact]
         public void CreateResponseException_Success()
         {
-            var result = new Response<bool>
-                            (
-                                HttpStatusCode.InternalServerError,
-                                new ErrorBase("InternalServerError", "Internal Server Error")
-                            );
+            var result = Error.Create("InternalServerError", "Internal Server Error", HttpStatusCode.InternalServerError);
 
-            Assert.NotNull(result.Error);
-            Assert.NotNull(result.Error.TraceId);
+            Assert.NotNull(result.Code);
+            Assert.NotNull(result.Message);
+            Assert.NotNull(result.TraceId);
         }
     }
 }

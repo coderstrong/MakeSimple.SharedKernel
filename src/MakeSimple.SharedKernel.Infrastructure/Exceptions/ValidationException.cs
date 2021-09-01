@@ -1,22 +1,21 @@
 ﻿using MakeSimple.SharedKernel.Contract;
 using System;
+using System.Runtime.Serialization;
 
 namespace MakeSimple.SharedKernel.Infrastructure.Exceptions
 {
-    /// <summary>
-    /// No log when throw this exception
-    /// </summary>
-#pragma warning disable S3925 // "ISerializable" should be implemented correctly
-
     public class ValidationException : BaseException
-#pragma warning restore S3925 // "ISerializable" should be implemented correctly
     {
-        public ValidationException(IDataResult errorResult)
+        public ValidationException(Error errorResult)
             : base(errorResult)
         { }
 
-        public ValidationException(IDataResult errorResult, Exception innerException)
+        public ValidationException(Error errorResult, Exception innerException)
             : base(errorResult, innerException)
+        { }
+
+        protected ValidationException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         { }
     }
 }
