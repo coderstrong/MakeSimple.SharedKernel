@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 namespace MakeSimple.SharedKernel.Infrastructure.Extensions
 {
     using FluentValidation.Results;
+    using MakeSimple.SharedKernel.Contract;
     using MakeSimple.SharedKernel.Extensions;
-    using MakeSimple.SharedKernel.Infrastructure.DTO;
     using MakeSimple.SharedKernel.Infrastructure.Exceptions;
     using System.Net;
     using System.Reflection;
@@ -109,11 +109,8 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             {
                 _logger.LogWarning("Validation errors - {typeName} - Command: {@request} - Errors: {@failures}", typeName, request, failures);
 
-                throw new ValidationException(new Response<bool>
-                            (
-                                HttpStatusCode.BadRequest,
-                                new ErrorBase("ValidationError", string.Join(", ", failures.Select(err => err.ErrorMessage).ToArray()))
-                            ));
+                throw new ValidationException(Error.Create("ValidationError", string.Join(", ", failures.Select(err => err.ErrorMessage).ToArray())
+                    , HttpStatusCode.BadRequest));
             }
 
             return await next();

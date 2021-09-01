@@ -1,20 +1,14 @@
-namespace MakeSimple.SharedKernel.Infrastructure.DTO
+namespace MakeSimple.SharedKernel.Wrappers
 {
     using MakeSimple.SharedKernel.Contract;
-    using MakeSimple.SharedKernel.Wrappers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
-    using System.Text.Json.Serialization;
 
-    public class PaginatedList<TResponse> : ValueObject, IPaginatedList<TResponse>
+    public class PaginatedList<TResponse> : ValueObject
     {
-        public PaginatedList(HttpStatusCode statusCode
-            , IError error = null)
+        public PaginatedList()
         {
-            StatusCode = statusCode;
-            Error = error;
             Items = default;
         }
 
@@ -87,11 +81,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
             EndIndex = endIndex;
             Pages = pages;
             Items = items;
-            StatusCode = HttpStatusCode.OK;
         }
-
-        [JsonIgnore]
-        public HttpStatusCode StatusCode { get; set; }
 
         public int TotalItems { get; private set; }
         public int CurrentPage { get; private set; }
@@ -103,13 +93,6 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
         public int EndIndex { get; private set; }
         public IEnumerable<int> Pages { get; private set; }
         public ICollection<TResponse> Items { get; }
-        public IError Error { get; set; }
-
-        public void CopyFrom(IDataResult source)
-        {
-            StatusCode = source.StatusCode;
-            Error = source.Error;
-        }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
@@ -122,8 +105,6 @@ namespace MakeSimple.SharedKernel.Infrastructure.DTO
             yield return StartIndex;
             yield return EndIndex;
             yield return Items;
-            yield return StatusCode;
-            yield return Error;
         }
     }
 }
