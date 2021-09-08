@@ -205,7 +205,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             var result = await _repositoryGeneric.FindAsync<StudentDto>(saveIds[2]);
 
             Assert.NotNull(result);
-            Assert.Equal(result.Item.Id, saveIds[2]);
+            Assert.Equal(result.Id, saveIds[2]);
         }
 
         [Fact]
@@ -348,9 +348,9 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 
             var result = await _repositoryGeneric.FindAsync<StudentDto>(e => e.Id == saveIds[2], i => i.Class);
 
-            Assert.NotNull(result.Item);
-            Assert.NotNull(result.Item.Class);
-            Assert.Equal(result.Item.Id, saveIds[2]);
+            Assert.NotNull(result);
+            Assert.NotNull(result.Class);
+            Assert.Equal(result.Id, saveIds[2]);
         }
 
         [Fact]

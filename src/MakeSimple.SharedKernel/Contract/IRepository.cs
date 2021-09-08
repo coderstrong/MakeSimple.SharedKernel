@@ -41,7 +41,7 @@ namespace MakeSimple.SharedKernel.Contract
         /// <exception cref="AutoMapperMappingException">Miss config Automapper</exception>
         /// <exception cref="KeyNotFoundException">Miss config Automapper</exception>
         /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
-        Task<Response<DTO>> FindAsync<DTO>(object key);
+        Task<DTO> FindAsync<DTO>(object key);
 
         /// <summary>
         /// Get row by filter and auto mapper to Model DTO
@@ -52,7 +52,7 @@ namespace MakeSimple.SharedKernel.Contract
         /// <exception cref="AutoMapperMappingException">Miss config Automapper</exception>
         /// <exception cref="KeyNotFoundException">Miss config Automapper</exception>
         /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
-        Task<Response<DTO>> FindAsync<DTO>(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes);
+        Task<DTO> FindAsync<DTO>(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes);
 
         /// <summary>
         /// Get data from Database

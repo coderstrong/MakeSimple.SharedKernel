@@ -1,26 +1,27 @@
-using MakeSimple.SharedKernel.Helpers;
-using System.Net;
-
 namespace MakeSimple.SharedKernel.Contract
 {
+    using MakeSimple.SharedKernel.Helpers;
+    using System.Collections.Generic;
+
     public class Error : IDataResult
     {
         public string Code { get; }
         public string Message { get; }
-        public HttpStatusCode StatusCode { get; set; }
         public string TraceId { get; }
 
-        protected Error(string code, string message, HttpStatusCode statusCode)
+        public Dictionary<string, string> Details { get; }
+
+        protected Error(string code, string message, Dictionary<string, string> details = null)
         {
             Code = code;
             Message = message;
-            StatusCode = statusCode;
             TraceId = UuuidHelper.GenerateId();
+            Details = details;
         }
 
-        public static Error Create(string code, string message, HttpStatusCode statusCode)
+        public static Error Create(string code, string message, Dictionary<string, string> details = null)
         {
-            return new Error(code, message, statusCode);
+            return new Error(code, message, details);
         }
     }
 }
