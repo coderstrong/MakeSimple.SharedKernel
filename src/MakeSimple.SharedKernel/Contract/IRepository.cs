@@ -1,10 +1,10 @@
 namespace MakeSimple.SharedKernel.Contract
 {
-    using MakeSimple.SharedKernel.Wrappers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Threading;
     using System.Threading.Tasks;
 
     public interface IRepository<TContext, TEntity> : IDisposable
@@ -20,39 +20,43 @@ namespace MakeSimple.SharedKernel.Contract
         /// Get row by primary key
         /// </summary>
         /// <param name="key"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
-        Task<TEntity> FirstOrDefaultAsync(object key);
+        Task<TEntity> FirstOrDefaultAsync(object key, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get row by filter
         /// </summary>
         /// <param name="filter"></param>
+        /// <param name="cancellationToken"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
         /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
-        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes);
+        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includes);
 
         /// <summary>
         /// Get row by primary key and auto mapper to Model DTO
         /// </summary>
         /// <param name="key"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="AutoMapperMappingException">Miss config Automapper</exception>
         /// <exception cref="KeyNotFoundException">Miss config Automapper</exception>
         /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
-        Task<DTO> FindAsync<DTO>(object key);
+        Task<DTO> FindAsync<DTO>(object key, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get row by filter and auto mapper to Model DTO
         /// </summary>
         /// <param name="filter"></param>
+        /// <param name="cancellationToken"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
         /// <exception cref="AutoMapperMappingException">Miss config Automapper</exception>
         /// <exception cref="KeyNotFoundException">Miss config Automapper</exception>
         /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
-        Task<DTO> FindAsync<DTO>(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes);
+        Task<DTO> FindAsync<DTO>(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includes);
 
         /// <summary>
         /// Get data from Database
@@ -60,12 +64,13 @@ namespace MakeSimple.SharedKernel.Contract
         /// <param name="filters"></param>
         /// <param name="orderBy"></param>
         /// <param name="paging"></param>
+        /// <param name="cancellationToken"></param>
         /// <param name="includes"></param>
         /// <returns></returns>
-        Task<List<TEntity>> ToListAsync(
-           IEnumerable<Expression<Func<TEntity, bool>>> filters = null
+        Task<IList<TEntity>> ToListAsync(IEnumerable<Expression<Func<TEntity, bool>>> filters = null
            , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
            , PaginationQuery paging = null
+           , CancellationToken cancellationToken = default
            , params Expression<Func<TEntity, object>>[] includes);
 
         /// <summary>
@@ -80,6 +85,7 @@ namespace MakeSimple.SharedKernel.Contract
         /// </param>
         /// <param name="filters"></param>
         /// <param name="expandFilters">
+        /// <param name="cancellationToken"></param>
         /// - A comma delimited list of fields to filter by formatted as `{Name}{Operator}{Value}` where
         ///     - {Name} is the name of a filterable property. You can also have multiple names (for OR logic) by enclosing them in brackets and using a pipe delimiter, eg. `(LikeCount|CommentCount)>10` asks if LikeCount or CommentCount is >10
         ///     - {Operator} is one of the Operators below
@@ -99,12 +105,13 @@ namespace MakeSimple.SharedKernel.Contract
         /// <param name="includes"></param>
         /// <exception cref="AutoMapperMappingException">Miss config Automapper</exception>
         /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
-        Task<PaginatedList<DTO>> ToListAsync<DTO>(
+        Task<IList<DTO>> ToListAsync<DTO>(
             PaginationQuery paging
             , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
             , string expandSorts = null
             , IEnumerable<Expression<Func<TEntity, bool>>> filters = null
             , string expandFilters = null
+            , CancellationToken cancellationToken = default
             , params Expression<Func<TEntity, object>>[] includes);
 
         /// <summary>
@@ -118,7 +125,8 @@ namespace MakeSimple.SharedKernel.Contract
         /// Insert range to database
         /// </summary>
         /// <param name="entities"></param>
-        Task InsertRangeAsync(IList<TEntity> entities);
+        /// <param name="cancellationToken"></param>
+        Task InsertRangeAsync(IList<TEntity> entities, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Update data to database
@@ -130,13 +138,15 @@ namespace MakeSimple.SharedKernel.Contract
         /// Delete data to database
         /// </summary>
         /// <param name="key"></param>
-        Task DeleteAsync(object key);
+        /// <param name="cancellationToken"></param>
+        Task DeleteAsync(object key, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Check exist record on database by filter
         /// </summary>
         /// <param name="filter"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter);
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default);
     }
 }

@@ -13,6 +13,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Threading;
     using System.Threading.Tasks;
 
     public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepository<TContext, TEntity>
@@ -40,16 +41,17 @@
             }
         }
 
-        public virtual async Task DeleteAsync(object key)
+        public virtual async Task DeleteAsync(object key, CancellationToken cancellationToken = default)
         {
-            var entity = await _context.Set<TEntity>().FindAsync(key).ConfigureAwait(false);
+            var entity = await _context.Set<TEntity>().FindAsync(new object[] { key }, cancellationToken).ConfigureAwait(false);
             if (entity != null)
                 _context.Set<TEntity>().Remove(entity);
         }
 
-        public async Task<List<TEntity>> ToListAsync(
+        public async Task<IList<TEntity>> ToListAsync(
            IEnumerable<Expression<Func<TEntity, bool>>> filters = null
            , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, PaginationQuery paging = null
+           , CancellationToken cancellationToken = default
            , params Expression<Func<TEntity, object>>[] includes)
         {
             IQueryable<TEntity> query = _context.Set<TEntity>();
@@ -85,15 +87,16 @@
                 query = query.Skip(paging.Skip()).Take(paging.PageSize);
             }
 
-            return await query.AsNoTracking().ToListAsync();
+            return await query.AsNoTracking().ToListAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<PaginatedList<DTO>> ToListAsync<DTO>(
+        public async Task<IList<DTO>> ToListAsync<DTO>(
             PaginationQuery paging
             , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
             , string expandSorts = null
             , IEnumerable<Expression<Func<TEntity, bool>>> filters = null
             , string expandFilters = null
+            , CancellationToken cancellationToken = default
             , params Expression<Func<TEntity, object>>[] includes)
         {
             Guard.NotNull(paging, nameof(paging));
@@ -116,7 +119,7 @@
                 query = _sieveProcessor.Apply(expandFilter, query, applySorting: false, applyPagination: false);
             }
 
-            var totalItems = query.Count();
+            paging.TotalItems = query.Count();
 
             if (includes != null && includes.Length > 0)
             {
@@ -146,32 +149,22 @@
 
             query = query.Skip(paging.Skip()).Take(paging.PageSize);
 
-            if (totalItems > 0)
+            if (paging.TotalItems > 0)
             {
-                return new PaginatedList<DTO>(
-                    await query.AsNoTracking().ProjectTo<DTO>(_mapper.ConfigurationProvider).ToListAsync().ConfigureAwait(false)
-                    , totalItems
-                    , paging.PageNumber
-                    , paging.PageSize
-                    );
+                return await query.AsNoTracking().ProjectTo<DTO>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken).ConfigureAwait(false);
             }
 
-            return new PaginatedList<DTO>(
-                    new List<DTO>()
-                    , totalItems
-                    , paging.PageNumber
-                    , paging.PageSize
-                    );
+            return new List<DTO>();
         }
 
-        public async Task<TEntity> FirstOrDefaultAsync(object key)
+        public async Task<TEntity> FirstOrDefaultAsync(object key, CancellationToken cancellationToken = default)
         {
             Guard.NotNull(key, nameof(key));
 
-            return await _context.Set<TEntity>().FindAsync(key).ConfigureAwait(false);
+            return await _context.Set<TEntity>().FindAsync(new object[] { key }, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes)
+        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includes)
         {
             Guard.NotNull(filter, nameof(filter));
 
@@ -184,14 +177,14 @@
                 }
             }
 
-            return await query.FirstOrDefaultAsync().ConfigureAwait(false);
+            return await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<DTO> FindAsync<DTO>(object key)
+        public async Task<DTO> FindAsync<DTO>(object key, CancellationToken cancellationToken = default)
         {
             Guard.NotNull(key, nameof(key));
 
-            var item = await _context.Set<TEntity>().FindAsync(key).ConfigureAwait(false);
+            var item = await _context.Set<TEntity>().FindAsync(new object[] { key }, cancellationToken).ConfigureAwait(false);
 
             if (item != null)
             {
@@ -199,11 +192,11 @@
             }
             else
             {
-                throw new NotFoundException(Error.Create("db#001", $"FindAsync not found item with key {key}"));
+                throw new NotFoundException(Error.Created("db#001", $"FindAsync not found item with key {key}"));
             }
         }
 
-        public async Task<DTO> FindAsync<DTO>(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes)
+        public async Task<DTO> FindAsync<DTO>(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includes)
         {
             Guard.NotNull(filter, nameof(filter));
 
@@ -216,14 +209,14 @@
                 }
             }
 
-            var item = await query.ProjectTo<DTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync().ConfigureAwait(false);
+            var item = await query.ProjectTo<DTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
             if (item != null)
             {
                 return item;
             }
             else
             {
-                throw new NotFoundException(Error.Create("db#002", $"FindAsync<DTO> not found item with filter"));
+                throw new NotFoundException(Error.Created("db#002", $"FindAsync<DTO> not found item with filter"));
             }
         }
 
@@ -232,9 +225,9 @@
             return _context.Set<TEntity>().Add(entity).Entity;
         }
 
-        public async Task InsertRangeAsync(IList<TEntity> entities)
+        public async Task InsertRangeAsync(IList<TEntity> entities, CancellationToken cancellationToken = default)
         {
-            await _context.Set<TEntity>().AddRangeAsync(entities).ConfigureAwait(false);
+            await _context.Set<TEntity>().AddRangeAsync(entities, cancellationToken).ConfigureAwait(false);
         }
 
         public void Update(TEntity entity)
@@ -242,9 +235,9 @@
             _context.Set<TEntity>().Update(entity);
         }
 
-        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter)
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
         {
-            return await _context.Set<TEntity>().AnyAsync(filter).ConfigureAwait(false);
+            return await _context.Set<TEntity>().AnyAsync(filter, cancellationToken).ConfigureAwait(false);
         }
     }
 }

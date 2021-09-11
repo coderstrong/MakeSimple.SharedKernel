@@ -109,7 +109,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             {
                 _logger.LogWarning("Validation errors - {typeName} - Command: {@request} - Errors: {@failures}", typeName, request, failures);
 
-                throw new ValidationException(Error.Create("vd#001", $"Validation errors - {typeName} - Command: {@request}", failures.ToDictionary(e => e.PropertyName, e => e.ErrorMessage)));
+                throw new ValidationException(Error.Created("vd#001", $"Validation errors - {typeName} - Command: {@request}", failures.ToDictionary(e => e.PropertyName, e => e.ErrorMessage)));
             }
 
             return await next();

@@ -11,7 +11,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Exceptions
         {
             var code = "InternalServerError";
             var mess = "Internal Server Error";
-            var result = Error.Create(code, mess);
+            var result = Error.Created(code, mess);
 
             Assert.NotNull(result.Code);
             Assert.Equal(result.Code, code);

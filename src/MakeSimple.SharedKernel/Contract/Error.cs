@@ -3,7 +3,7 @@ namespace MakeSimple.SharedKernel.Contract
     using MakeSimple.SharedKernel.Helpers;
     using System.Collections.Generic;
 
-    public class Error : IDataResult
+    public class Error
     {
         public string Code { get; }
         public string Message { get; }
@@ -19,7 +19,7 @@ namespace MakeSimple.SharedKernel.Contract
             Details = details;
         }
 
-        public static Error Create(string code, string message, Dictionary<string, string> details = null)
+        public static Error Created(string code, string message, Dictionary<string, string> details = null)
         {
             return new Error(code, message, details);
         }

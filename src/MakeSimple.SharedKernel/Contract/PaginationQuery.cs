@@ -23,6 +23,8 @@
             }
         }
 
+        public virtual int TotalItems { get; set; }
+
         public int Skip()
         {
             if (PageNumber == 0)
