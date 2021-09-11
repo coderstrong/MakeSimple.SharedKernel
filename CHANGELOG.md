@@ -1,3 +1,7 @@
+[Released]: v1.1.2
+12-09-2021: Change return data in generic repository
+[1.1.2]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.1.2
+
 [Released]: v1.0.13
 20-08-2021: Remove AsNoTracking() Concurrency Conflicts SaveChanges entity have child update
 [1.0.13]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.0.12
