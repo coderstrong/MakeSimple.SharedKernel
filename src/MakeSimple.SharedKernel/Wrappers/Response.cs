@@ -9,16 +9,16 @@
         public HttpStatusCode StatusCode { get; set; }
         public TResponse Result { get; set; }
 
-        protected Response(string version, HttpStatusCode statusCode, TResponse result)
+        protected Response(string version, TResponse result, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
             Version = version;
             StatusCode = statusCode;
             Result = result;
         }
 
-        public static Response<TResponse> Created(string version, HttpStatusCode statusCode, TResponse result)
+        public static Response<TResponse> Created(string version, TResponse result, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
-            return new Response<TResponse>(version, statusCode, result);
+            return new Response<TResponse>(version, result, statusCode);
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

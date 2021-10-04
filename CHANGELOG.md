@@ -1,3 +1,7 @@
+[Released]: v1.1.3
+12-09-2021: Change return data in generic repository
+[1.1.2]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.1.3
+
 [Released]: v1.1.2
 12-09-2021: Change return data in generic repository
 [1.1.2]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.1.2
