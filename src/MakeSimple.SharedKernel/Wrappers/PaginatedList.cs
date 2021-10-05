@@ -12,8 +12,7 @@ namespace MakeSimple.SharedKernel.Wrappers
             Result = default;
         }
 
-        protected PaginatedList(string version
-            , ICollection<TResponse> results
+        protected PaginatedList(ICollection<TResponse> results
             , int totalItems
             , int currentPage = 1
             , int pageSize = 10)
@@ -32,7 +31,6 @@ namespace MakeSimple.SharedKernel.Wrappers
             }
 
             // update object instance with all pager properties required by the view
-            Version = version;
             TotalItems = totalItems;
             CurrentPage = currentPage;
             PageSize = pageSize;
@@ -41,13 +39,12 @@ namespace MakeSimple.SharedKernel.Wrappers
             StatusCode = HttpStatusCode.OK;
         }
 
-        public static PaginatedList<TResponse> Created(string version
-            , ICollection<TResponse> results
+        public static PaginatedList<TResponse> Created(ICollection<TResponse> results
             , int totalItems
             , int currentPage = 1
             , int pageSize = 10)
         {
-            return new PaginatedList<TResponse>(version, results, totalItems, currentPage, pageSize);
+            return new PaginatedList<TResponse>(results, totalItems, currentPage, pageSize);
         }
 
         public string Version { get; set; }
@@ -58,7 +55,6 @@ namespace MakeSimple.SharedKernel.Wrappers
         public int PageSize { get; private set; }
         public int TotalPages { get; private set; }
         
-
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Version;
@@ -68,7 +64,6 @@ namespace MakeSimple.SharedKernel.Wrappers
             yield return CurrentPage;
             yield return PageSize;
             yield return TotalPages;
-            yield return Result;
         }
     }
 }
