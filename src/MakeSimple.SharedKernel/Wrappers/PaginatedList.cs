@@ -47,7 +47,12 @@ namespace MakeSimple.SharedKernel.Wrappers
             return new PaginatedList<TResponse>(results, totalItems, currentPage, pageSize);
         }
 
-        public string Version { get; set; }
+        public static PaginatedList<TResponse> Created(ICollection<TResponse> results
+            , PaginationQuery pagination)
+        {
+            return new PaginatedList<TResponse>(results, pagination.TotalItems, pagination.PageNumber, pagination.PageSize);
+        }
+
         public HttpStatusCode StatusCode { get; set; }
         public ICollection<TResponse> Result { get; set; }
         public int TotalItems { get; private set; }
@@ -57,7 +62,6 @@ namespace MakeSimple.SharedKernel.Wrappers
         
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return Version;
             yield return StatusCode;
             yield return Result;
             yield return TotalItems;

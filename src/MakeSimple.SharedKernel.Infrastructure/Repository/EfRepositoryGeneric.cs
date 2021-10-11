@@ -78,13 +78,13 @@
 
                 if (paging != null)
                 {
-                    query = query.Skip(paging.Skip()).Take(paging.PageSize);
+                    query = query.Skip(paging.Skip).Take(paging.PageSize);
                 }
             }
             else if (paging != null)
             {
                 query = query.OrderByDescending(e => e.CreatedAt);
-                query = query.Skip(paging.Skip()).Take(paging.PageSize);
+                query = query.Skip(paging.Skip).Take(paging.PageSize);
             }
 
             return await query.AsNoTracking().ToListAsync(cancellationToken).ConfigureAwait(false);
@@ -147,7 +147,7 @@
                 query = _sieveProcessor.Apply(expandSort, query, applyFiltering: false, applyPagination: false);
             }
 
-            query = query.Skip(paging.Skip()).Take(paging.PageSize);
+            query = query.Skip(paging.Skip).Take(paging.PageSize);
 
             if (paging.TotalItems > 0)
             {

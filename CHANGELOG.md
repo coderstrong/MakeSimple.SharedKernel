@@ -1,10 +1,14 @@
+[Released]: v1.1.5
+12-10-2021: Upgrade core to .NET 5
+[1.1.5]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.1.5
+
 [Released]: v1.1.4
 12-09-2021: Change return data in generic repository
-[1.1.2]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.1.4
+[1.1.4]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.1.4
 
 [Released]: v1.1.3
 12-09-2021: Change return data in generic repository
-[1.1.2]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.1.3
+[1.1.3]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.1.3
 
 [Released]: v1.1.2
 12-09-2021: Change return data in generic repository

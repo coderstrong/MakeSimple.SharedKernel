@@ -23,13 +23,20 @@
             }
         }
 
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual int TotalItems { get; set; }
 
-        public int Skip()
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        public int Skip
         {
-            if (PageNumber == 0)
-                return 0;
-            return (PageNumber - 1) * PageSize;
+            get
+            {
+                if (PageNumber == 0)
+                    return 0;
+                return (PageNumber - 1) * PageSize;
+            }
         }
     }
 }
