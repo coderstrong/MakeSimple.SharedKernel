@@ -2,6 +2,7 @@
 using MakeSimple.SharedKernel.Contract;
 using MakeSimple.SharedKernel.Infrastructure.Repository;
 using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
+using MakeSimple.SharedKernel.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,7 +109,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             var filters = new List<Expression<Func<Student, bool>>> { e => saveIds.Contains(e.Id) };
 
             var query = new PaginationQueryImp();
-
+            query.PageNumber = 1;
             var result = await _repositoryGeneric.ToListAsync<StudentDto>(query, filters: filters, expandFilters: "Name@=Name", expandSorts: "-Name");
 
             Assert.True(query.TotalItems == saveIds.Count);
@@ -118,6 +119,11 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             {
                 Assert.True(idResults[i] == saveIds[i]);
             }
+
+            var pagedResult = PaginatedList<StudentDto>.Created(result, query);
+            Assert.True(pagedResult.TotalItems == query.TotalItems);
+            Assert.True(pagedResult.PageSize == query.PageSize);
+            Assert.True(pagedResult.CurrentPage == query.PageNumber);
         }
 
         [Fact]

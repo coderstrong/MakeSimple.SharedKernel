@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <SonarQubeExclude>True</SonarQubeExclude>
-    <Version>1.1.4</Version>
+    <Version>1.1.5</Version>
     <PackageIcon>logo.png</PackageIcon>
     <NeutralLanguage>en</NeutralLanguage>
     <ApplicationIcon>logo.ico</ApplicationIcon>
@@ -26,6 +25,10 @@
       <PackagePath></PackagePath>
     </None>
     <PackageReference Include="Sieve" Version="2.4.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net5.0'">
+    <DefineConstants>NET5_0</DefineConstants>
+  </PropertyGroup>
 </Project>
