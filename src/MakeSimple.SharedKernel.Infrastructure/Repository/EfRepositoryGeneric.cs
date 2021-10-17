@@ -5,7 +5,6 @@
     using MakeSimple.SharedKernel.Contract;
     using MakeSimple.SharedKernel.Exceptions;
     using MakeSimple.SharedKernel.Utils;
-    using MakeSimple.SharedKernel.Wrappers;
     using Microsoft.EntityFrameworkCore;
     using Sieve.Models;
     using Sieve.Services;
@@ -46,6 +45,16 @@
             var entity = await _context.Set<TEntity>().FindAsync(new object[] { key }, cancellationToken).ConfigureAwait(false);
             if (entity != null)
                 _context.Set<TEntity>().Remove(entity);
+        }
+
+        public void Delete(TEntity entity)
+        {
+            _context.Set<TEntity>().Remove(entity);
+        }
+
+        public void DeleteRange(ICollection<TEntity> entities)
+        {
+            _context.Set<TEntity>().RemoveRange(entities);
         }
 
         public async Task<IList<TEntity>> ToListAsync(
@@ -235,9 +244,19 @@
             _context.Set<TEntity>().Update(entity);
         }
 
+        public void UpdateRange(IList<TEntity> entities)
+        {
+            _context.Set<TEntity>().UpdateRange(entities);
+        }
+
         public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
         {
             return await _context.Set<TEntity>().AnyAsync(filter, cancellationToken).ConfigureAwait(false);
+        }
+
+        public IQueryable<TEntity> AsQueryable()
+        {
+            return _context.Set<TEntity>().AsQueryable();
         }
     }
 }
