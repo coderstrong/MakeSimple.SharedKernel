@@ -17,6 +17,14 @@ namespace MakeSimple.SharedKernel.Contract
         IUnitOfWork UnitOfWork { get; }
 
         /// <summary>
+        /// Returns this object typed as System.Linq.IQueryable`1.
+        /// This is a convenience method to help with disambiguation of extension methods
+        /// in the same namespace that extend both interfaces.
+        /// </summary>
+        /// <returns> This object.</returns>
+        IQueryable<TEntity> AsQueryable();
+
+        /// <summary>
         /// Get row by primary key
         /// </summary>
         /// <param name="key"></param>
@@ -135,11 +143,29 @@ namespace MakeSimple.SharedKernel.Contract
         void Update(TEntity entity);
 
         /// <summary>
-        /// Delete data to database
+        /// Update range to database
+        /// </summary>
+        /// <param name="entities"></param>
+        void UpdateRange(IList<TEntity> entities);
+
+        /// <summary>
+        /// Delete data in database
         /// </summary>
         /// <param name="key"></param>
         /// <param name="cancellationToken"></param>
         Task DeleteAsync(object key, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Delete data in database
+        /// </summary>
+        /// <param name="entity"></param>
+        void Delete(TEntity entity);
+
+        /// <summary>
+        /// Delete data in database
+        /// </summary>
+        /// <param name="entities"></param>
+        void DeleteRange(ICollection<TEntity> entities);
 
         /// <summary>
         /// Check exist record on database by filter

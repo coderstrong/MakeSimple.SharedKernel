@@ -467,7 +467,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             Assert.True(result.Count == saveIds.Count);
             var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
             saveIds = saveIds.OrderBy(e => e).ToList();
-            Assert.False(result.Any(e => string.IsNullOrEmpty(e.CreatedBy)));
+            Assert.DoesNotContain(result, e => string.IsNullOrEmpty(e.CreatedBy));
             for (int i = 0; i < idResults.Count; i++)
             {
                 Assert.True(idResults[i] == saveIds[i]);

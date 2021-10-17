@@ -1,3 +1,7 @@
+[Released]: v1.1.6
+17-10-2021: Add funcs to generic repository
+[1.1.6]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.1.6
+
 [Released]: v1.1.5
 12-10-2021: Upgrade core to .NET 5
 [1.1.5]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.1.5
