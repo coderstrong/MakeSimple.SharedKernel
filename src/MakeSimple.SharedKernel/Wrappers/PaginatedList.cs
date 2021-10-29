@@ -59,7 +59,7 @@ namespace MakeSimple.SharedKernel.Wrappers
         public int CurrentPage { get; private set; }
         public int PageSize { get; private set; }
         public int TotalPages { get; private set; }
-        
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return StatusCode;

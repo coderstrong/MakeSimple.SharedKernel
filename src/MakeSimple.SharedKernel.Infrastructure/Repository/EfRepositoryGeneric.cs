@@ -3,7 +3,6 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using MakeSimple.SharedKernel.Contract;
-    using MakeSimple.SharedKernel.Exceptions;
     using MakeSimple.SharedKernel.Utils;
     using Microsoft.EntityFrameworkCore;
     using Sieve.Models;
@@ -189,22 +188,6 @@
             return await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<DTO> FindAsync<DTO>(object key, CancellationToken cancellationToken = default)
-        {
-            Guard.NotNull(key, nameof(key));
-
-            var item = await _context.Set<TEntity>().FindAsync(new object[] { key }, cancellationToken).ConfigureAwait(false);
-
-            if (item != null)
-            {
-                return _mapper.Map<DTO>(item);
-            }
-            else
-            {
-                throw new NotFoundException(Error.Created("db#001", $"FindAsync not found item with key {key}"));
-            }
-        }
-
         public async Task<DTO> FindAsync<DTO>(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includes)
         {
             Guard.NotNull(filter, nameof(filter));
@@ -218,15 +201,7 @@
                 }
             }
 
-            var item = await query.ProjectTo<DTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-            if (item != null)
-            {
-                return item;
-            }
-            else
-            {
-                throw new NotFoundException(Error.Created("db#002", $"FindAsync<DTO> not found item with filter"));
-            }
+            return await query.ProjectTo<DTO>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
         }
 
         public TEntity Insert(TEntity entity)

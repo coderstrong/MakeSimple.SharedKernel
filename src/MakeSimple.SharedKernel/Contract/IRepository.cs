@@ -44,17 +44,6 @@ namespace MakeSimple.SharedKernel.Contract
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includes);
 
         /// <summary>
-        /// Get row by primary key and auto mapper to Model DTO
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        /// <exception cref="AutoMapperMappingException">Miss config Automapper</exception>
-        /// <exception cref="KeyNotFoundException">Miss config Automapper</exception>
-        /// <exception cref="NullReferenceException">Param Paging is required has value</exception>
-        Task<DTO> FindAsync<DTO>(object key, CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// Get row by filter and auto mapper to Model DTO
         /// </summary>
         /// <param name="filter"></param>
