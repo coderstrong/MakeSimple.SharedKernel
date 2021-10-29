@@ -1,3 +1,7 @@
+[Released]: v1.1.7
+29-10-2021: Remove Fluentvalidation out libraries
+[1.1.7]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.1.7
+
 [Released]: v1.1.6
 17-10-2021: Add funcs to generic repository
 [1.1.6]: https://github.com/coderstrong/MakeSimple.SharedKernel/releases/tag/v1.1.6

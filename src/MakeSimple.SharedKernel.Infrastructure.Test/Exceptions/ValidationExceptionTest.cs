@@ -1,5 +1,4 @@
 ﻿using MakeSimple.SharedKernel.Contract;
-using System.Net;
 using Xunit;
 
 namespace MakeSimple.SharedKernel.Infrastructure.Test.Exceptions
