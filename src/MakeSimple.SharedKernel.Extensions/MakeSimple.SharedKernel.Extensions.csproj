@@ -1,7 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <SonarQubeExclude>True</SonarQubeExclude>
+    <Version>1.0.0</Version>
+    <PackageIcon>logo.png</PackageIcon>
+    <NeutralLanguage>en</NeutralLanguage>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+    <RepositoryUrl>https://github.com/coderstrong/MakeSimple.SharedKernel</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
+    <PackageProjectUrl>https://github.com/coderstrong/MakeSimple.SharedKernel</PackageProjectUrl>
+    <Authors>JohnnyTran</Authors>
+    <Company>MakeSimple</Company>
+    <Description>MakeSimple.SharedKernel.Extensions contains extensions code simple.</Description>
+    <Copyright>JohnnyTran</Copyright>
+    <SonarQubeTestProject>False</SonarQubeTestProject>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1701;1702;1591;</NoWarn>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
-
+  <ItemGroup>
+    <None Include="..\..\assets\logo.png" Link="logo.png">
+      <PackagePath></PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
 </Project>
