@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using MakeSimple.SharedKernel.Contract;
-using MakeSimple.SharedKernel.Infrastructure.Repository;
-using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
+﻿using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -9,13 +6,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Entities
 {
     public class EntityTest
     {
-        private readonly IRepository<MyDBContext, Address> _repositoryGeneric;
-
+        private readonly UnitOfWork _unit;
         public EntityTest()
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Address, AddressDto>().ReverseMap());
-            _repositoryGeneric = new EfRepositoryGeneric<MyDBContext, Address>(
-                new MyDBContext(), SieveMock.Create(), new Mapper(config));
+            _unit = new UnitOfWork();
         }
 
         //[Fact]
@@ -24,10 +18,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Entities
             Address u = new Address();
             u.Id = 1000;
 
-            _repositoryGeneric.Insert(u);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            _unit.AddressGeneric.Insert(u);
+            await _unit.SaveAsync();
 
-            var addressFromDb = await _repositoryGeneric.FirstOrDefaultAsync(u.Id);
+            var addressFromDb = await _unit.AddressGeneric.FirstOrDefaultAsync(u.Id);
 
             var aa = addressFromDb.Equals(u);
             Assert.True(aa);

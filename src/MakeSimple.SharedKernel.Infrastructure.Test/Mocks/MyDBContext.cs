@@ -36,7 +36,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
         public virtual ICollection<Student> Students { get; set; }
     }
 
-    public class MyDBContext : DbContext, IUnitOfWork
+    public class MyDBContext : DbContext, IDatabaseContext
     {
         public DbSet<Address> Address { get; set; }
 
@@ -48,7 +48,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
 
         public string Uuid => Guid.NewGuid().ToString();
 
-        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
+        public async Task<bool> SaveAsync(CancellationToken cancellationToken = default)
         {
             foreach (EntityEntry<Entity> entry in ChangeTracker.Entries<Entity>())
             {

@@ -19,7 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakeSimple.SharedKernel.Inf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakeSimple.SharedKernel.Infrastructure.Test", "src\MakeSimple.SharedKernel.Infrastructure.Test\MakeSimple.SharedKernel.Infrastructure.Test.csproj", "{B8A03E0C-FA3C-488E-860E-C0239601725D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeSimple.SharedKernel.Extensions", "src\MakeSimple.SharedKernel.Extensions\MakeSimple.SharedKernel.Extensions.csproj", "{162EC827-69BF-45A2-A44A-B751190FE9D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakeSimple.SharedKernel.Extensions", "src\MakeSimple.SharedKernel.Extensions\MakeSimple.SharedKernel.Extensions.csproj", "{162EC827-69BF-45A2-A44A-B751190FE9D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeSimple.EventHub", "src\MakeSimple.EventHub\MakeSimple.EventHub.csproj", "{FD0761D0-962F-4C3B-9A43-099ACA22662C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeSimple.EventHub.GoogleClound", "src\MakeSimple.EventHub.GoogleClound\MakeSimple.EventHub.GoogleClound.csproj", "{982D3C68-5337-4241-9530-3F9F8C5F9452}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeSimple.EventHub.AzureClound", "src\MakeSimple.EventHub.AzureClound\MakeSimple.EventHub.AzureClound.csproj", "{8861BFFD-0200-4C55-9283-E27F60A7780B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +49,18 @@ Global
 		{162EC827-69BF-45A2-A44A-B751190FE9D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{162EC827-69BF-45A2-A44A-B751190FE9D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{162EC827-69BF-45A2-A44A-B751190FE9D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD0761D0-962F-4C3B-9A43-099ACA22662C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD0761D0-962F-4C3B-9A43-099ACA22662C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD0761D0-962F-4C3B-9A43-099ACA22662C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD0761D0-962F-4C3B-9A43-099ACA22662C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{982D3C68-5337-4241-9530-3F9F8C5F9452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{982D3C68-5337-4241-9530-3F9F8C5F9452}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{982D3C68-5337-4241-9530-3F9F8C5F9452}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{982D3C68-5337-4241-9530-3F9F8C5F9452}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8861BFFD-0200-4C55-9283-E27F60A7780B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8861BFFD-0200-4C55-9283-E27F60A7780B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8861BFFD-0200-4C55-9283-E27F60A7780B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8861BFFD-0200-4C55-9283-E27F60A7780B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

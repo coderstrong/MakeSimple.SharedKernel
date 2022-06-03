@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using MakeSimple.SharedKernel.Contract;
-using MakeSimple.SharedKernel.Infrastructure.Repository;
-using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
+﻿using MakeSimple.SharedKernel.Infrastructure.Test.Mocks;
 using MakeSimple.SharedKernel.Wrappers;
 using System;
 using System.Collections.Generic;
@@ -14,17 +11,11 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
 {
     public class EfRepositoryGenericTest
     {
-        private readonly IRepository<MyDBContext, Student> _repositoryGeneric;
-        private readonly IRepository<MyDBContext, User> _repositoryAuditGeneric;
+        private readonly UnitOfWork _unit;
 
         public EfRepositoryGenericTest()
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Student, StudentDto>().ReverseMap());
-            var config2 = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDto>().ReverseMap());
-            _repositoryGeneric = new EfRepositoryGeneric<MyDBContext, Student>(
-                new MyDBContext(), SieveMock.Create(), new Mapper(config));
-            _repositoryAuditGeneric = new EfRepositoryGeneric<MyDBContext, User>(
-                new MyDBContext(), SieveMock.Create(), new Mapper(config2));
+            _unit = new UnitOfWork();
         }
 
         [Fact]
@@ -33,11 +24,11 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             Student u = new Student();
             u.Id = 1;
 
-            _repositoryGeneric.Insert(u);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
-            await _repositoryGeneric.DeleteAsync(u.Id);
+            _unit.RepositoryGeneric.Insert(u);
+            await _unit.SaveAsync();
+            await _unit.RepositoryGeneric.DeleteAsync(u.Id);
 
-            var result = await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            var result = await _unit.SaveAsync();
 
             Assert.True(result);
         }
@@ -48,13 +39,13 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             Student u = new Student();
             u.Id = 2;
 
-            _repositoryGeneric.Insert(u);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            _unit.RepositoryGeneric.Insert(u);
+            await _unit.SaveAsync();
             u.Name = "Test";
-            _repositoryGeneric.Update(u);
+            _unit.RepositoryGeneric.Update(u);
 
-            var result = await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
-            var dataFromDb = await _repositoryGeneric.FirstOrDefaultAsync(u.Id);
+            var result = await _unit.SaveAsync();
+            var dataFromDb = await _unit.RepositoryGeneric.FirstOrDefaultAsync(u.Id);
             Assert.True(result);
             Assert.NotNull(u.LastModifiedAt);
             Assert.Equal(dataFromDb.Name, u.Name);
@@ -73,12 +64,12 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
             var filters = new List<Expression<Func<Student, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToListAsync(filters);
+            var result = await _unit.RepositoryGeneric.ToListAsync(filters);
 
             Assert.True(result.Count == saveIds.Count);
             var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
@@ -103,14 +94,14 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
             var filters = new List<Expression<Func<Student, bool>>> { e => saveIds.Contains(e.Id) };
 
             var query = new PaginationQueryImp();
             query.PageNumber = 1;
-            var result = await _repositoryGeneric.ToListAsync<StudentDto>(query, filters: filters, expandFilters: "Name@=Name", expandSorts: "-Name");
+            var result = await _unit.RepositoryGeneric.ToListAsync<StudentDto>(query, filters: filters, expandFilters: "Name@=Name", expandSorts: "-Name");
 
             Assert.True(query.TotalItems == saveIds.Count);
             var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
@@ -139,12 +130,12 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
             var filters = new List<Expression<Func<Student, bool>>> { e => e.Id == new Random().Next(5000, 6000) };
 
-            var result = await _repositoryGeneric.ToListAsync(filters);
+            var result = await _unit.RepositoryGeneric.ToListAsync(filters);
 
             Assert.True(result.Count == 0);
         }
@@ -162,12 +153,12 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
             var filters = new List<Expression<Func<Student, bool>>> { e => e.Id == new Random().Next(5000, 6000) };
             var query = new PaginationQueryImp();
-            var result = await _repositoryGeneric.ToListAsync<StudentDto>(query, filters: filters);
+            var result = await _unit.RepositoryGeneric.ToListAsync<StudentDto>(query, filters: filters);
 
             Assert.True(query.TotalItems == 0);
         }
@@ -185,10 +176,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync(saveIds[3]);
+            var result = await _unit.RepositoryGeneric.FirstOrDefaultAsync(saveIds[3]);
 
             Assert.NotNull(result);
             Assert.Equal(result.Id, saveIds[3]);
@@ -207,10 +198,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
-            var result = await _repositoryGeneric.FindAsync<StudentDto>(e => e.Id == saveIds[2]);
+            var result = await _unit.RepositoryGeneric.FindAsync<StudentDto>(e => e.Id == saveIds[2]);
 
             Assert.NotNull(result);
             Assert.Equal(result.Id, saveIds[2]);
@@ -231,10 +222,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id, u.Class.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync(saveIds.First().Key);
+            var result = await _unit.RepositoryGeneric.FirstOrDefaultAsync(saveIds.First().Key);
 
             Assert.NotNull(result);
             Assert.Equal(result.Id, saveIds.First().Key);
@@ -255,12 +246,12 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
             var filters = new List<Expression<Func<Student, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToListAsync(filters
+            var result = await _unit.RepositoryGeneric.ToListAsync(filters
                 , e => e.OrderBy(x => x.Id).ThenBy(c => c.Name)
                 , new PaginationQueryImp(), includes: e => e.Class);
 
@@ -288,12 +279,12 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
             var filters = new List<Expression<Func<Student, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryGeneric.ToListAsync(filters
+            var result = await _unit.RepositoryGeneric.ToListAsync(filters
                 , null
                 , new PaginationQueryImp(), includes: e => e.Class);
 
@@ -324,10 +315,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync(e => e.Id == saveIds[3], includes: i => i.Class);
+            var result = await _unit.RepositoryGeneric.FirstOrDefaultAsync(e => e.Id == saveIds[3], includes: i => i.Class);
 
             Assert.NotNull(result);
             Assert.NotNull(result.Class);
@@ -351,10 +342,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
-            var result = await _repositoryGeneric.FindAsync<StudentDto>(e => e.Id == saveIds[2], includes: i => i.Class);
+            var result = await _unit.RepositoryGeneric.FindAsync<StudentDto>(e => e.Id == saveIds[2], includes: i => i.Class);
 
             Assert.NotNull(result);
             Assert.NotNull(result.Class);
@@ -376,10 +367,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id, u.Class.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync(e => e.Id == saveIds.First().Key, includes: i => i.Class);
+            var result = await _unit.RepositoryGeneric.FirstOrDefaultAsync(e => e.Id == saveIds.First().Key, includes: i => i.Class);
 
             Assert.NotNull(result);
             Assert.NotNull(result.Class);
@@ -401,10 +392,10 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id, u.Class.Id);
                 Studentes.Add(u);
             }
-            await _repositoryGeneric.InsertRangeAsync(Studentes);
-            await _repositoryGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
-            var result = await _repositoryGeneric.FirstOrDefaultAsync(e => e.Id == 10000, includes: i => i.Class);
+            var result = await _unit.RepositoryGeneric.FirstOrDefaultAsync(e => e.Id == 10000, includes: i => i.Class);
 
             Assert.Null(result);
         }
@@ -416,11 +407,11 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             User u = new User();
             u.Id = Guid.NewGuid();
 
-            _repositoryAuditGeneric.Insert(u);
-            await _repositoryAuditGeneric.UnitOfWork.SaveEntitiesAsync();
-            await _repositoryAuditGeneric.DeleteAsync(u.Id);
+            _unit.RepositoryAuditGeneric.Insert(u);
+            await _unit.SaveAsync();
+            await _unit.RepositoryAuditGeneric.DeleteAsync(u.Id);
 
-            var result = await _repositoryAuditGeneric.UnitOfWork.SaveEntitiesAsync();
+            var result = await _unit.SaveAsync();
 
             Assert.True(result);
         }
@@ -431,13 +422,13 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
             User u = new User();
             u.Id = Guid.NewGuid();
 
-            _repositoryAuditGeneric.Insert(u);
-            await _repositoryAuditGeneric.UnitOfWork.SaveEntitiesAsync();
+            _unit.RepositoryAuditGeneric.Insert(u);
+            await _unit.SaveAsync();
             u.UserName = "Test";
-            _repositoryAuditGeneric.Update(u);
+            _unit.RepositoryAuditGeneric.Update(u);
 
-            var result = await _repositoryAuditGeneric.UnitOfWork.SaveEntitiesAsync();
-            var dataFromDb = await _repositoryAuditGeneric.FirstOrDefaultAsync(u.Id);
+            var result = await _unit.SaveAsync();
+            var dataFromDb = await _unit.RepositoryAuditGeneric.FirstOrDefaultAsync(u.Id);
             Assert.True(result);
             Assert.NotNull(u.LastModifiedAt);
             Assert.NotNull(u.LastModifiedBy);
@@ -457,12 +448,12 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
-            await _repositoryAuditGeneric.InsertRangeAsync(Studentes);
-            await _repositoryAuditGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryAuditGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
             var filters = new List<Expression<Func<User, bool>>> { e => saveIds.Contains(e.Id) };
 
-            var result = await _repositoryAuditGeneric.ToListAsync(filters);
+            var result = await _unit.RepositoryAuditGeneric.ToListAsync(filters);
 
             Assert.True(result.Count == saveIds.Count);
             var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();
@@ -488,12 +479,12 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Repository
                 saveIds.Add(u.Id);
                 Studentes.Add(u);
             }
-            await _repositoryAuditGeneric.InsertRangeAsync(Studentes);
-            await _repositoryAuditGeneric.UnitOfWork.SaveEntitiesAsync();
+            await _unit.RepositoryAuditGeneric.InsertRangeAsync(Studentes);
+            await _unit.SaveAsync();
 
             var filters = new List<Expression<Func<User, bool>>> { e => saveIds.Contains(e.Id) };
             var query = new PaginationQueryImp();
-            var result = await _repositoryAuditGeneric.ToListAsync<UserDto>(query, filters: filters, expandFilters: "UserName@=UserName", expandSorts: "-UserName");
+            var result = await _unit.RepositoryAuditGeneric.ToListAsync<UserDto>(query, filters: filters, expandFilters: "UserName@=UserName", expandSorts: "-UserName");
 
             Assert.True(query.TotalItems == saveIds.Count);
             var idResults = result.Select(e => e.Id).OrderBy(e => e).ToList();

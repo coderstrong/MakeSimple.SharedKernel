@@ -8,21 +8,10 @@ namespace MakeSimple.SharedKernel.Contract
     using System.Threading.Tasks;
 
     public interface IRepository<TContext, TEntity> : IDisposable
-        where TContext : IUnitOfWork
+        where TContext : IDatabaseContext
         where TEntity : Entity
     {
-        /// <summary>
-        /// Unit Of Work Pattern
-        /// </summary>
-        IUnitOfWork UnitOfWork { get; }
-
-        /// <summary>
-        /// Returns this object typed as System.Linq.IQueryable`1.
-        /// This is a convenience method to help with disambiguation of extension methods
-        /// in the same namespace that extend both interfaces.
-        /// </summary>
-        /// <returns> This object.</returns>
-        IQueryable<TEntity> AsQueryable();
+        IQueryable<TEntity> Table { get; }
 
         /// <summary>
         /// Get row by primary key
