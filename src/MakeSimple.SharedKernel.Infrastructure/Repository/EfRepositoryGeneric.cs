@@ -15,7 +15,7 @@
     using System.Threading.Tasks;
 
     public class EfRepositoryGeneric<TContext, TEntity> : Disposable, IRepository<TContext, TEntity>
-        where TContext : DbContext, IUnitOfWork
+        where TContext : DbContext, IDatabaseContext
         where TEntity : Entity
     {
         private readonly TContext _context;
@@ -31,13 +31,7 @@
             _mapper = mapper;
         }
 
-        public IUnitOfWork UnitOfWork
-        {
-            get
-            {
-                return _context;
-            }
-        }
+        public IQueryable<TEntity> Table { get { return _context.Set<TEntity>().AsQueryable(); } }
 
         public virtual async Task DeleteAsync(object key, CancellationToken cancellationToken = default)
         {
@@ -227,11 +221,6 @@
         public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
         {
             return await _context.Set<TEntity>().AnyAsync(filter, cancellationToken).ConfigureAwait(false);
-        }
-
-        public IQueryable<TEntity> AsQueryable()
-        {
-            return _context.Set<TEntity>().AsQueryable();
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace MakeSimple.SharedKernel.Contract
 {
-    using MakeSimple.SharedKernel.Helpers;
+    using System;
     using System.Collections.Generic;
 
     public class Error
@@ -15,7 +15,7 @@ namespace MakeSimple.SharedKernel.Contract
         {
             Code = code;
             Message = message;
-            TraceId = UuuidHelper.GenerateId();
+            TraceId = Guid.NewGuid().ToString("N");
             Details = details;
         }
 
