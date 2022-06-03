@@ -1,6 +1,10 @@
-[Released]: v1.0.0
+[Released]: v1.2.1
 27-01-2022: Add binding object properties to string format
-[1.0.0]: https://github.com/coderstrong/MakeSimple.SharedKernel.Extensions/releases/tag/v1.0.0
+[1.2.1]: https://github.com/coderstrong/MakeSimple.SharedKernel.Extensions/releases/tag/v1.2.1
+
+[Released]: v1.2.0
+27-01-2022: Add binding object properties to string format
+[1.2.0]: https://github.com/coderstrong/MakeSimple.SharedKernel.Extensions/releases/tag/v1.2.0
 
 [Released]: v1.1.7
 29-10-2021: Remove Fluentvalidation out libraries
