@@ -38,6 +38,7 @@ namespace MakeSimple.SharedKernel.Extensions
                     case NameConvention.SnakeCase:
                         dictionary.Add(property.Name.ToSnakeCase(), (T)value);
                         break;
+
                     default:
                         dictionary.Add(property.Name, (T)value);
                         break;

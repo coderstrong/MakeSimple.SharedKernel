@@ -33,7 +33,6 @@ namespace MakeSimple.SharedKernel.Extensions
             return str;
         }
 
-
         public static object GetPropValue(this object obj, string name)
         {
             foreach (string part in name.Split('.'))

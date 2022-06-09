@@ -31,7 +31,8 @@
             _mapper = mapper;
         }
 
-        public IQueryable<TEntity> Table { get { return _context.Set<TEntity>().AsQueryable(); } }
+        public IQueryable<TEntity> Table
+        { get { return _context.Set<TEntity>().AsQueryable(); } }
 
         public virtual async Task DeleteAsync(object key, CancellationToken cancellationToken = default)
         {

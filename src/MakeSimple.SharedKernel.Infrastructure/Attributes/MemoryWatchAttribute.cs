@@ -80,7 +80,7 @@
             base.OnActionExecuted(context);
         }
 
-        public async override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             // Do something before the action executes.
             this.SetBefore();

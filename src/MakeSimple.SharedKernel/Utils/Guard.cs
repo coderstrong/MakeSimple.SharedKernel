@@ -5,7 +5,8 @@
     using System.Diagnostics;
     using System.Linq;
 
-    public sealed class ValidatedNotNullAttribute : Attribute { }
+    public sealed class ValidatedNotNullAttribute : Attribute
+    { }
 
     /// <summary>
     ///     Helper class that will throw exceptions when conditions are not satisfied.

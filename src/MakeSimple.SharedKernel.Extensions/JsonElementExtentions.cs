@@ -10,6 +10,7 @@ namespace MakeSimple.SharedKernel.Extensions
             var json = element.GetRawText();
             return JsonConvert.DeserializeObject<T>(json);
         }
+
         public static T ToObject<T>(this JsonDocument document)
         {
             var json = document.RootElement.GetRawText();

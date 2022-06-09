@@ -16,6 +16,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
         [Sieve(CanFilter = true, CanSort = true)]
         [Key]
         public long Id { get; set; }
+
         [Sieve(CanFilter = true, CanSort = true)]
         public string Line1 { get; set; }
 
@@ -30,6 +31,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
     {
         [Key]
         public Guid Id { get; set; }
+
         [Sieve(CanFilter = true, CanSort = true)]
         public string Name { get; set; }
 
@@ -95,6 +97,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
     {
         [Key]
         public long Id { get; set; }
+
         public virtual Course Class { get; set; }
         public Guid? ClassId { get; set; }
 
@@ -106,6 +109,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Mocks
     {
         [Key]
         public Guid Id { get; set; }
+
         public virtual ICollection<Address> Address { get; set; }
         public string Password { get; set; }
 
