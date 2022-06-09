@@ -61,6 +61,5 @@ namespace MakeSimple.EventHub.Abstractions
         /// Empty events
         /// </summary>
         void Clear();
-
     }
 }

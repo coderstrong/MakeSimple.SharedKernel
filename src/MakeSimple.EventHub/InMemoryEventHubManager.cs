@@ -11,6 +11,7 @@ namespace MakeSimple.EventHub
         private static readonly object _lock = new object();
         private readonly ConcurrentDictionary<string, List<Type>> _eventNameAndHandlerMapping;
         private readonly ConcurrentDictionary<string, Type> _eventNameMappingEvent;
+
         public InMemoryEventHubManager()
         {
             _eventNameAndHandlerMapping = new ConcurrentDictionary<string, List<Type>>();

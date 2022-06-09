@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace MakeSimple.EventHub.GoogleClound
+﻿namespace MakeSimple.EventHub.GoogleClound
 {
     public class EventHubSettingOption
     {

@@ -7,6 +7,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Test.Entities
     public class EntityTest
     {
         private readonly UnitOfWork _unit;
+
         public EntityTest()
         {
             _unit = new UnitOfWork();

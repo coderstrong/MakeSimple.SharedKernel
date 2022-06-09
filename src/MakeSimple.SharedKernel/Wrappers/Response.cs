@@ -3,6 +3,7 @@
     using MakeSimple.SharedKernel.Contract;
     using System.Collections.Generic;
     using System.Net;
+
     public class Response<TResponse> : ValueObject, IDataResult<TResponse>
     {
         public HttpStatusCode StatusCode { get; set; }

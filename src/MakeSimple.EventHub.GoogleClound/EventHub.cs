@@ -18,6 +18,7 @@ namespace MakeSimple.EventHub.GoogleClound
         private readonly EventHubSettingOption _eventHubSetting;
         private readonly IEventHubPersistentConnection _persistentConnection;
         private readonly ILogger<EventHub> _logger;
+
         public EventHub(IEventHubPersistentConnection persistentConnection
             , IEventHubManager eventBusManager
             , IOptions<EventHubSettingOption> option
@@ -57,7 +58,6 @@ namespace MakeSimple.EventHub.GoogleClound
 
         public Task StartListening()
         {
-
             if (_eventHubSetting.IsSubscription)
             {
                 _persistentConnection.PersistentConnectAsync();

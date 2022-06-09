@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace MakeSimple.EventHub.GoogleClound
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <exception cref="CustomAttributeFormatException">All EventHubSettingAttribute setting in event must have value</exception>
     public class EventHubBootstrap : IEventHubPersistentConnection
@@ -27,6 +27,7 @@ namespace MakeSimple.EventHub.GoogleClound
         private readonly IServiceScopeFactory _serviceScope;
         private readonly IEventHubManager _eventBusManager;
         private readonly EventHubSettingOption _settingOption;
+
         public EventHubBootstrap(IOptions<EventHubSettingOption> option
             , ILogger<EventHub> logger
             , IServiceScopeFactory serviceScope
