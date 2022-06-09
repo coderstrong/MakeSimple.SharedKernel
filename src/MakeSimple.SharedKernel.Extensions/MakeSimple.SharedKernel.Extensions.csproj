@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <SonarQubeExclude>True</SonarQubeExclude>
     <Version>1.0.1</Version>
     <PackageIcon>logo.png</PackageIcon>
