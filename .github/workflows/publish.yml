@@ -25,19 +25,19 @@ jobs:
         run: dotnet pack -c Release -o . src/MakeSimple.SharedKernel/MakeSimple.SharedKernel.csproj
       
       - name: Publish MakeSimple.SharedKernel
-        run: dotnet nuget push /home/runner/work/MakeSimple.SharedKernel/MakeSimple.SharedKernel/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate`
+        run: dotnet nuget push /home/runner/work/MakeSimple.SharedKernel/MakeSimple.SharedKernel/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate`
       
       - name: Package MakeSimple.SharedKernel.Infrastructure
         run: dotnet pack -c Release -o . src/MakeSimple.SharedKernel.Infrastructure/MakeSimple.SharedKernel.Infrastructure.csproj
       
       - name: Publish MakeSimple.SharedKernel.Infrastructure
-        run: dotnet nuget push /home/runner/work/MakeSimple.SharedKernel.Infrastructure/MakeSimple.SharedKernel.Infrastructure/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate`
+        run: dotnet nuget push /home/runner/work/MakeSimple.SharedKernel.Infrastructure/MakeSimple.SharedKernel.Infrastructure/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate`
       
       - name: Package MakeSimple.SharedKernel.Extensions
         run: dotnet pack -c Release -o . src/MakeSimple.SharedKernel.Extensions/MakeSimple.SharedKernel.Extensions.csproj
       
       - name: Publish MakeSimple.SharedKernel.Extensions
-        run: dotnet nuget push /home/runner/work/MakeSimple.SharedKernel.Extensions/MakeSimple.SharedKernel.Extensions/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate`
+        run: dotnet nuget push /home/runner/work/MakeSimple.SharedKernel.Extensions/MakeSimple.SharedKernel.Extensions/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate`
       #- name: Test
       #  run: dotnet test --no-restore --verbosity normal
       # Publish MakeSimple.SharedKernel
