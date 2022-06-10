@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace MakeSimple.SharedKernel.Extensions
 {
@@ -10,6 +11,9 @@ namespace MakeSimple.SharedKernel.Extensions
     /// </summary>
     public static class StringBindingExtentions
     {
+        private static readonly Regex RenderExpr = new(@"\\.|{([a-z0-9_.\-]+)}",
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         /// <summary>
         /// Binding properties name into string format
         /// </summary>
@@ -26,6 +30,28 @@ namespace MakeSimple.SharedKernel.Extensions
         public static string BindObjectProperties(this string str, object obj)
         {
             if (obj == null) return str;
+            foreach (var item in ExtractParams(str))
+            {
+                str = str.Replace("{" + item + "}", obj.GetPropValue(item)?.ToString());
+            }
+            return str;
+        }
+
+        /// <summary>
+        /// Binding properties name into string format
+        /// </summary>
+        /// <param name="str">string format ex: "for example: {Name}, For all {Class.Name}"</param>
+        /// <param name="obj">
+        /// {
+        ///     Name: "Joh",
+        ///     Class: {
+        ///         Name: "CK01"
+        ///     }
+        /// }
+        /// </param>
+        /// <returns></returns>
+        public static string BindObjectProperties(this string str, System.Text.Json.JsonElement obj)
+        {
             foreach (var item in ExtractParams(str))
             {
                 str = str.Replace("{" + item + "}", obj.GetPropValue(item)?.ToString());
@@ -57,11 +83,41 @@ namespace MakeSimple.SharedKernel.Extensions
             return obj;
         }
 
+        public static object GetPropValue(this System.Text.Json.JsonElement obj, string name)
+        {
+            object value = string.Empty;
+            foreach (string part in name.Split('.'))
+            {
+                if (obj.TryGetProperty(part, out System.Text.Json.JsonElement element))
+                {
+                    if (element.ValueKind != System.Text.Json.JsonValueKind.Object)
+                    {
+                        value = element.ToString();
+                    }
+                    else
+                    {
+                        obj = element;
+                    }
+                }
+                else
+                {
+                    value = string.Empty;
+                }
+            }
+            return value;
+        }
+
         private static IEnumerable<string> ExtractParams(string str)
         {
-            var splitted = str.Split('{', '}', StringSplitOptions.None);
-            for (int i = 1; i < splitted.Length; i += 2)
-                yield return splitted[i];
+            var matchs = RenderExpr.Match(str);
+            while (matchs.Success)
+            {
+                if (matchs.Groups.Count > 1)
+                {
+                    yield return matchs.Groups[1].Value;
+                }
+                matchs = matchs.NextMatch();
+            }
         }
 
         private static bool IsNonStringEnumerable(this object instance)
