@@ -17,7 +17,7 @@ namespace MakeSimple.SharedKernel.Extensions
             {
                 for (int i = 1; i <= str.Length; i++)
                 {
-                    result.Add(str.Substring(0, i));
+                    result.Add(str[..i]);
                 }
             }
             return result;
