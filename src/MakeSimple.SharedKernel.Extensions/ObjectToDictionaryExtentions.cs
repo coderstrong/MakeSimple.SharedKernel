@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace MakeSimple.SharedKernel.Extensions
 {
-    public static class ObjectExtentions
+    public static class ObjectToDictionaryExtentions
     {
         public enum NameConvention
         {
