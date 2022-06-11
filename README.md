@@ -15,19 +15,20 @@ $ dotnet add package MakeSimple.SharedKernel
 $ dotnet add package MakeSimple.SharedKernel.Infrastructure 
 ```
 
-[![Build status](https://ci.appveyor.com/api/projects/status/eau3dun5q5d7wwi9/branch/main?svg=true)](https://ci.appveyor.com/project/coderstrong/makesimple-sharedkernel.Extentions/branch/main) [![NuGet Version](https://img.shields.io/nuget/v/MakeSimple.SharedKernel.Extentions.svg?style=flat)](https://www.nuget.org/packages/MakeSimple.SharedKernel.Extentions/) [![NuGet Downloads](https://img.shields.io/nuget/dt/MakeSimple.SharedKernel.Extentions.svg)](https://www.nuget.org/packages/MakeSimple.SharedKernel.Extentions/) 
+[![Build status](https://ci.appveyor.com/api/projects/status/eau3dun5q5d7wwi9/branch/main?svg=true)](https://ci.appveyor.com/project/coderstrong/makesimple-sharedkernel.Extentions/branch/main) [![NuGet Version](https://img.shields.io/nuget/v/MakeSimple.SharedKernel.Extensions.svg?style=flat)](https://www.nuget.org/packages/MakeSimple.SharedKernel.Extensions/) [![NuGet Downloads](https://img.shields.io/nuget/dt/MakeSimple.SharedKernel.Extensions.svg)](https://www.nuget.org/packages/MakeSimple.SharedKernel.Extensions/) 
 ```
-$ dotnet add package MakeSimple.SharedKernel.Extentions 
+$ dotnet add package MakeSimple.SharedKernel.Extensions 
 ```
 Binding properties name into string format
 string format ex: "for example: {Name}, For all {Class.Name}"
 object ex:
+```
 {
      Name: "Joh",
      Class: {
          Name: "CK01"
      }
 }
-
+```
 Detect string IsVietnamese
 Object to dictionary
