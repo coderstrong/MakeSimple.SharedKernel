@@ -1,6 +1,12 @@
+[Released]: v1.0.4
+16-06-2022: 
+- String Binding support format datetime, double, decimal ex: {DatetimePropertyName:dd-MM-yyyy}, {doublePropertyName:dd-MM-yyyy}
+- Add GetGenericTypeName function 
+[1.0.4]: https://github.com/coderstrong/MakeSimple.SharedKernel.Extensions/releases/tag/v1.0.4
+
 [Released]: v1.0.1
 03-06-2022: Add function object to dictionary
-[1.2.1]: https://github.com/coderstrong/MakeSimple.SharedKernel.Extensions/releases/tag/v1.0.1
+[1.0.1]: https://github.com/coderstrong/MakeSimple.SharedKernel.Extensions/releases/tag/v1.0.1
 
 [Released]: v1.0.0
 27-01-2022: Add binding object properties to string format

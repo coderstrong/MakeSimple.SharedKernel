@@ -11,14 +11,14 @@ namespace MakeSimple.SharedKernel.Extensions
     /// </summary>
     public static class StringBindingExtentions
     {
-        private static readonly Regex RenderExpr = new(@"\\.|{([a-z0-9_.\-]+)}",
+        private static readonly Regex RenderExpr = new(@"\\.|{([a-z0-9_.\-:]+)}",
             RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
-        /// Binding properties name into string format
+        /// Binding properties parram into string format
         /// </summary>
-        /// <param name="str">string format ex: "for example: {Name}, For all {Class.Name}"</param>
-        /// <param name="obj">
+        /// <param parram="str">string format ex: "for example: {Name}, For all {Class.Name}"</param>
+        /// <param parram="obj">
         /// {
         ///     Name: "Joh",
         ///     Class: {
@@ -38,10 +38,10 @@ namespace MakeSimple.SharedKernel.Extensions
         }
 
         /// <summary>
-        /// Binding properties name into string format
+        /// Binding properties parram into string format
         /// </summary>
-        /// <param name="str">string format ex: "for example: {Name}, For all {Class.Name}"</param>
-        /// <param name="obj">
+        /// <param parram="str">string format ex: "for example: {Name|Format}, For all {Class.Name}"</param>
+        /// <param parram="obj">
         /// {
         ///     Name: "Joh",
         ///     Class: {
@@ -59,9 +59,10 @@ namespace MakeSimple.SharedKernel.Extensions
             return str;
         }
 
-        public static object GetPropValue(this object obj, string name)
+        public static object GetPropValue(this object obj, string parram)
         {
-            foreach (string part in name.Split('.'))
+            var names = parram.Split(':');
+            foreach (string part in names[0].Split('.'))
             {
                 if (obj == null) { return null; }
                 if (obj.IsNonStringEnumerable())
@@ -80,13 +81,28 @@ namespace MakeSimple.SharedKernel.Extensions
 
                 obj = info.GetValue(obj, null);
             }
+
+            var format = names.Length > 1 ? names[1] : null;
+            switch (Type.GetTypeCode(obj.GetType()))
+            {
+                case TypeCode.DateTime:
+                    obj = ((DateTime)obj).ToString(format);
+                    break;
+                case TypeCode.Double:
+                    obj = ((double)obj).ToString(format);
+                    break;
+                case TypeCode.Decimal:
+                    obj = ((decimal)obj).ToString(format);
+                    break;
+            }
             return obj;
         }
 
-        public static object GetPropValue(this System.Text.Json.JsonElement obj, string name)
+        public static object GetPropValue(this System.Text.Json.JsonElement obj, string parram)
         {
             object value = string.Empty;
-            foreach (string part in name.Split('.'))
+            var names = parram.Split(':');
+            foreach (string part in names[0].Split('.'))
             {
                 if (obj.TryGetProperty(part, out System.Text.Json.JsonElement element))
                 {
@@ -97,6 +113,46 @@ namespace MakeSimple.SharedKernel.Extensions
                     else
                     {
                         obj = element;
+                    }
+
+                    switch (element.ValueKind)
+                    {
+                        case System.Text.Json.JsonValueKind.Object:
+                            obj = element;
+                            break;
+                        case System.Text.Json.JsonValueKind.Array:
+                            throw new NotSupportedException("Array type");
+                        case System.Text.Json.JsonValueKind.String:
+                            if (element.TryGetDateTime(out DateTime date) && names.Length > 1)
+                            {
+                                value = date.ToString(names[1]);
+                            }
+                            else
+                            {
+                                value = element.ToString();
+                            }
+                            break;
+                        case System.Text.Json.JsonValueKind.Number:
+                            if (element.TryGetDouble(out double num) && names.Length > 1)
+                            {
+                                value = num.ToString(names[1]);
+                            }
+                            else
+                            {
+                                value = element.ToString();
+                            }
+                            break;
+                        case System.Text.Json.JsonValueKind.True:
+                        case System.Text.Json.JsonValueKind.False:
+                            value = element.GetBoolean();
+                            break;
+                        case System.Text.Json.JsonValueKind.Undefined:
+                        case System.Text.Json.JsonValueKind.Null:
+                            value = string.Empty;
+                            break;
+                        default:
+                            value = string.Empty;
+                            break;
                     }
                 }
                 else
