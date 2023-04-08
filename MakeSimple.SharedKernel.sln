@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakeSimple.EventHub", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakeSimple.EventHub.GoogleClound", "src\MakeSimple.EventHub.GoogleClound\MakeSimple.EventHub.GoogleClound.csproj", "{982D3C68-5337-4241-9530-3F9F8C5F9452}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeSimple.SharedKernel.Extensions.Test", "src\MakeSimple.SharedKernel.Extensions.Test\MakeSimple.SharedKernel.Extensions.Test.csproj", "{6F18FA6E-4EA3-4659-BD65-D83110F52F78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakeSimple.SharedKernel.Extensions.Test", "src\MakeSimple.SharedKernel.Extensions.Test\MakeSimple.SharedKernel.Extensions.Test.csproj", "{6F18FA6E-4EA3-4659-BD65-D83110F52F78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeSimple.SharedKernel.Cronjob", "MakeSimple.SharedKernel.Cronjob\MakeSimple.SharedKernel.Cronjob.csproj", "{0DC5CA8B-BF42-4277-8DAC-22D2A1B990CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{6F18FA6E-4EA3-4659-BD65-D83110F52F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F18FA6E-4EA3-4659-BD65-D83110F52F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F18FA6E-4EA3-4659-BD65-D83110F52F78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DC5CA8B-BF42-4277-8DAC-22D2A1B990CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DC5CA8B-BF42-4277-8DAC-22D2A1B990CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DC5CA8B-BF42-4277-8DAC-22D2A1B990CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DC5CA8B-BF42-4277-8DAC-22D2A1B990CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

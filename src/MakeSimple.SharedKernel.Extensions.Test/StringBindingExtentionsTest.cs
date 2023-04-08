@@ -69,7 +69,7 @@ namespace MakeSimple.SharedKernel.Extensions.Test
                 Name = "Thao"
             };
 
-            var elementObj =(System.Text.Json.JsonElement) System.Text.Json.JsonSerializer.Deserialize<object>(System.Text.Json.JsonSerializer.Serialize(Data));
+            var elementObj = (System.Text.Json.JsonElement)System.Text.Json.JsonSerializer.Deserialize<object>(System.Text.Json.JsonSerializer.Serialize(Data));
             // Act
             var actual = Template.BindObjectProperties(elementObj);
             var expected = $"Tran Van Thao";

@@ -88,9 +88,11 @@ namespace MakeSimple.SharedKernel.Extensions
                 case TypeCode.DateTime:
                     obj = ((DateTime)obj).ToString(format);
                     break;
+
                 case TypeCode.Double:
                     obj = ((double)obj).ToString(format);
                     break;
+
                 case TypeCode.Decimal:
                     obj = ((decimal)obj).ToString(format);
                     break;
@@ -120,6 +122,7 @@ namespace MakeSimple.SharedKernel.Extensions
                         case System.Text.Json.JsonValueKind.Object:
                             obj = element;
                             break;
+
                         case System.Text.Json.JsonValueKind.Array:
                             throw new NotSupportedException("Array type");
                         case System.Text.Json.JsonValueKind.String:
@@ -132,6 +135,7 @@ namespace MakeSimple.SharedKernel.Extensions
                                 value = element.ToString();
                             }
                             break;
+
                         case System.Text.Json.JsonValueKind.Number:
                             if (element.TryGetDouble(out double num) && names.Length > 1)
                             {
@@ -142,14 +146,17 @@ namespace MakeSimple.SharedKernel.Extensions
                                 value = element.ToString();
                             }
                             break;
+
                         case System.Text.Json.JsonValueKind.True:
                         case System.Text.Json.JsonValueKind.False:
                             value = element.GetBoolean();
                             break;
+
                         case System.Text.Json.JsonValueKind.Undefined:
                         case System.Text.Json.JsonValueKind.Null:
                             value = string.Empty;
                             break;
+
                         default:
                             value = string.Empty;
                             break;
