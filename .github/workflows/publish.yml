@@ -20,108 +20,36 @@ jobs:
         
       - name: Build
         run: dotnet build --configuration Release --no-restore
-        
+      
       #- name: Test
       #  run: dotnet test --no-restore --verbosity normal
-      # Publish MakeSimple.SharedKernel
-      - name: publish MakeSimple.SharedKernel on version change
+      
+      - name: Pack MakeSimple.SharedKernel project
+        run: dotnet pack src/MakeSimple.SharedKernel/MakeSimple.SharedKernel.csproj --no-build --configuration Release --include-symbols -p:SymbolPackageFormat=snupkg -o .
+      
+      - name: Publish package to NuGet
         id: publish_nuget_makesimple_sharedkernel
-        uses: brandedoutcast/publish-nuget@v2.5.5
-        with:
-          # Filepath of the project to be packaged, relative to root of repository
-          PROJECT_FILE_PATH: src/MakeSimple.SharedKernel/MakeSimple.SharedKernel.csproj
-          
-          # NuGet package id, used for version detection & defaults to project name
-          # PACKAGE_NAME: Core
-          
-          # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
-          # VERSION_FILE_PATH: Directory.Build.props
-
-          # Regex pattern to extract version info in a capturing group
-          # VERSION_REGEX: ^\s*<Version>(.*)<\/Version>\s*$
-          
-          # Useful with external providers like Nerdbank.GitVersioning, ignores VERSION_FILE_PATH & VERSION_REGEX
-          # VERSION_STATIC: 1.0.0
-
-          # Flag to toggle git tagging, enabled by default
-          # TAG_COMMIT: true
-
-          # Format of the git tag, [*] gets replaced with actual version
-          # TAG_FORMAT: v*
-
-          # API key to authenticate with NuGet server
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-          # NuGet server uri hosting the packages, defaults to https://api.nuget.org
-          NUGET_SOURCE: https://api.nuget.org
-
-          # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
-          # INCLUDE_SYMBOLS: true
-      # Publish MakeSimple.SharedKernel.Infrastructure
-      - name: publish MakeSimple.SharedKernel.Infrastructure on version change
+        run: dotnet nuget push src/MakeSimple.SharedKernel/bin/Release/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+      
+      #- name: publish package to GitHub
+      #  run: dotnet nuget push *.nupkg --api-key ${{secrets.PUBLISH_TO_GITHUB_TOKEN}} --source "https://nuget.pkg.github.com/VAllens/index.json" --skip-duplicate
+      
+      - name: MakeSimple.SharedKernel.Infrastructure project
+        run: dotnet pack src/MakeSimple.SharedKernel.Infrastructure/MakeSimple.SharedKernel.Infrastructure.csproj --no-build --configuration Release --include-symbols -p:SymbolPackageFormat=snupkg -o .
+      
+      - name: Publish package to NuGet
         id: publish_nuget_makesimple_sharedkernel_infrastructure
-        uses: brandedoutcast/publish-nuget@v2.5.5
-        with:
-          # Filepath of the project to be packaged, relative to root of repository
-          PROJECT_FILE_PATH: src/MakeSimple.SharedKernel.Infrastructure/MakeSimple.SharedKernel.Infrastructure.csproj
-          
-          # NuGet package id, used for version detection & defaults to project name
-          # PACKAGE_NAME: Core
-          
-          # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
-          # VERSION_FILE_PATH: Directory.Build.props
-
-          # Regex pattern to extract version info in a capturing group
-          # VERSION_REGEX: ^\s*<Version>(.*)<\/Version>\s*$
-          
-          # Useful with external providers like Nerdbank.GitVersioning, ignores VERSION_FILE_PATH & VERSION_REGEX
-          # VERSION_STATIC: 1.0.0
-
-          # Flag to toggle git tagging, enabled by default
-          # TAG_COMMIT: true
-
-          # Format of the git tag, [*] gets replaced with actual version
-          # TAG_FORMAT: v*
-
-          # API key to authenticate with NuGet server
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-          # NuGet server uri hosting the packages, defaults to https://api.nuget.org
-          NUGET_SOURCE: https://api.nuget.org
-
-          # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
-          # INCLUDE_SYMBOLS: true
-      # Publish MakeSimple.SharedKernel.Extensions
-      - name: publish MakeSimple.SharedKernel.Extensions on version change
+        run: dotnet nuget push src/MakeSimple.SharedKernel.Infrastructure/bin/Release/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+      
+      #- name: publish package to GitHub
+      #  run: dotnet nuget push *.nupkg --api-key ${{secrets.PUBLISH_TO_GITHUB_TOKEN}} --source "https://nuget.pkg.github.com/VAllens/index.json" --skip-duplicate
+      
+      - name: MakeSimple.SharedKernel.Infrastructure project
+        run: dotnet pack src/MakeSimple.SharedKernel.Extensions/MakeSimple.SharedKernel.Extensions.csproj --no-build --configuration Release --include-symbols -p:SymbolPackageFormat=snupkg -o .
+      
+      - name: Publish package to NuGet
         id: publish_nuget_makesimple_sharedkernel_extensions
-        uses: brandedoutcast/publish-nuget@v2.5.5
-        with:
-          # Filepath of the project to be packaged, relative to root of repository
-          PROJECT_FILE_PATH: src/MakeSimple.SharedKernel.Extensions/MakeSimple.SharedKernel.Extensions.csproj
-          
-          # NuGet package id, used for version detection & defaults to project name
-          # PACKAGE_NAME: Core
-          
-          # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
-          # VERSION_FILE_PATH: Directory.Build.props
-
-          # Regex pattern to extract version info in a capturing group
-          # VERSION_REGEX: ^\s*<Version>(.*)<\/Version>\s*$
-          
-          # Useful with external providers like Nerdbank.GitVersioning, ignores VERSION_FILE_PATH & VERSION_REGEX
-          # VERSION_STATIC: 1.0.0
-
-          # Flag to toggle git tagging, enabled by default
-          # TAG_COMMIT: true
-
-          # Format of the git tag, [*] gets replaced with actual version
-          # TAG_FORMAT: v*
-
-          # API key to authenticate with NuGet server
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-          # NuGet server uri hosting the packages, defaults to https://api.nuget.org
-          NUGET_SOURCE: https://api.nuget.org
-
-          # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
-          # INCLUDE_SYMBOLS: true
+        run: dotnet nuget push src/MakeSimple.SharedKernel.Extensions/bin/Release/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+      
+      #- name: publish package to GitHub
+      #  run: dotnet nuget push *.nupkg --api-key ${{secrets.PUBLISH_TO_GITHUB_TOKEN}} --source "https://nuget.pkg.github.com/VAllens/index.json" --skip-duplicate
