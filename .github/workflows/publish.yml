@@ -26,30 +26,22 @@ jobs:
       
       - name: Pack MakeSimple.SharedKernel project
         run: dotnet pack src/MakeSimple.SharedKernel/MakeSimple.SharedKernel.csproj --no-build --configuration Release --include-symbols -p:SymbolPackageFormat=snupkg -o .
-      
-      - name: Publish package MakeSimple.SharedKernel to NuGet
-        id: publish_nuget_makesimple_sharedkernel
-        run: dotnet nuget push /home/runner/work/MakeSimple.SharedKernel/MakeSimple.SharedKernel/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
-      
+    
       #- name: publish package to GitHub
       #  run: dotnet nuget push *.nupkg --api-key ${{secrets.PUBLISH_TO_GITHUB_TOKEN}} --source "https://nuget.pkg.github.com/VAllens/index.json" --skip-duplicate
       
-      - name: MakeSimple.SharedKernel.Infrastructure project
+      - name: Pack MakeSimple.SharedKernel.Infrastructure project
         run: dotnet pack src/MakeSimple.SharedKernel.Infrastructure/MakeSimple.SharedKernel.Infrastructure.csproj --no-build --configuration Release --include-symbols -p:SymbolPackageFormat=snupkg -o .
       
-      - name: Publish package MakeSimple.SharedKernel.Infrastructure to NuGet
-        id: publish_nuget_makesimple_sharedkernel_infrastructure
-        run: dotnet nuget push /home/runner/work/MakeSimple.SharedKernel.Infrastructure/MakeSimple.SharedKernel.Infrastructure/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
-      
       #- name: publish package to GitHub
       #  run: dotnet nuget push *.nupkg --api-key ${{secrets.PUBLISH_TO_GITHUB_TOKEN}} --source "https://nuget.pkg.github.com/VAllens/index.json" --skip-duplicate
       
-      - name: MakeSimple.SharedKernel.Extensions project
+      - name: Pack MakeSimple.SharedKernel.Extensions project
         run: dotnet pack src/MakeSimple.SharedKernel.Extensions/MakeSimple.SharedKernel.Extensions.csproj --no-build --configuration Release --include-symbols -p:SymbolPackageFormat=snupkg -o .
       
-      - name: Publish package MakeSimple.SharedKernel.Extensions to NuGet
-        id: publish_nuget_makesimple_sharedkernel_extensions
-        run: dotnet nuget push /home/runner/work/MakeSimple.SharedKernel.Extensions/MakeSimple.SharedKernel.Extensions/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+      - name: Publish all package to NuGet
+        id: publish_nuget_makesimple_sharedkernel
+        run: dotnet nuget push /home/runner/work/MakeSimple.SharedKernel/MakeSimple.SharedKernel/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
       
       #- name: publish package to GitHub
       #  run: dotnet nuget push *.nupkg --api-key ${{secrets.PUBLISH_TO_GITHUB_TOKEN}} --source "https://nuget.pkg.github.com/VAllens/index.json" --skip-duplicate
