@@ -10,7 +10,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class EfUnitOfWork<TContext> : Disposable, IUnitOfWork
+    public class EfUnitOfWork<TContext> : Disposable, IUnitOfWork<TContext>
         where TContext : DbContext, IDatabaseContext
     {
         private readonly TContext _context;

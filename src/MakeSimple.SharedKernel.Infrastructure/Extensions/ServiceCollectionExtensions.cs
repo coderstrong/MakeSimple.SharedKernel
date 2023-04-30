@@ -27,6 +27,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             where TContext : DbContext
         {
             services.AddDbContext<TContext>(optionsAction, contextLifetime, optionsLifetime);
+            services.AddScoped(typeof(IUnitOfWork<>), typeof(EfUnitOfWork<>));
             services.AddScoped(typeof(IRepository<,>), typeof(EfRepositoryGeneric<,>));
             services.AddScoped<SieveProcessor>();
         }

@@ -7,7 +7,8 @@ namespace MakeSimple.SharedKernel.Contract
     using System.Threading;
     using System.Threading.Tasks;
 
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork<TContext> : IDisposable
+        where TContext : IDatabaseContext
     {
         IQueryable<TEntity> Entity<TEntity>() where TEntity : Entity;
 
