@@ -15,6 +15,8 @@
     {
         private readonly TContext _context;
 
+        public string Uuid => Guid.NewGuid().ToString();
+
         public EfUnitOfWork(TContext context)
         {
             _context = context;
@@ -88,6 +90,11 @@
         public IQueryable<TEntity> Entity<TEntity>() where TEntity : Entity
         {
             return _context.Set<TEntity>().AsQueryable();
+        }
+
+        public async Task<bool> SaveAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.SaveAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 }
