@@ -27,16 +27,20 @@
 
             foreach (var pattern in options.EndWithPattern)
             {
-                var assemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies().Where(e => e.Name.EndsWith(pattern)).Select(e => Assembly.Load(e)).ToList();
+                var assemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies().Where(e => e.Name.EndsWith(pattern)).Select(e => Assembly.Load(e)).ToArray();
 
-                foreach (var assembly in assemblies)
+                if (assemblies.Any())
                 {
-                    services.AddMediatR(assembly);
+                    services.AddMediatR(config =>
+                    {
+                        config.RegisterServicesFromAssemblies(assemblies);
+                    });
                 }
             }
 
             if (options.OnLoggingPipeline)
                 services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+
         }
     }
 
@@ -58,7 +62,7 @@
 
         public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger) => _logger = logger;
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Handling command {CommandName} ({@Command})", request.GetGenericTypeName(), request);
             var response = await next();

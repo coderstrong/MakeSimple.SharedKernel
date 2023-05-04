@@ -45,6 +45,7 @@ namespace MakeSimple.SharedKernel.Infrastructure.Extensions
             where TContext : DbContext
         {
             services.AddDbContextPool<TContext>(optionsAction, poolSize);
+            services.AddScoped(typeof(IUnitOfWork<>), typeof(EfUnitOfWork<>));
             services.AddScoped(typeof(IRepository<,>), typeof(EfRepositoryGeneric<,>));
             services.AddScoped<SieveProcessor>();
         }
