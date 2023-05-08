@@ -3,7 +3,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<SonarQubeExclude>True</SonarQubeExclude>
 		<SonarQubeTestProject>False</SonarQubeTestProject>
-		<Version>1.1.14</Version>
+		<Version>1.1.15</Version>
 		<ApplicationIcon>logo.ico</ApplicationIcon>
 		<Authors>JohnnyTran</Authors>
 		<Company>MakeSimple</Company>
