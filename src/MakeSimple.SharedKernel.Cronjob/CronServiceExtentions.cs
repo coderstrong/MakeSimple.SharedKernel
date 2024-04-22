@@ -30,7 +30,6 @@ namespace MakeSimple.SharedKernel.Cronjob
                     CheckConnection = true,
                     CheckQueuedJobsStrategy = CheckQueuedJobsStrategy.Poll,
                     // When server timeout job proccessing change to Enqueued. If the configuration is short, the job may be duplicated across many workers
-                    InvisibilityTimeout = System.TimeSpan.FromMinutes(5)
                 }));
         }
     }
