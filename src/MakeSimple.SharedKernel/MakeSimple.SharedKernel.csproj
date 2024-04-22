@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <SonarQubeExclude>True</SonarQubeExclude>
-    <Version>1.1.15</Version>
+    <Version>1.1.16</Version>
     <PackageIcon>logo.png</PackageIcon>
     <NeutralLanguage>en</NeutralLanguage>
     <ApplicationIcon>logo.ico</ApplicationIcon>
@@ -24,6 +24,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 </Project>
