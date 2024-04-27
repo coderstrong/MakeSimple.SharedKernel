@@ -96,5 +96,10 @@
         {
             return await _context.SaveAsync(cancellationToken).ConfigureAwait(false);
         }
+
+        public void ChangeTrackerClear()
+        {
+            _context.ChangeTracker.Clear();
+        }
     }
 }

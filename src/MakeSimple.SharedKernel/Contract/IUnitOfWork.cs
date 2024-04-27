@@ -83,5 +83,11 @@ namespace MakeSimple.SharedKernel.Contract
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default) where TEntity : Entity;
+
+        /// <summary>
+        /// Clean all instance tracker object
+        /// </summary>
+        /// <returns></returns>
+        void ChangeTrackerClear();
     }
 }
